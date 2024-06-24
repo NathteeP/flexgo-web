@@ -1,37 +1,18 @@
-import React, { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
-import viteLogo from './assets/vite.svg';
+import { Button } from '@mui/material';
+import React from 'react';
 
 function App() {
-  const [count, setCount] = useState(0);
-  console.log('api', import.meta.env);
   return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank' rel='noreferrer'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button
-          type='button'
-          onClick={() => setCount((prevCount) => prevCount + 1)}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <Button>Love</Button>
+      <Button className='bg-fg-primary-01'>Love</Button>
+      <Button className='bg-fg-primary-02'>Love</Button>
+      <Button className='bg-fg-secondary-01'>Love</Button>
+      <Button className='bg-fg-secondary-02'>Love</Button>
+      <Button className='bg-fg-primary-01'>Love</Button>
+      <Button className='bg-fg-white'>Love</Button>
+      <Button className='bg-fg-black text-fg-text-white'>Love</Button>
+    </div>
   );
 }
 
