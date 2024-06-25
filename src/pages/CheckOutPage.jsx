@@ -282,10 +282,9 @@ const CheckOutPage = () => {
             multiline
             rows={4}
           />
-          <CustomButton className='w-40 shadow-lg'>
-            {' '}
-            Request to Book{' '}
-          </CustomButton>
+          <div className='flex justify-end'>
+            <CustomButton className='w-44 shadow-lg'> Checkout </CustomButton>
+          </div>
         </div>
         <BookingSummary />
       </div>
