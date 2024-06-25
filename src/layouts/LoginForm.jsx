@@ -35,7 +35,7 @@ const LoginForm = () => {
                 className='w-full h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
                 variant='contained'
               >
-                Sign Up
+                Sign In
               </Button>
               <Button
                 className='w-full h-[34px] bg-fg-secondary-01  focus:bg-fg-secondary-02 hover:bg-fg-secondary-02 flex items-center gap-4  text-sm'
