@@ -10,6 +10,7 @@ export default function Input({
   className = ' mb-2  block bg-[#F3F4F6] rounded-lg w-[350px] h-[32px]  px-2 text-gray-500 text-[13px]',
   divClassName,
   disabled,
+  placeholder,
 }) {
   return (
     <div className={divClassName}>
@@ -27,6 +28,7 @@ export default function Input({
         type={type}
         className={className}
         disabled={disabled}
+        placeholder={placeholder}
       />
       {error ? <small className='text-red-500'>{error}</small> : null}
     </div>
