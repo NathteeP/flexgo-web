@@ -37,7 +37,7 @@ const Header = () => {
             trigger={
               <Button
                 variant='outlined'
-                className='hover:border-fg-primary-02 text-white'
+                className='hover:border-fg-primary-02 text-white h-[40px]'
               >
                 Sign In
               </Button>
@@ -46,7 +46,13 @@ const Header = () => {
             <LoginForm />
           </CustomModal>
 
-          <CustomModal trigger={<Button variant='contained'>Sign Up</Button>}>
+          <CustomModal
+            trigger={
+              <Button variant='contained' className='h-[40px]'>
+                Sign Up
+              </Button>
+            }
+          >
             <RegisterForm />
           </CustomModal>
         </div>

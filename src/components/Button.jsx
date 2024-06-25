@@ -3,13 +3,17 @@ import React from 'react';
 
 function Button({
   children,
-  className = `hover:bg-fg-primary-02 active:bg-fg-white text-white`,
+  className = `hover:bg-fg-primary-02 active:bg-fg-white text-white h-[42px] text-[16px]`,
   onClick,
   variant,
 }) {
   return (
     <MUIButton
+<<<<<<< Updated upstream
       className={`${className} bg-fg-primary-01 w-[132px] h-[42px] text-[16px]  normal-case font-normal border-fg-white rounded-lg`}
+=======
+      className={`${className}  bg-fg-primary-01 w-[132px]    normal-case font-normal border-fg-white rounded-xl`}
+>>>>>>> Stashed changes
       onClick={onClick}
       variant={variant}
     >
