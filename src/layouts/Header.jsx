@@ -4,6 +4,9 @@ import { RxMagnifyingGlass } from 'react-icons/rx';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { IoCartOutline } from 'react-icons/io5';
+import CustomModal from '../components/Modal';
+import RegisterForm from './RegisterForm';
+import LoginForm from './LoginForm';
 
 const Header = () => {
   return (
@@ -17,19 +20,35 @@ const Header = () => {
             <Input
               className='rounded-l-full w-[200px] h-[44px] ml-10 border-white/75 border-l-[1px] border-y-[1px] bg-fg-white/[0.2] pl-5 placeholder:text-fg-text-white placeholder:text-base focus:outline-none text-fg-white'
               placeholder='Searching Pin'
-            ></Input>
+            />
             <div className='rounded-r-full h-[44px] border-white/75 border-r-[1px] border-y-[1px] bg-fg-white/[0.2] flex items-center p-4'>
               <RxMagnifyingGlass className='text-[24px] text-fg-text-white' />
             </div>
           </div>
         </div>
 
+        {/* Right Part ปุ่มsignin/up cart */}
+
         <div className='flex gap-3 items-center'>
           <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
-            <IoCartOutline className='text-fg-text-white text-[26px]  ' />
+            <IoCartOutline className='text-fg-text-white text-[26px]' />
           </div>
-          <Button variant='outlined'>Sign Up</Button>
-          <Button variant='contained'>Sign Up</Button>
+          <CustomModal
+            trigger={
+              <Button
+                variant='outlined'
+                className='hover:border-fg-primary-02 text-white'
+              >
+                Sign In
+              </Button>
+            }
+          >
+            <LoginForm />
+          </CustomModal>
+
+          <CustomModal trigger={<Button variant='contained'>Sign Up</Button>}>
+            <RegisterForm />
+          </CustomModal>
         </div>
       </div>
     </div>
