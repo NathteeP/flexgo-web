@@ -17,7 +17,7 @@ export default {
         'fg-text-black': '#4D4D4D',
         'fg-text-white': '#FFFFFF',
         'fg-text-blue': '#6EAAA6',
-        'fg-grey': 'C7C7C7',
+        'fg-grey': '#C7C7C7',
       },
     },
   },
