@@ -109,7 +109,7 @@ const ContactForm = () => (
         className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
         placeholder='Enter your Phone Number'
       />
-      <SelectCountry width={545} />
+      <SelectCountry width={480} />
     </div>
   </div>
 );
@@ -154,7 +154,7 @@ const PaymentForm = () => (
       />
     </div>
 
-    <SelectCountry width={545} />
+    <SelectCountry width={480} />
   </div>
 );
 
@@ -255,7 +255,7 @@ const BookingSummary = () => (
 
 const CheckOutPage = () => {
   return (
-    <div className='p-8 bg-gray-50 min-h-screen'>
+    <div className='p-8  min-h-screen mx-16'>
       <BreadcrumbNavigation />
       <div className='grid grid-cols-2 gap-8 mt-8'>
         <div className='p-8 border-gray-900 shadow rounded'>
@@ -282,12 +282,13 @@ const CheckOutPage = () => {
             multiline
             rows={4}
           />
-          <CustomButton className='w-40 shadow-lg'>
-            {' '}
-            Request to Book{' '}
-          </CustomButton>
+          <div className='flex justify-end'>
+            <CustomButton className='w-44 shadow-lg'> Checkout </CustomButton>
+          </div>
         </div>
-        <BookingSummary />
+        <div>
+          <BookingSummary />
+        </div>
       </div>
     </div>
   );
