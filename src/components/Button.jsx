@@ -9,11 +9,7 @@ function Button({
 }) {
   return (
     <MUIButton
-<<<<<<< Updated upstream
-      className={`${className} bg-fg-primary-01 w-[132px] h-[42px] text-[16px]  normal-case font-normal border-fg-white rounded-lg`}
-=======
       className={`${className}  bg-fg-primary-01 w-[132px]    normal-case font-normal border-fg-white rounded-xl`}
->>>>>>> Stashed changes
       onClick={onClick}
       variant={variant}
     >
