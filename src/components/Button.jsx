@@ -10,6 +10,7 @@ function Button({
   return (
     <MUIButton
       className={`${className}  bg-fg-primary-01 w-[132px]    normal-case font-normal border-fg-white rounded-xl`}
+
       onClick={onClick}
       variant={variant}
     >
