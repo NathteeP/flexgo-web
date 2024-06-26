@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import logo from '../assets/images/logo/Logo.png';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import Input from '../components/Input';
@@ -9,12 +10,17 @@ import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 
 const Header = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   return (
-    <div>
-      <div className='bg-fg-primary-01 h-20 w-screen px-14 flex items-center justify-between'>
+    <div className='z-50 relative'>
+      <div
+        className={`${isHomePage ? 'bg-gradient-to-b from-fg-black/50' : 'bg-fg-primary-01'} h-20 w-screen px-14 flex items-center justify-between`}
+      >
         <div className='flex items-center'>
           <div>
-            <img src={logo} alt='' />
+            <img src={logo} alt='Logo' />
           </div>
           <div className='flex items-center'>
             <Input
@@ -27,8 +33,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Right Part ปุ่มsignin/up cart */}
-
         <div className='flex gap-3 items-center'>
           <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
             <IoCartOutline className='text-fg-text-white text-[26px]' />
@@ -37,7 +41,7 @@ const Header = () => {
             trigger={
               <Button
                 variant='outlined'
-                className='hover:border-fg-primary-02 text-white h-[40px]'
+                className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
               >
                 Sign In
               </Button>
@@ -48,7 +52,10 @@ const Header = () => {
 
           <CustomModal
             trigger={
-              <Button variant='contained' className='h-[40px]'>
+              <Button
+                variant='contained'
+                className='h-[40px] hover:bg-fg-primary-02'
+              >
                 Sign Up
               </Button>
             }
