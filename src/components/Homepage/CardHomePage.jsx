@@ -1,11 +1,11 @@
 import React from 'react';
-import Button from './Button';
+import Button from '../Button';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 
 const CardHomePage = () => {
   return (
-    <div className='flex h-[450px] px-10 py-4 gap-8 '>
+    <div className='flex   h-[450px] px-10 py-4 gap-8 relative'>
       {/* left album part */}
       <div className='w-[50%] grid grid-rows-3 grid-cols-8 gap-2'>
         <div class='col-span-2 bg-red-300 rounded-tl-[40px]'>01</div>
@@ -21,13 +21,15 @@ const CardHomePage = () => {
       </div>
 
       {/* right detail part */}
-      <div className='w-[50%]'>
+      <div className='w-[50%] relative'>
         <div>
-          <h1 className='text-4xl text-fg-text-black font-medium w-[80%] mt-4'>
+          <h1 className='text-xl md:text-xl lg:text-4xl text-fg-text-black font-medium w-[80%] mt-4'>
             Espana Vacation Residence Jomtien & Yahaha
           </h1>
-          <h2 className='text-xl text-fg-text-black mb-4'>Pattaya, Chonburi</h2>
-          <h3 className='w-[90%] font-light text-sm'>
+          <h2 className='text-sm md:text-sm text-xl text-fg-text-black mb-4'>
+            Pattaya, Chonburi
+          </h2>
+          <h3 className='w-[90%] font-light md:h-[120px] md:overflow-hidden md: text-sm'>
             Espana Vacation Residence Jomtien & Yahaha is a recently renovated
             apartment in Pattaya South where guests can make the most of its
             pool with a view and garden. This property offers access to a
@@ -56,9 +58,9 @@ const CardHomePage = () => {
             <h1 className='text-4xl font-thin '>$ 4,999</h1>
           </div>
         </div>
-        <div className='flex justify-end w-[90%] mt-10 '>
+        <div className='flex justify-end w-[90%] mt-10 absolute bottom-8'>
           <Button
-            className='h-[46px] hover:bg-fg-primary-02'
+            className='h-[48px]  hover:bg-fg-primary-02 w-[140px]'
             variant='contained'
           >
             Booking

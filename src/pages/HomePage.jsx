@@ -1,8 +1,8 @@
 import React from 'react';
 import SearchBar from '../components/SearchBar';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/Homepage/Carousel';
 import FilterBar from '../components/FilterBar';
-import CardHomePage from '../components/CardHomePage';
+import CardHomePage from '../components/Homepage/CardHomePage';
 import Button from '../components/Button';
 import Review from '../components/Review';
 
@@ -17,7 +17,9 @@ const Homepage = () => {
         height='100%'
         className='w-[1000px] md:w-[1000px] lg:w-screen h-[1700px] -translate-y-[540px] absolute z-0'
       ></iframe>
-      <div className='absolute z-50 bottom-[-370px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+      <div className='absolute z-50 bottom-[-420px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+      <div className='absolute z-50 bottom-[-270px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+      <div className='absolute z-50 bottom-[-270px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
       <div className='absolute z-50 bottom-[-370px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
 
       <div className='relative z-50 w-[700px] md:w-[700px] lg:w-[90%] h-[830px] mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none'>
@@ -66,16 +68,16 @@ const Homepage = () => {
         <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
           <FilterBar />
         </div>
-        <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px] md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 pointer-events-none '>
+        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 pointer-events-none '>
           <CardHomePage />
         </div>
         <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
