@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import hotel from '../assets/images/test/hotelMockup.png';
+import hotel from '../../assets/images/test/hotelMockup.png';
 
 const Carousel = () => {
   const hotels = [
