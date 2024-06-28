@@ -14,6 +14,7 @@ const user = {
 
   upcomingBooking: {
     hotel: 'Novotel Bangkok IMPACT',
+    reservationID: '17180820245689',
     room: 'x1 Standard Twin Room',
     guests: '2 adults',
     dates: '28/09/2024 - 29/09/2024',
@@ -21,18 +22,21 @@ const user = {
   pastBookings: [
     {
       hotel: 'Ascott Embassy Sathorn Bangkok',
+      reservationID: '17180820245689',
       room: 'x1 Standard Twin Room',
       guests: '2 adults',
       dates: '29/07/2023 - 30/07/2023',
     },
     {
       hotel: 'Bangkok Marriott Hotel',
+      reservationID: '17180820245689',
       room: 'x1 Standard Twin Room',
       guests: '2 adults',
       dates: '29/07/2023 - 30/07/2023',
     },
     {
       hotel: 'Cholchan Pattaya Beach Resort',
+      reservationID: '17180820245689',
       room: 'x1 Standard Twin Room',
       guests: '2 adults',
       dates: '29/07/2023 - 30/07/2023',

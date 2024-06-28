@@ -8,6 +8,7 @@ import WishListPage from '../pages/Users/WishListPage';
 import AccountPage from '../pages/Users/AccountPage';
 import HostProfilePage from '../pages/Users/HostProfilePage';
 import BookingPage from '../pages/Users/BookingPage';
+import BookingReservation from '../pages/Users/BookingReservation';
 
 const AppRouter = createBrowserRouter([
   {
@@ -17,11 +18,12 @@ const AppRouter = createBrowserRouter([
       { path: '/', element: <Homepage /> },
       { path: '/searchList', element: <AccommodationSearchListPage /> },
       { path: '/accommodationDetail', element: <AccommodationDetailPage /> },
-      { path: '/checkOut', element: <CheckOutPage /> },
+      { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile', element: <HostProfilePage /> },
       { path: '/booking', element: <BookingPage /> },
+      { path: '/booking/reservationID', element: <BookingReservation /> },
     ],
   },
   ,
