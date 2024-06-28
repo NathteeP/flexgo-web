@@ -10,6 +10,7 @@ import HostProfilePage from '../pages/Users/HostProfilePage';
 import BookingPage from '../pages/Users/BookingPage';
 
 const AppRouter = createBrowserRouter([
+  // guest&user path
   {
     path: '/',
     element: <MainContainer />,
@@ -24,6 +25,16 @@ const AppRouter = createBrowserRouter([
       { path: '/booking', element: <BookingPage /> },
     ],
   },
+  // host path
+
+  // {
+  //   path: '/',
+  //   element: <MainContainer />,
+  //   children: [
+  //     { path: '/', element:  },
+
+  //   ],
+  // },
   ,
 ]);
 

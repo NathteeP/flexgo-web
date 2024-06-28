@@ -3,7 +3,7 @@ import Avatar from './Avatar';
 
 const ProfileBox = ({ src, children, size }) => {
   return (
-    <div className='h-[800px] w-[600px] border-[2px] border-fg-grey/50 rounded-[40px] flex flex-col items-center p-6 gap-6'>
+    <div className='h-[800px] w-[430px] border-[2px] border-fg-grey/50 rounded-[40px] flex flex-col items-center p-6 gap-6'>
       <div className='mt-8'>
         <Avatar src={src} size={size} />
       </div>

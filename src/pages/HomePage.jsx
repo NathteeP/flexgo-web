@@ -68,16 +68,16 @@ const Homepage = () => {
         <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
           <FilterBar />
         </div>
-        <div className='w-[768px] md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
           <CardHomePage />
         </div>
-        <div className='w-[768px] md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 pointer-events-none '>
+        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 pointer-events-none '>
           <CardHomePage />
         </div>
         <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
@@ -92,7 +92,7 @@ const Homepage = () => {
       </div>
 
       {/* Review Part */}
-      <div className='relative flex flex-col'>
+      <div className='relative flex flex-col my-44'>
         <div>
           <h1 className='text-[50px] font-bold text-fg-primary-01 flex justify-center'>
             OUR REVIEW
@@ -105,7 +105,7 @@ const Homepage = () => {
           <Review direction='left' />
         </div>
         <Button
-          className='relative z-30 bottom-0 w-[25%] h-[58px] text-white hover:bg-fg-primary-02 text-xl m-auto my-20'
+          className='relative z-30 bottom-0 w-[25%] h-[58px] mt-44 text-white hover:bg-fg-primary-02 text-xl m-auto my-20'
           variant='contained'
         >
           Become our Family
