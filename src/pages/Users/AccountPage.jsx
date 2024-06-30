@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import {
   IconButton,
   Typography,
-  Box,
   Avatar,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
+  Box,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CountrySelect from '../../components/Country';
