@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import MuiModal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -15,26 +15,20 @@ const style = {
   overflow: 'hidden',
 };
 
-const CustomModal = ({ trigger, children }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+const CustomModal = ({ open, onClose, children }) => {
   return (
-    <>
-      <div onClick={handleOpen}>{trigger}</div>
-      <MuiModal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>{children}</Box>
-        </Fade>
-      </MuiModal>
-    </>
+    <MuiModal
+      aria-labelledby='transition-modal-title'
+      aria-describedby='transition-modal-description'
+      open={open}
+      onClose={onClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+    >
+      <Fade in={open}>
+        <Box sx={style}>{children}</Box>
+      </Fade>
+    </MuiModal>
   );
 };
 

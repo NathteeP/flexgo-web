@@ -8,8 +8,11 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { registerSchema } from '../validators/validate-register';
 import userApi from '../api/users';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { closeRegister, openSignIn } from '../store/slices/modal-slice';
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -34,7 +37,8 @@ const RegisterForm = () => {
     try {
       const response = await promise;
       console.log('Registration Successful', response.data);
-      // จะ redirect รึเปล่า? ต้อง navagate ไปไหนต่อไหม?
+      dispatch(closeRegister()); // ปิด modal reister
+      dispatch(openSignIn()); // เปิด modal login
     } catch (error) {
       console.log('Registration Failed', error);
       // ต้องเขียน Axios Error ไหม อี instance of axios
