@@ -8,14 +8,16 @@ const CardHomePage = () => {
     <div className='flex   h-[450px] px-10 py-4 gap-8 relative'>
       {/* left album part */}
       <div className='w-[50%] grid grid-rows-3 grid-cols-8 gap-2'>
-        <div class='col-span-2 bg-red-300 rounded-tl-[40px]'>01</div>
-        <div class='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px]'>02</div>
-        <div class='row-span-1 col-span-2 bg-red-300'>04</div>
-        <div class='row-span-1  bg-red-300 rounded-bl-[40px]'>05</div>
-        <div class='row-span-1 col-span-2  bg-red-300'>06</div>
-        <div class='row-span-1 col-span-2  bg-red-300'>07</div>
-        <div class='row-span-1 col-span-2  bg-red-300'>08</div>
-        <div class='row-span-1 col-span-1  bg-red-300 rounded-br-[40px]'>
+        <div className='col-span-2 bg-red-300 rounded-tl-[40px]'>01</div>
+        <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px]'>
+          02
+        </div>
+        <div className='row-span-1 col-span-2 bg-red-300'>04</div>
+        <div className='row-span-1  bg-red-300 rounded-bl-[40px]'>05</div>
+        <div className='row-span-1 col-span-2  bg-red-300'>06</div>
+        <div className='row-span-1 col-span-2  bg-red-300'>07</div>
+        <div className='row-span-1 col-span-2  bg-red-300'>08</div>
+        <div className='row-span-1 col-span-1  bg-red-300 rounded-br-[40px]'>
           08
         </div>
       </div>

@@ -22,10 +22,10 @@ const FilterBar = () => {
               <HiMagnifyingGlass className='text-2xl text-fg-text-black' />
             </div>
             <Input
-              htmlFor='location'
-              id='location'
-              type='location'
-              name='location'
+              htmlFor='locationFilter'
+              id='locationFilter'
+              type='locationFilter'
+              name='locationFilter'
               placeholder='Bangkok, Thailand | Within 1 Km.'
               className='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2' // เพิ่ม padding ขวา
             />

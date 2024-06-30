@@ -116,7 +116,7 @@ const Carousel = () => {
           </div>
         ))}
       </div>
-      <style jsx>{`
+      <style jsx='true'>{`
         .example::-webkit-scrollbar {
           display: none;
         }
