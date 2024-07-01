@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Radio,
   RadioGroup,
@@ -14,6 +14,11 @@ import RoomMock from '../assets/images/Mock/RoomMock.jpg';
 import HotelMock from '../assets/images/Mock/HotelMock.jpg';
 import CustomButton from '../components/Button';
 import Input from '../components/Input';
+import { useState } from 'react';
+import PaymentForm from '../components/CheckOutPage/PaymentForm';
+import { Elements } from '@stripe/react-stripe-js';
+import { stripePromise } from '../config/stripe';
+import axios from '../config/axios'
 
 const HOUSE_RULES = [
   {
@@ -114,49 +119,49 @@ const ContactForm = () => (
   </div>
 );
 
-const PaymentForm = () => (
-  <div>
-    <TextField
-      select
-      fullWidth
-      label='Payment Method'
-      defaultValue='Credit or debit card'
-      variant='outlined'
-      className='mb-4'
-    >
-      <MenuItem value='Credit or Debit card'>Credit or Debit card</MenuItem>
-    </TextField>
+// const PaymentForm = () => (
+// <div>
+// <TextField
+//   select
+//   fullWidth
+//   label='Payment Method'
+//   defaultValue='Credit or debit card'
+//   variant='outlined'
+//   className='mb-4'
+// >
+//   <MenuItem value='Credit or Debit card'>Credit or Debit card</MenuItem>
+// </TextField>
 
-    <Input
-      text='text'
-      inputName='Card Number'
-      className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-      placeholder='Card Number'
-    />
-    <div className='flex space-x-4 mb-4'>
-      <Input
-        text='text'
-        inputName='Expire Date'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='Expire Date'
-      />
-      <Input
-        text='text'
-        inputName='CVV'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='CVV'
-      />
-      <Input
-        text='text'
-        inputName='Zip Code'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='Zip Code'
-      />
-    </div>
+// <Input
+//   text='text'
+//   inputName='Card Number'
+//   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+//   placeholder='Card Number'
+// />
+// <div className='flex space-x-4 mb-4'>
+//   <Input
+//     text='text'
+//     inputName='Expire Date'
+//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+//     placeholder='Expire Date'
+//   />
+//   <Input
+//     text='text'
+//     inputName='CVV'
+//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+//     placeholder='CVV'
+//   />
+//   <Input
+//     text='text'
+//     inputName='Zip Code'
+//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+//     placeholder='Zip Code'
+//   />
+// </div>
 
-    <SelectCountry width={480} />
-  </div>
-);
+// <SelectCountry width={480} />
+// </div>
+// );
 
 const HouseRules = () => (
   <div className='p-4 bg-gray-100 rounded mb-4'>
@@ -254,6 +259,51 @@ const BookingSummary = () => (
 );
 
 const CheckOutPage = () => {
+
+  const [clientSecret, setClientSecret] = useState('')
+  const paymentAmount = 25820.84 * 100 //หน่วยเป็นสตางค์
+  
+  useEffect(() => {
+    const createPaymentIntent = async () => {
+      try {
+        const response = await axios.post('reservation/create-payment-intent', { 
+          amount: paymentAmount,
+          description: "testing payment",
+          receipt_email: "client@mail.com",
+        });
+        console.log('PaymentIntent response:', response.data);
+        setClientSecret(response.data.clientSecret);
+      } catch (error) {
+        console.error('Error creating payment intent:', error);
+      }
+    }
+  
+    createPaymentIntent();
+  }, [])
+
+  const stripeFormAppearance = {
+    theme: 'stripe',
+    // variables: {
+    //   colorPrimary: '#0570de',
+    //   colorBackground: '#ffffff',
+    //   colorText: '#30313d',
+    //   colorDanger: '#df1b41',
+    //   fontFamily: 'Ideal Sans, system-ui, sans-serif',
+    //   spacingUnit: '2px',
+    //   borderRadius: '4px',
+    // },
+    // rules: {
+    //   '.Label': {
+    //     color: '#30313d',
+    //   },
+    // },
+  }
+  
+  const options = {
+    clientSecret,
+    appearance: stripeFormAppearance
+  }
+
   return (
     <div className='p-8  min-h-screen mx-16'>
       <BreadcrumbNavigation />
@@ -266,7 +316,17 @@ const CheckOutPage = () => {
           <h2 className='text-xl text-fg-text-black font-semibold mt-14 mb-4'>
             Pay with
           </h2>
-          <PaymentForm />
+          <div>
+            {clientSecret && (
+              <Elements stripe={stripePromise} options={options}>
+                <PaymentForm clientSecret={clientSecret} />
+              </Elements>
+            )}
+          </div>
+
+
+
+
           <h2 className='text-xl text-fg-text-black font-semibold mt-14 mb-4'>
             House rules
           </h2>
