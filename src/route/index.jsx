@@ -26,6 +26,7 @@ import HostAddingNewAccomPage5 from '../pages/Host/HostAddingNewAccomPage5';
 import HostEditProfile from '../pages/Host/HostEditProfile';
 
 const AppRouter = createBrowserRouter([
+  // guest&user path
   {
     path: '/',
     element: <MainContainer />,
@@ -73,6 +74,16 @@ const AppRouter = createBrowserRouter([
       { path: '/host/EditProfile', element: <HostEditProfile /> },
     ],
   },
+  // host path
+
+  // {
+  //   path: '/',
+  //   element: <MainContainer />,
+  //   children: [
+  //     { path: '/', element:  },
+
+  //   ],
+  // },
   ,
 ]);
 

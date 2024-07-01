@@ -45,36 +45,38 @@ const HostProfilePage = () => {
 
         {/* Left Part */}
         <div className='h-[900px] border-[2px] border-fg-grey/50 rounded-[40px] mt-10 pt-14 pb-2 px-10 flex gap-8'>
-          <ProfileBox>
-            <div className='px-10 py-4'>
-              <div className='flex flex-col items-center'>
-                <div className='text-3xl'>{HostProfile.name}</div>
-                <div className='font-light'>Host ID: {HostProfile.id}</div>
-              </div>
+          <div>
+            <ProfileBox>
+              <div className='px-10 py-4'>
+                <div className='flex flex-col items-center'>
+                  <div className='text-3xl'>{HostProfile.name}</div>
+                  <div className='font-light'>Host ID: {HostProfile.id}</div>
+                </div>
 
-              <div className='mt-4'>
-                <div className='flex justify-between'>
-                  <h3>Rating</h3>
-                  <div className='flex gap-2'>
-                    <div>{HostProfile.rating}</div>
-                    <img
-                      src={star}
-                      alt=''
-                      className='-translate-y-[0.6px] w-[20px] h-[20px]'
-                    />
+                <div className='mt-4'>
+                  <div className='flex justify-between'>
+                    <h3>Rating</h3>
+                    <div className='flex gap-2'>
+                      <div>{HostProfile.rating}</div>
+                      <img
+                        src={star}
+                        alt=''
+                        className='-translate-y-[0.6px] w-[20px] h-[20px]'
+                      />
+                    </div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <h3>Review</h3>
+                    <div>{HostProfile.review}</div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <h3>Years Hosting</h3>
+                    <div>{HostProfile.hosting}</div>
                   </div>
                 </div>
-                <div className='flex justify-between'>
-                  <h3>Review</h3>
-                  <div>{HostProfile.review}</div>
-                </div>
-                <div className='flex justify-between'>
-                  <h3>Years Hosting</h3>
-                  <div>{HostProfile.hosting}</div>
-                </div>
               </div>
-            </div>
-          </ProfileBox>
+            </ProfileBox>
+          </div>
 
           {/* Right Part */}
           <div className='h-[800px] w-[100%] border-[2px] border-fg-grey/50 rounded-[40px]'>

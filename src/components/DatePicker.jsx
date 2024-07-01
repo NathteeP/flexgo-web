@@ -10,12 +10,16 @@ import { storeAccessToken } from '../utils/localStorage';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function DatePickerValue() {
-  const [value, setValue] = React.useState(dayjs('2022-04-17'));
-  const [date, setDate] = React.useState('');
+  const [value, setValue] = React.useState(dayjs().tz('Asia/Bangkok'));
+  console.log(value);
+  console.log(value.$d);
+
+  //const [date, setDate] = React.useState('');
 
   // const userSeed = {
   //   id: 8,
@@ -51,12 +55,13 @@ export default function DatePickerValue() {
   //   }
   // };
 
+  // console.log(value.$D);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
         <DatePicker
           label='From'
-          defaultValue={dayjs('2022-04-17')}
+          defaultValue={dayjs().tz('Asia/Bangkok')}
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
             '& .MuiOutlinedInput-root': {

@@ -10,7 +10,7 @@ const FilterBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className='px-4 bg-white w-full max-w-[90%] h-full md:h-full lg:h-[85px] mx-10 rounded-[20px] shadow-sm pointer-events-auto flex justify-center'>
+    <div className='px-4 bg-white w-full  h-full md:h-full lg:h-[85px]  rounded-[20px] shadow-sm pointer-events-auto flex justify-center'>
       <form
         action=''
         className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'

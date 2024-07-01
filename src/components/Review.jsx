@@ -119,9 +119,9 @@ const Review = ({ direction = 'right' }) => {
         onMouseLeave={handleMouseLeave}
       >
         {userReviews.map((review, index) => (
-          <div key={index} className='flex'>
-            <div className='w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
-              <div className='flex mb-6'>
+          <div key={index} className='flex '>
+            <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
+              <div className='flex mb-6 '>
                 <div>
                   <img src={review.avatar} alt='' />
                 </div>
