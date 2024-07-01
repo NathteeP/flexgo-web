@@ -14,16 +14,16 @@ import BookingReservation from '../pages/Users/BookingReservation';
 
 // host's part
 import HostHomepage from '../pages/Host/HostHomepage';
-import HostDashboardAccom1 from '../pages/Host/HostDashboardAccom1';
-import HostDashboardAccom2 from '../pages/Host/HostDashboardAccom2';
+import HostDashboardAccom1 from '../pages/Host/HostDashboardAccom';
+
 import HostNotification from '../pages/Host/HostNotification';
 import HostAssetManagement from '../pages/Host/HostAssetManagement';
-import HostAddingNewAccomPage1 from '../pages/Host/HostAddingNewAccomPage1';
-import HostAddingNewAccomPage2 from '../pages/Host/HostAddingNewAccomPage2';
-import HostAddingNewAccomPage3 from '../pages/Host/HostAddingNewAccomPage3';
-import HostAddingNewAccomPage4 from '../pages/Host/HostAddingNewAccomPage4';
-import HostAddingNewAccomPage5 from '../pages/Host/HostAddingNewAccomPage5';
+import HostAddingNewAccomPage1 from '../pages/Host/HostAddingNewAccomPage';
+
 import HostEditProfile from '../pages/Host/HostEditProfile';
+import HostContainer from '../layouts/HostContainer';
+import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
+import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
 
 const AppRouter = createBrowserRouter([
   {
@@ -43,33 +43,18 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: '/',
-    element: <MainContainer />,
+    element: <HostContainer />,
     children: [
-      { path: '/hostHomepage', element: <HostHomepage /> },
-      { path: '/hostDashboard/accom1', element: <HostDashboardAccom1 /> },
-      { path: '/hostDashboard/accom2', element: <HostDashboardAccom2 /> },
+      { path: '/host', element: <HostHomepage /> },
+      { path: '/host/Dashboard/accom', element: <HostDashboardAccom /> },
+
       { path: '/host/Notification', element: <HostNotification /> },
       { path: '/host/AssetsManagement', element: <HostAssetManagement /> },
       {
-        path: '/host/AssetsManagement/NewAccomPage1',
-        element: <HostAddingNewAccomPage1 />,
+        path: '/host/AssetsManagement/NewAccomPage',
+        element: <HostAddingNewAccomPage />,
       },
-      {
-        path: '/hostAssetsManagement/NewAccomPage2',
-        element: <HostAddingNewAccomPage2 />,
-      },
-      {
-        path: '/hostAssetsManagement/NewAccomPage3',
-        element: <HostAddingNewAccomPage3 />,
-      },
-      {
-        path: '/hostAssetsManagement/NewAccomPage4',
-        element: <HostAddingNewAccomPage4 />,
-      },
-      {
-        path: '/hostAssetsManagement/NewAccomPage5',
-        element: <HostAddingNewAccomPage5 />,
-      },
+
       { path: '/host/EditProfile', element: <HostEditProfile /> },
     ],
   },
