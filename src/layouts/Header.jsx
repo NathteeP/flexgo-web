@@ -31,7 +31,6 @@ const Header = () => {
   const { isRegisterOpen, isSignInOpen, isForgotPasswordOpen } = useSelector(
     (state) => state.modal
   );
-  const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
   const { authUser } = useSelector((state) => state.user);
   console.log(authUser);
   useEffect(() => {
