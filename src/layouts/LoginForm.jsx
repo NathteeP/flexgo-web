@@ -8,8 +8,21 @@ import CustomModal from '../components/Modal';
 import ForgotPassword from './ForgotPassword';
 import RegisterForm from './RegisterForm';
 import { FaFacebookF } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  openForgotPassword,
+  closeForgotPassword,
+  openRegister,
+  closeRegister,
+  openSignIn,
+  closeSignIn,
+} from '../store/slices/modal-slice';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const { isForgotPasswordOpen } = useSelector((state) => state.modal);
+
   return (
     <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
       <div className=' w-[500px] h-[650px] flex items-center justify-center'>
@@ -65,18 +78,16 @@ const LoginForm = () => {
                   <RegisterForm />
                 </CustomModal>
 
-                <CustomModal
-                  trigger={
-                    <Button
-                      className='w-full h-[34px] bg-fg-white text-black focus:bg-fg-grey  hover:bg-fg-grey shadow-none hover:text-white  text-sm'
-                      variant='contained'
-                    >
-                      Forgot your password ?
-                    </Button>
-                  }
+                <Button
+                  className='w-full h-[34px] bg-fg-white text-black focus:bg-fg-grey  hover:bg-fg-grey shadow-none hover:text-white  text-sm'
+                  variant='contained'
+                  onClick={() => {
+                    dispatch(openForgotPassword());
+                    dispatch(closeSignIn());
+                  }}
                 >
-                  <ForgotPassword />
-                </CustomModal>
+                  Forgot your password ?
+                </Button>
               </div>
             </div>
           </form>
