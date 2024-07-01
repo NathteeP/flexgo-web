@@ -8,10 +8,20 @@ import { IoCartOutline } from 'react-icons/io5';
 import CustomModal from '../components/Modal';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  openRegister,
+  closeRegister,
+  openSignIn,
+  closeSignIn,
+} from '../store/slices/modal-slice';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const dispatch = useDispatch();
+  const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
 
   return (
     <div className='z-50 relative'>
@@ -37,28 +47,32 @@ const Header = () => {
           <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
             <IoCartOutline className='text-fg-text-white text-[26px]' />
           </div>
+          <Button
+            variant='outlined'
+            className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
+            onClick={() => dispatch(openSignIn())}
+          >
+            Sign In
+          </Button>
+
           <CustomModal
-            trigger={
-              <Button
-                variant='outlined'
-                className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
-              >
-                Sign In
-              </Button>
-            }
+            open={isSignInOpen}
+            onClose={() => dispatch(closeSignIn())}
           >
             <LoginForm />
           </CustomModal>
 
+          <Button
+            variant='contained'
+            className='h-[40px] hover:bg-fg-primary-02'
+            onClick={() => dispatch(openRegister())}
+          >
+            Sign Up
+          </Button>
+
           <CustomModal
-            trigger={
-              <Button
-                variant='contained'
-                className='h-[40px] hover:bg-fg-primary-02'
-              >
-                Sign Up
-              </Button>
-            }
+            open={isRegisterOpen}
+            onClose={() => dispatch(closeRegister())}
           >
             <RegisterForm />
           </CustomModal>
