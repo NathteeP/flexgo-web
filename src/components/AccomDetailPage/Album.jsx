@@ -61,7 +61,7 @@ const Album = () => {
                 </div>
               }
             >
-              <div className='flex items-center justify-center w-full h-full'>
+              <div className='flex items-center justify-center w-full h-full border-none ring-0'>
                 <img
                   src={src}
                   alt={`album ${index + 1}`}
@@ -79,17 +79,27 @@ const Album = () => {
           </Button>
         }
       >
-        <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px]'>
+        <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px] '>
           <ImageList variant='masonry' cols={3} gap={8}>
-            {picAlbum.image.map((item) => (
+            {picAlbum.image.map((src, index) => (
               <>
-                <ImageListItem key={item.img}>
-                  <img
-                    srcSet={`${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    src={`${item}?w=248&fit=crop&auto=format`}
-                    alt={item.title}
-                    loading='lazy'
-                  />
+                <ImageListItem key={index.img}>
+                  <CustomModal
+                    trigger={
+                      <img
+                        src={src}
+                        alt={`album ${index + 1}`}
+                        loading='lazy'
+                        className='w-full h-full object-cover'
+                      />
+                    }
+                  >
+                    <img
+                      src={src}
+                      alt={`album ${index + 1}`}
+                      className='w-full h-full object-cover'
+                    />
+                  </CustomModal>
                 </ImageListItem>
               </>
             ))}
