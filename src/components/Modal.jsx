@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
 import MuiModal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import Box from '@mui/material/Box';
 
 const style = {
   position: 'absolute',

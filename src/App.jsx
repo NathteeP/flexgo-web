@@ -1,6 +1,7 @@
 import AppRouter from './route';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AppRouter />
+          <Toaster richColors />
         </LocalizationProvider>
       </div>
     </>

@@ -4,8 +4,12 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import utc from 'dayjs/plugin/utc';
+import userApi from '../api/users';
+import { storeAccessToken } from '../utils/localStorage';
+// import { setHoursService } from '../utils/time/setHourService';
 import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -14,6 +18,42 @@ export default function DatePickerValue() {
   const [value, setValue] = React.useState(dayjs().tz('Asia/Bangkok'));
   console.log(value);
   console.log(value.$d);
+
+  //const [date, setDate] = React.useState('');
+
+  // const userSeed = {
+  //   id: 8,
+  //   birthDate: value.$d,
+  // };
+
+  // const loginUser = {
+  //   username: 'jack123',
+  //   password: 'abcd1234',
+  // };
+
+  // -------------- ## LOGIN Fn ## -----------------------
+
+  // const handleLogin = async (userInfo) => {
+  //   try {
+  //     const { data } = await userApi.login(userInfo);
+  //     console.log(data);
+  //     storeAccessToken(data.accessToken);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // -------------- ## EDIT Fn ## -----------------------
+  // const handleEdit = async (info) => {
+  //   try {
+  //     const { data } = await userApi.edit(info);
+  //     console.log('Unformat to locale', data.birthDate);
+  //     console.log(dayjs(data.birthDate).tz('Asia/Bangkok'));
+  //     setDate(dayjs(data.birthDate).tz('Asia/Bangkok').format('DD/MM/YY'));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // console.log(value.$D);
   return (
