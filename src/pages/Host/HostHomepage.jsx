@@ -2,7 +2,7 @@ import React from 'react';
 
 function HostHomepage() {
   return (
-    <div>
+    <div className='bg-slate-500 h-screen'>
       <h1>host homepage default</h1>
     </div>
   );
