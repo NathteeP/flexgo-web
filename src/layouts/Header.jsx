@@ -15,14 +15,22 @@ import {
   closeRegister,
   openSignIn,
   closeSignIn,
+  closeForgotPassword,
 } from '../store/slices/modal-slice';
+
+import UserDropdown from '../components/UserDropdown';
+import ForgotPassword from './ForgotPassword';
 import { useEffect } from 'react';
 import { fetchAuthUser, logoutUser } from '../store/slices/user-slice';
+
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const dispatch = useDispatch();
+  const { isRegisterOpen, isSignInOpen, isForgotPasswordOpen } = useSelector(
+    (state) => state.modal
+  );
   const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
   const { authUser } = useSelector((state) => state.user);
   console.log(authUser);
@@ -83,6 +91,15 @@ const Header = () => {
           >
             <RegisterForm />
           </CustomModal>
+
+          <CustomModal
+            open={isForgotPasswordOpen}
+            onClose={() => dispatch(closeForgotPassword())}
+          >
+            <ForgotPassword />
+          </CustomModal>
+
+          <UserDropdown />
         </div>
       </div>
     </div>
