@@ -24,7 +24,8 @@ const Header = () => {
   const isHomePage = location.pathname === '/';
   const dispatch = useDispatch();
   const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
-
+  const { authUser } = useSelector((state) => state.user);
+  console.log(authUser);
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, [dispatch]);
