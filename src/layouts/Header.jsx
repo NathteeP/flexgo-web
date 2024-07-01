@@ -16,12 +16,19 @@ import {
   openSignIn,
   closeSignIn,
 } from '../store/slices/modal-slice';
+import { useEffect } from 'react';
+import { fetchAuthUser, logoutUser } from '../store/slices/user-slice';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const dispatch = useDispatch();
   const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
+  const { authUser } = useSelector((state) => state.user);
+  console.log(authUser);
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, [dispatch]);
 
   return (
     <div className='z-50 relative'>
