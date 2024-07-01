@@ -14,14 +14,15 @@ const LoginForm = () => {
     const googleLoginURL =
       'https://accounts.google.com/o/oauth2/v2/auth?' +
       new URLSearchParams({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // เหมือนหน้าบ้านหา env ไม่เจอ
-        redirect_uri: 'http://localhost:8080/auth/google/callback', // ค่อยเอาไปใส่ใน env
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        redirect_uri: 'http://localhost:8080/user/google/callback', // ค่อยเอาไปใส่ใน env
         response_type: 'code',
         scope: 'profile email',
       });
 
     window.location.href = googleLoginURL;
   };
+
   return (
     <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
       <div className=' w-[500px] h-[650px] flex items-center justify-center'>
