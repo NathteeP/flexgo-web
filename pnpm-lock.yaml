@@ -32,6 +32,9 @@ importers:
       '@mui/x-date-pickers':
         specifier: ^7.7.1
         version: 7.7.1(@emotion/react@11.11.4(@types/react@18.2.57)(react@18.2.0))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.2.57)(react@18.2.0))(@types/react@18.2.57)(react@18.2.0))(@mui/material@5.15.20(@emotion/react@11.11.4(@types/react@18.2.57)(react@18.2.0))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.2.57)(react@18.2.0))(@types/react@18.2.57)(react@18.2.0))(@types/react@18.2.57)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.57)(dayjs@1.11.11)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@react-oauth/google':
+        specifier: ^0.12.1
+        version: 0.12.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@reduxjs/toolkit':
         specifier: ^2.2.6
         version: 2.2.6(react-redux@9.1.2(@types/react@18.2.57)(react@18.2.0)(redux@5.0.1))(react@18.2.0)
@@ -629,6 +632,12 @@ packages:
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+
+  '@react-oauth/google@0.12.1':
+    resolution: {integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   '@reduxjs/toolkit@2.2.6':
     resolution: {integrity: sha512-kH0r495c5z1t0g796eDQAkYbEQ3a1OLYN9o8jQQVZyKyw367pfRGS+qZLkHYvFHiUUdafpoSlQ2QYObIApjPWA==}
@@ -2050,6 +2059,11 @@ snapshots:
     optional: true
 
   '@popperjs/core@2.11.8': {}
+
+  '@react-oauth/google@0.12.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
   '@reduxjs/toolkit@2.2.6(react-redux@9.1.2(@types/react@18.2.57)(react@18.2.0)(redux@5.0.1))(react@18.2.0)':
     dependencies:

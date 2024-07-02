@@ -15,7 +15,7 @@ const style = {
   overflow: 'hidden',
 };
 
-const CustomModal = ({ open, onClose, children }) => {
+const CustomModal = ({ open = false, onClose, children }) => {
   return (
     <MuiModal
       aria-labelledby='transition-modal-title'
