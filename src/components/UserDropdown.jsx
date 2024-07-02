@@ -6,6 +6,7 @@ import { logoutUser } from '../store/slices/user-slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const UserDropdown = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,12 @@ const UserDropdown = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    const promise = dispatch(logoutUser()).unwrap();
+    toast.promise(promise, {
+      loading: 'Log out...',
+      success: 'Log out successful',
+      error: 'Log out failed!',
+    });
     navigate('/');
   };
 

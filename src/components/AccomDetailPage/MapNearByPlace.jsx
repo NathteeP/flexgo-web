@@ -1,4 +1,11 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  openAmenities,
+  closeAmenities,
+  openNearby,
+  closeNearby,
+} from '../../store/slices/modal-slice';
 import map from '../../assets/images/test/MapMockup.png';
 import Button from '../Button';
 import CustomModal from '../Modal';
@@ -50,6 +57,14 @@ const nearbyPlaces = [
 ];
 
 const MapNearByPlace = () => {
+  const dispatch = useDispatch();
+  const { isAmenitiesOpen, isNearbyOpen } = useSelector((state) => state.modal);
+
+  const renderModal = (isOpen, closeAction, children) => (
+    <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
+      {children}
+    </CustomModal>
+  );
   return (
     <div>
       <div className='h-[400px] w-full '>
@@ -73,16 +88,17 @@ const MapNearByPlace = () => {
         </div>
       </div>
       <div className='flex justify-center mt-3'>
-        <CustomModal
-          trigger={
-            <Button
-              variant='contained'
-              className='w-[170px] text-[13px] hover:bg-fg-primary-02'
-            >
-              See all nearby place
-            </Button>
-          }
+        <Button
+          variant='contained'
+          className='w-[170px] text-[13px] hover:bg-fg-primary-02'
+          onClick={() => dispatch(openNearby())}
         >
+          See all nearby place
+        </Button>
+
+        {renderModal(
+          isNearbyOpen,
+          closeNearby,
           <div className='h-[600px] w-[600px] px-6 pt-12'>
             <div className=' mb-4'>
               <h1>All nearby place </h1>
@@ -100,7 +116,7 @@ const MapNearByPlace = () => {
               ))}
             </div>
           </div>
-        </CustomModal>
+        )}
       </div>
     </div>
   );

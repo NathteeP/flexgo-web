@@ -5,8 +5,21 @@ import Button from '../components/Button';
 import Bg from '../assets/images/SignInUp/Bg.png';
 import CustomModal from '../components/Modal';
 import ResetPassword from './ResetPassword';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  openRegister,
+  closeRegister,
+  openSignIn,
+  closeSignIn,
+  closeForgotPassword,
+  openResetPassword,
+  closeResetPassword,
+} from '../store/slices/modal-slice';
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
+  const { isResetPasswordOpen } = useSelector((state) => state.modal);
   return (
     <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
       <div className=' w-[500px] h-[650px] flex items-start justify-center pt-20'>
@@ -36,18 +49,16 @@ const ForgotPassword = () => {
 
             <div className='flex flex-col mt-5 w-full gap-4'>
               <div className='flex flex-col  gap-4 translate-y-10 pt-60'>
-                <CustomModal
-                  trigger={
-                    <Button
-                      className='w-full  bg-fg-primary-01 text-white focus:bg-fg-grey  hover:bg-fg-grey  hover:text-white  text-sm'
-                      variant='contained'
-                    >
-                      Reset your password
-                    </Button>
-                  }
+                <Button
+                  className='w-full  bg-fg-primary-01 text-white focus:bg-fg-grey  hover:bg-fg-grey  hover:text-white  text-sm'
+                  variant='contained'
+                  onClick={() => {
+                    dispatch(openResetPassword());
+                    dispatch(closeForgotPassword());
+                  }}
                 >
-                  <ResetPassword />
-                </CustomModal>
+                  Reset your password
+                </Button>
               </div>
             </div>
           </form>

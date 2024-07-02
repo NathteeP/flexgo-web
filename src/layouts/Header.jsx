@@ -16,17 +16,23 @@ import {
   openSignIn,
   closeSignIn,
   closeForgotPassword,
+  openResetPassword,
+  closeResetPassword,
 } from '../store/slices/modal-slice';
 import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const dispatch = useDispatch();
-  const { isRegisterOpen, isSignInOpen, isForgotPasswordOpen } = useSelector(
-    (state) => state.modal
-  );
+  const {
+    isRegisterOpen,
+    isSignInOpen,
+    isForgotPasswordOpen,
+    isResetPasswordOpen,
+  } = useSelector((state) => state.modal);
   const { authUser } = useSelector((state) => state.user);
 
   const renderModal = (isOpen, closeAction, children) => (
@@ -87,6 +93,11 @@ const Header = () => {
             isForgotPasswordOpen,
             closeForgotPassword,
             <ForgotPassword />
+          )}
+          {renderModal(
+            isResetPasswordOpen,
+            closeResetPassword,
+            <ResetPassword />
           )}
         </div>
       </div>
