@@ -17,12 +17,8 @@ import {
   closeSignIn,
   closeForgotPassword,
 } from '../store/slices/modal-slice';
-
 import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
-import { useEffect } from 'react';
-import { fetchAuthUser, logoutUser } from '../store/slices/user-slice';
-
 
 const Header = () => {
   const location = useLocation();
@@ -32,10 +28,12 @@ const Header = () => {
     (state) => state.modal
   );
   const { authUser } = useSelector((state) => state.user);
-  console.log(authUser);
-  useEffect(() => {
-    dispatch(fetchAuthUser());
-  }, [dispatch]);
+
+  const renderModal = (isOpen, closeAction, children) => (
+    <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
+      {children}
+    </CustomModal>
+  );
 
   return (
     <div className='z-50 relative'>
@@ -61,44 +59,35 @@ const Header = () => {
           <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
             <IoCartOutline className='text-fg-text-white text-[26px]' />
           </div>
-          <Button
-            variant='outlined'
-            className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
-            onClick={() => dispatch(openSignIn())}
-          >
-            Sign In
-          </Button>
+          {authUser ? (
+            <UserDropdown />
+          ) : (
+            <>
+              <Button
+                variant='outlined'
+                className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
+                onClick={() => dispatch(openSignIn())}
+              >
+                Sign In
+              </Button>
 
-          <CustomModal
-            open={isSignInOpen}
-            onClose={() => dispatch(closeSignIn())}
-          >
-            <LoginForm />
-          </CustomModal>
+              <Button
+                variant='contained'
+                className='h-[40px] hover:bg-fg-primary-02'
+                onClick={() => dispatch(openRegister())}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
 
-          <Button
-            variant='contained'
-            className='h-[40px] hover:bg-fg-primary-02'
-            onClick={() => dispatch(openRegister())}
-          >
-            Sign Up
-          </Button>
-
-          <CustomModal
-            open={isRegisterOpen}
-            onClose={() => dispatch(closeRegister())}
-          >
-            <RegisterForm />
-          </CustomModal>
-
-          <CustomModal
-            open={isForgotPasswordOpen}
-            onClose={() => dispatch(closeForgotPassword())}
-          >
+          {renderModal(isSignInOpen, closeSignIn, <LoginForm />)}
+          {renderModal(isRegisterOpen, closeRegister, <RegisterForm />)}
+          {renderModal(
+            isForgotPasswordOpen,
+            closeForgotPassword,
             <ForgotPassword />
-          </CustomModal>
-
-          <UserDropdown />
+          )}
         </div>
       </div>
     </div>

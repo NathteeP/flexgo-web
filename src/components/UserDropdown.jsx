@@ -2,10 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from './Avatar';
 import Button from './Button';
+import { logoutUser } from '../store/slices/user-slice';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const UserDropdown = () => {
+  const dispatch = useDispatch();
+  const { authUser } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -15,6 +22,11 @@ const UserDropdown = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
   };
 
   useEffect(() => {
@@ -39,8 +51,10 @@ const UserDropdown = () => {
             <div className='flex items-center p-2 border-b  h-full '>
               <Avatar size='40' />
               <div className='ml-3 flex w-full justify-between items-center pr-6'>
-                <p className='text-base font-light text-gray-900'>Name</p>
-                <p className='text-xs text-fg-text-blue'>(User)</p>
+                <p className='text-base font-light text-gray-900'>
+                  {authUser.fullName}
+                </p>
+                <p className='text-xs text-fg-text-blue'>{authUser.role}</p>
               </div>
             </div>
             <div className=' border-b pb-2'>
@@ -80,6 +94,7 @@ const UserDropdown = () => {
               <Button
                 className=' flex m-auto w-full h-[48px] text-base hover:bg-fg-primary-02  transition-transform duration-1000 hover:h-[52px] hover:-translate-y-3 '
                 variant='contained'
+                onClick={handleLogout}
               >
                 SignOut
               </Button>
