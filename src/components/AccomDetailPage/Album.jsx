@@ -1,5 +1,14 @@
 import React from 'react';
-import CustomModal from '../Modal'; // นำเข้า CustomModal
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  openPicture,
+  closePicture,
+  openAlbum,
+  closeAlbum,
+  openAlbumSelectedPicture,
+  closeAlbumSelectedPicture,
+} from '../../store/slices/modal-slice';
+import CustomModal from '../Modal';
 import Button from '../Button';
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
@@ -10,7 +19,6 @@ const picAlbum = {
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561703/accomAlbumSeed/qzuf6jbvaognt61waw3a.webp',
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561703/accomAlbumSeed/avzjktrcma2giv0ysugb.jpg',
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561703/accomAlbumSeed/mb1fsux7jf1dg8jshnur.webp',
-
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561702/accomAlbumSeed/i5i1nf0er26gdkxjmvsl.webp',
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561702/accomAlbumSeed/owj36wnvyjo9dyxag9lz.jpg',
     'https://res.cloudinary.com/dtlwfpitf/image/upload/v1719561702/accomAlbumSeed/mdzemsefo6vthfgtqcr5.jpg',
@@ -32,6 +40,21 @@ const picAlbum = {
 };
 
 const Album = ({ photos }) => {
+  const dispatch = useDispatch();
+  const {
+    isPictureOpen,
+    currentPicture,
+    isAlbumOpen,
+    isAlbumSelectedPictureOpen,
+    currentAlbum,
+  } = useSelector((state) => state.modal);
+
+  const renderModal = (isOpen, closeAction, children) => (
+    <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
+      {children}
+    </CustomModal>
+  );
+
   return (
     <div className='p-4'>
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[600px] relative'>
@@ -50,66 +73,68 @@ const Album = ({ photos }) => {
                       : 'row-span-2 col-start-4 row-start-3 rounded-br-[40px]'
             }`}
           >
-            <CustomModal
-              key={index + 1}
-              trigger={
-                <div className='flex items-center justify-center w-full h-full'>
-                  <img
-                    src={src.imagePath}
-                    alt={`album ${index + 1}`}
-                    className='w-full h-full object-cover'
-                  />
-                </div>
-              }
-            >
-              <div className='flex items-center justify-center w-full h-full border-none ring-0'>
-                <img
-                  key={index + 1}
-                  src={src.imagePath}
-                  alt={`album ${index + 1}`}
-                  className='w-full h-full object-cover'
-                />
-              </div>
-            </CustomModal>
+            <div className='flex items-center justify-center w-full h-full'>
+              <img
+                src={src}
+                alt={`album ${index + 1}`}
+                className='w-full h-full object-cover'
+                onClick={() => dispatch(openPicture(src))}
+              />
+            </div>
           </div>
         ))}
       </div>
-      <CustomModal
-        trigger={
-          <Button className=' bg-black/10 ring-[2px] ring-fg-secondary-02 absolute bottom-10 right-14 text-white backdrop-blur-[2px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-fg-secondary-02'>
-            Show all photos
-          </Button>
-        }
+
+      {renderModal(
+        isPictureOpen,
+        closePicture,
+        <div className='flex items-center justify-center w-full h-full border-none ring-0'>
+          <img
+            src={currentPicture}
+            alt='Current Picture'
+            className='w-full h-full object-cover'
+          />
+        </div>
+      )}
+
+      <Button
+        className='bg-black/10 ring-[2px] ring-fg-secondary-02 absolute bottom-10 right-14 text-white backdrop-blur-[2px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-fg-secondary-02'
+        onClick={() => dispatch(openAlbum())}
       >
-        <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px] '>
+        Show all photos
+      </Button>
+
+      {renderModal(
+        isAlbumOpen,
+        closeAlbum,
+        <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px]'>
           <ImageList variant='masonry' cols={3} gap={8}>
-            {photos?.map((src, index) => (
-              <>
-                <ImageListItem key={index.img}>
-                  <CustomModal
-                    trigger={
-                      <img
-                        src={src.imagePath}
-                        alt={`album ${index + 1}`}
-                        loading='lazy'
-                        className='w-full h-full object-cover'
-                      />
-                    }
-                  >
-                    <img
-                      src={src.imagePath}
-                      alt={`album ${index + 1}`}
-                      className='w-full h-full object-cover'
-                    />
-                  </CustomModal>
-                </ImageListItem>
-              </>
+            {picAlbum.image.map((src, index) => (
+              <ImageListItem key={index}>
+                <img
+                  src={src}
+                  alt={`album ${index + 1}`}
+                  loading='lazy'
+                  className='w-full h-full object-cover cursor-pointer'
+                  onClick={() => dispatch(openAlbumSelectedPicture(src))}
+                />
+              </ImageListItem>
             ))}
           </ImageList>
         </Box>
-      </CustomModal>
+      )}
 
-      <div></div>
+      {renderModal(
+        isAlbumSelectedPictureOpen,
+        closeAlbumSelectedPicture,
+        <div className='flex items-center justify-center w-full h-full border-none ring-0'>
+          <img
+            src={currentAlbum}
+            alt='Selected Picture'
+            className='w-full h-full object-cover'
+          />
+        </div>
+      )}
     </div>
   );
 };
