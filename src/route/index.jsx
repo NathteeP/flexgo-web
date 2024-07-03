@@ -34,7 +34,10 @@ const AppRouter = createBrowserRouter([
     children: [
       { path: '/', element: <Homepage /> },
       { path: '/searchList', element: <AccommodationSearchListPage /> },
-      { path: '/accommodationDetail', element: <AccommodationDetailPage /> },
+      {
+        path: '/accommodationDetail/:accom_id',
+        element: <AccommodationDetailPage />,
+      },
       { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },

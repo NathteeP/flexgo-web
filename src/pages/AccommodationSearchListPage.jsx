@@ -2,6 +2,15 @@ import React from 'react';
 import { Breadcrumbs, Link, TextField, Button } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 import CustomButton from '../components/Button';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchAvailAccom } from '../store/slices/accoms-slice';
+import dayjs from 'dayjs';
+import weekday from 'dayjs/plugin/weekday';
+
+dayjs.extend(weekday);
 
 const AccommodationSearchListPage = () => {
   const productData = Array(15).fill({
@@ -12,10 +21,29 @@ const AccommodationSearchListPage = () => {
     imageUrl:
       'https://i.pinimg.com/originals/06/2b/75/062b75b3c882ce0ba9644cb0143a9f18.jpg',
   });
+
+  const dispatch = useDispatch();
+  const { desiredLocation, date } = useSelector((state) => state.info);
+  const { accomsList } = useSelector((state) => state.accoms);
+
+  const navigate = useNavigate('/');
+  const onClickNavigate = (to) => navigate(to);
+
+  useEffect(() => {
+    if (accomsList.length < 1) {
+      dispatch(fetchAvailAccom());
+    }
+  }, [dispatch, accomsList]);
+
   return (
     <div className='p-8 bg-white min-h-screen mx-12'>
       <Breadcrumbs aria-label='breadcrumb'>
-        <Link underline='hover' color='inherit' href='#'>
+        <Link
+          onClick={() => onClickNavigate('/')}
+          className='hover:cursor-pointer'
+          underline='hover'
+          color='inherit'
+        >
           Home
         </Link>
         <Link underline='hover' color='inherit' href='#'>
@@ -36,7 +64,9 @@ const AccommodationSearchListPage = () => {
         />
         <TextField
           label='Date'
-          defaultValue='Wed, July 10 - Sat, July 13'
+          defaultValue={
+            date.from.format('DD MMMM') + ' to ' + date.to.format('DD MMMM')
+          }
           variant='outlined'
           className='mr-4'
           fullWidth
@@ -58,8 +88,16 @@ const AccommodationSearchListPage = () => {
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
         <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-          {productData.map((product, index) => (
-            <ProductCard key={index} {...product} />
+          {accomsList.map((product, index) => (
+            <ProductCard
+              key={index}
+              id={product.id}
+              title={product.name}
+              price={product.price}
+              distance={product.distance}
+              rating={product.reviews.overAllReview}
+              imageUrl={product.accomPhoto[0].imagePath}
+            />
           ))}
         </div>
 

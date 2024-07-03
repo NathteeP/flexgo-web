@@ -9,59 +9,28 @@ import { storeAccessToken } from '../utils/localStorage';
 // import { setHoursService } from '../utils/time/setHourService';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  setUserCheckInDay,
+  setUserCheckOutDay,
+} from '../store/slices/searchInfo-slice';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function DatePickerValue() {
-  const [value, setValue] = React.useState(dayjs().tz('Asia/Bangkok'));
-  console.log(value);
-  console.log(value.$d);
+  const { date } = useSelector((state) => state.info);
 
-  //const [date, setDate] = React.useState('');
+  const dispatch = useDispatch();
 
-  // const userSeed = {
-  //   id: 8,
-  //   birthDate: value.$d,
-  // };
-
-  // const loginUser = {
-  //   username: 'jack123',
-  //   password: 'abcd1234',
-  // };
-
-  // -------------- ## LOGIN Fn ## -----------------------
-
-  // const handleLogin = async (userInfo) => {
-  //   try {
-  //     const { data } = await userApi.login(userInfo);
-  //     console.log(data);
-  //     storeAccessToken(data.accessToken);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // -------------- ## EDIT Fn ## -----------------------
-  // const handleEdit = async (info) => {
-  //   try {
-  //     const { data } = await userApi.edit(info);
-  //     console.log('Unformat to locale', data.birthDate);
-  //     console.log(dayjs(data.birthDate).tz('Asia/Bangkok'));
-  //     setDate(dayjs(data.birthDate).tz('Asia/Bangkok').format('DD/MM/YY'));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // console.log(value.$D);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
         <DatePicker
           label='From'
-          defaultValue={dayjs().tz('Asia/Bangkok')}
+          value={date.from}
+          onChange={(newValue) => dispatch(setUserCheckInDay(newValue))}
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
             '& .MuiOutlinedInput-root': {
@@ -80,8 +49,8 @@ export default function DatePickerValue() {
         />
         <DatePicker
           label='To'
-          value={value}
-          onChange={(newValue) => setValue(newValue)}
+          value={date.to}
+          onChange={(newValue) => dispatch(setUserCheckOutDay(newValue))}
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
             '& .MuiOutlinedInput-root': {
