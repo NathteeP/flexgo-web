@@ -1,6 +1,5 @@
 import Button from '../Button';
 import {
-  FaWifiIcon,
   FaSwimmingPoolIcon,
   FaConciergeBellIcon,
   FaSmokingBanIcon,
@@ -62,7 +61,9 @@ import {
   CgModemIcon,
   SiStaffbaseIcon,
   RiVipFillIcon,
+  FaWifiIcon,
 } from '../Icons/AllIcons';
+import * as Icons from '../Icons/AllIcons';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import CustomModal from '../Modal';
@@ -358,14 +359,22 @@ const amenityTypeSeeding = [
   },
 ];
 
-const Amenities = () => {
-  const amenitiesToShow = amenityTypeSeeding.slice(0, 10);
+const amenitiesRenderer = (componentName) => {
+  const Component = Icons[componentName];
+  return Component ? (
+    <div className='w-[20px]'>
+      <Component />
+    </div>
+  ) : null;
+};
+
+const Amenities = ({ amenities }) => {
   return (
     <>
       <div className='flex flex-wrap w-full'>
-        {amenitiesToShow.map((amenity, index) => (
+        {amenities?.slice(0, 8).map((amenity, index) => (
           <div key={index} className='flex w-[50%] items-center gap-4'>
-            <amenity.icon className='text-2xl w-[24px] h-[24px]' />
+            {amenitiesRenderer(amenity.icon)}
             <span className='text-base my-2 '>{amenity.name}</span>
           </div>
         ))}
@@ -386,12 +395,12 @@ const Amenities = () => {
               <h1>What this place offers</h1>
             </div>
             <div className='flex flex-col overflow-y-auto max-h-[500px]'>
-              {amenityTypeSeeding.map((item, index) => (
+              {amenities?.map((item, index) => (
                 <div
                   key={index}
                   className='flex w-full items-center gap-4 py-2  border-b-[1px] '
                 >
-                  <item.icon className='text-2xl w-[24px] h-[24px] my-2' />
+                  {amenitiesRenderer(item.icon)}
                   <span className='text-base'>{item.name}</span>
                 </div>
               ))}
