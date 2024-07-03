@@ -9,13 +9,13 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
-import RoomMock from '../assets/images/Mock/RoomMock.jpg';
-import HotelMock from '../assets/images/Mock/HotelMock.jpg';
+import RoomMock from '../../assets/images/Mock/RoomMock.jpg';
+import HotelMock from '../../assets/images/Mock/HotelMock.jpg';
 import { useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { stripePromise } from '../config/stripe';
-import axios from '../config/axios'
-import CheckOutForm from '../components/CheckOutPage/CheckOutForm';
+import { stripePromise } from '../../config/stripe';
+import axios from '../../config/axios'
+import CheckOutForm from '../../components/CheckOutPage/CheckOutForm';
 
 
 

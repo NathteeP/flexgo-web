@@ -39,7 +39,7 @@ export default function CheckOutForm ({clientSecret}) {
     const payload = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}`, 
+        return_url: `${window.location.origin}/checkout/success`, 
         payment_method_data: {
           billing_details: {
             address: {
