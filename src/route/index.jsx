@@ -41,7 +41,6 @@ const AppRouter = createBrowserRouter([
         path: '/accommodationDetail/:accom_id',
         element: <AccommodationDetailPage />,
       },
-      { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile', element: <HostProfilePage /> },
