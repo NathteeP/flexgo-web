@@ -15,13 +15,17 @@ import {
   closeRegister,
   openSignIn,
   closeSignIn,
+  closeForgotPassword,
 } from '../store/slices/modal-slice';
+import ForgotPassword from './ForgotPassword';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const dispatch = useDispatch();
-  const { isRegisterOpen, isSignInOpen } = useSelector((state) => state.modal);
+  const { isRegisterOpen, isSignInOpen, isForgotPasswordOpen } = useSelector(
+    (state) => state.modal
+  );
 
   return (
     <div className='z-50 relative'>
@@ -75,6 +79,12 @@ const Header = () => {
             onClose={() => dispatch(closeRegister())}
           >
             <RegisterForm />
+          </CustomModal>
+          <CustomModal
+            open={isForgotPasswordOpen}
+            onClose={() => dispatch(closeForgotPassword())}
+          >
+            <ForgotPassword />
           </CustomModal>
         </div>
       </div>
