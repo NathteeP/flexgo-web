@@ -34,7 +34,6 @@ const Header = () => {
     isForgotPasswordOpen,
     isResetPasswordOpen,
   } = useSelector((state) => state.modal);
-  const { authUser } = useSelector((state) => state.user);
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
