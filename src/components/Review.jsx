@@ -3,7 +3,7 @@ import Avatar from '../assets/images/test/avatar.png';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 
-const Review = ({ direction = 'right' }) => {
+const Review = ({ direction = 'right', reviews }) => {
   const userReviews = [
     {
       name: 'Oiled',
@@ -118,12 +118,12 @@ const Review = ({ direction = 'right' }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {userReviews.map((review, index) => (
+        {reviews?.map((review, index) => (
           <div key={index} className='flex '>
             <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
               <div className='flex mb-6 '>
                 <div>
-                  <img src={review.avatar} alt='' />
+                  <img src={review.avatar || Avatar} alt='' />
                 </div>
                 <div>
                   <div>
@@ -134,7 +134,7 @@ const Review = ({ direction = 'right' }) => {
                   <Stack spacing={1}>
                     <Rating
                       name='half-rating-read'
-                      defaultValue={review.star}
+                      defaultValue={review.overAllReview}
                       precision={0.5}
                       readOnly
                       className='flex translate-x-1 -translate-y-[1px]'

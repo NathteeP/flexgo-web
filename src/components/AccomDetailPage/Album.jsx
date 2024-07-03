@@ -31,11 +31,11 @@ const picAlbum = {
   ],
 };
 
-const Album = () => {
+const Album = ({ photos }) => {
   return (
     <div className='p-4'>
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[600px] relative'>
-        {picAlbum.image.slice(0, 5).map((src, index) => (
+        {photos?.slice(0, 5).map((src, index) => (
           <div
             key={index}
             className={`overflow-hidden relative flex ${
@@ -51,10 +51,11 @@ const Album = () => {
             }`}
           >
             <CustomModal
+              key={index + 1}
               trigger={
                 <div className='flex items-center justify-center w-full h-full'>
                   <img
-                    src={src}
+                    src={src.imagePath}
                     alt={`album ${index + 1}`}
                     className='w-full h-full object-cover'
                   />
@@ -63,7 +64,8 @@ const Album = () => {
             >
               <div className='flex items-center justify-center w-full h-full border-none ring-0'>
                 <img
-                  src={src}
+                  key={index + 1}
+                  src={src.imagePath}
                   alt={`album ${index + 1}`}
                   className='w-full h-full object-cover'
                 />
@@ -81,13 +83,13 @@ const Album = () => {
       >
         <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px] '>
           <ImageList variant='masonry' cols={3} gap={8}>
-            {picAlbum.image.map((src, index) => (
+            {photos?.map((src, index) => (
               <>
                 <ImageListItem key={index.img}>
                   <CustomModal
                     trigger={
                       <img
-                        src={src}
+                        src={src.imagePath}
                         alt={`album ${index + 1}`}
                         loading='lazy'
                         className='w-full h-full object-cover'
@@ -95,7 +97,7 @@ const Album = () => {
                     }
                   >
                     <img
-                      src={src}
+                      src={src.imagePath}
                       alt={`album ${index + 1}`}
                       className='w-full h-full object-cover'
                     />
