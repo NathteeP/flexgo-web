@@ -4,10 +4,15 @@ import Button from './Button';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import DatePickerValue from './DatePicker';
 import GuestDropdown from './GuestDropdown';
+import { useSelector } from 'react-redux';
 
 const SearchBar = () => {
   const [guests, setGuests] = useState({ adults: 2, children: 0 });
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const { desiredLocation, rooms, capacity } = useSelector(
+    (state) => state.info
+  );
 
   return (
     <div className='px-4 bg-white w-full max-w-[90%] h-full md:h-full lg:h-[85px] mx-10 rounded-[20px] shadow-sm pointer-events-auto flex justify-center'>
@@ -40,7 +45,7 @@ const SearchBar = () => {
             onClick={() => setShowDropdown(!showDropdown)}
             className='w-full h-[48px] bg-white border border-fg-grey rounded-lg focus:outline-none focus:ring-fg-primary-01 focus:ring-2 text-fg-text-blue text-sm text-start pl-4'
           >
-            {`${guests.adults} adults, ${guests.children} children`}
+            {`${capacity.adults} adults, ${capacity.children} children`}
           </button>
           {showDropdown && <GuestDropdown updateGuests={setGuests} />}
         </div>

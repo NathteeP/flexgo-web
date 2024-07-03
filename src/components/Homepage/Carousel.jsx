@@ -1,37 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import hotel from '../../assets/images/test/hotelMockup.png';
+import { useNavigate } from 'react-router-dom';
 
-const Carousel = () => {
-  const hotels = [
-    {
-      name: 'SriChan-Hotel, Bangkok',
-      distance: '0.7 Km',
-      image: hotel,
-    },
-    {
-      name: 'ConsoleLog-Hotel, Bangkok',
-      distance: '1.2 Km',
-      image: hotel,
-    },
-    {
-      name: 'KissKiss-Hotel, Bangkok',
-      distance: '0.5 Km',
-      image: hotel,
-    },
-    {
-      name: 'Champza-Hotel, Bangkok',
-      distance: '0.5 Km',
-      image: hotel,
-    },
-    {
-      name: 'KissKiss-Hotel, Bangkok',
-      distance: '0.5 Km',
-      image: hotel,
-    },
-  ];
-
+const Carousel = ({ accoms }) => {
   const carouselRef = useRef(null);
   const scrollIntervalRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  const onClickNavigate = (to) => navigate(to);
 
   useEffect(() => {
     const startScrolling = () => {
@@ -98,18 +75,23 @@ const Carousel = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {hotels.concat(hotels).map((hotel, index) => (
-          <div key={index} className='flex items-center '>
+        {accoms.concat(accoms).map((item) => (
+          <div
+            key={item.id}
+            id={item.id}
+            onClick={() => onClickNavigate(`/accommodationDetail/${item.id}`)}
+            className='flex items-center '
+          >
             <div className='w-[430px] h-[653px] border-white border-[2px] rounded-[32px] relative flex justify-center items-center cursor-pointer '>
               <div className=' transition transform hover:-translate-y-2'>
                 <img
-                  src={hotel.image}
-                  alt={hotel.name}
+                  src={item?.accomPhoto[0]?.imagePath}
+                  alt={item?.name}
                   className='w-[390px] h-[613px] object-cover grayscale-[40%] hover:grayscale-0   '
                 />
                 <div className='px-8 py-5 absolute bottom-0 flex justify-between w-full items-center'>
-                  <h3 className='text-lg text-white'>{hotel.name}</h3>
-                  <p className='text-sm text-white'>{hotel.distance}</p>
+                  <h3 className='text-lg text-white'>{item?.name}</h3>
+                  <p className='text-sm text-white'>{item?.distance}</p>
                 </div>
               </div>
             </div>

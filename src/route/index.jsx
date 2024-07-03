@@ -24,6 +24,7 @@ import HostEditProfile from '../pages/Host/HostEditProfile';
 import HostContainer from '../layouts/HostContainer';
 import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
 import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
+import HostAddingNewRoom from '../pages/Host/HostAddingNewRoom';
 import CheckOutSuccessPage from '../pages/CheckOut/CheckOutSuccessPage';
 import CheckOutProcessingPage from '../pages/CheckOut/CheckOutProcessingPage';
 import CheckOutContainer from '../layouts/CheckOutContainer';
@@ -36,7 +37,11 @@ const AppRouter = createBrowserRouter([
     children: [
       { path: '/', element: <Homepage /> },
       { path: '/searchList', element: <AccommodationSearchListPage /> },
-      { path: '/accommodationDetail', element: <AccommodationDetailPage /> },
+      {
+        path: '/accommodationDetail/:accom_id',
+        element: <AccommodationDetailPage />,
+      },
+      { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile', element: <HostProfilePage /> },
@@ -61,6 +66,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/host/AssetsManagement/NewAccomPage',
         element: <HostAddingNewAccomPage />,
+      },
+      {
+        path: '/host/AssetsManagement/NewRoomPage',
+        element: <HostAddingNewRoom />,
       },
 
       { path: '/host/EditProfile', element: <HostEditProfile /> },
