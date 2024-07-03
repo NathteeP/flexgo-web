@@ -4,11 +4,9 @@ import logo from '../assets/images/logo/Logo.png';
 import Button from '../components/Button';
 import Bg from '../assets/images/SignInUp/Bg.png';
 import { FaGoogle } from 'react-icons/fa';
-import CustomModal from '../components/Modal';
-import ForgotPassword from './ForgotPassword';
-import RegisterForm from './RegisterForm';
 import { FaFacebookF } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
+
 import { useSelector } from 'react-redux';
 import {
   openRegister,
@@ -22,6 +20,20 @@ import {
 const LoginForm = () => {
   const dispatch = useDispatch();
   const { isForgotPasswordOpen } = useSelector((state) => state.modal);
+
+  const handleLogin = () => {
+    const googleLoginURL =
+      'https://accounts.google.com/o/oauth2/v2/auth?' +
+      new URLSearchParams({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
+        response_type: 'code',
+        scope: 'profile email',
+      });
+
+    window.location.href = googleLoginURL;
+  };
+
   return (
     <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
       <div className=' w-[500px] h-[650px] flex items-center justify-center'>
@@ -52,6 +64,7 @@ const LoginForm = () => {
               <Button
                 className='w-full h-[34px] bg-fg-secondary-01  focus:bg-fg-secondary-02 hover:bg-fg-secondary-02 flex items-center gap-4  text-sm'
                 variant='contained'
+                onClick={handleLogin}
               >
                 <FaGoogle />
                 Sign In with Google
@@ -65,18 +78,16 @@ const LoginForm = () => {
               </Button>
 
               <div className='flex flex-col  gap-4 translate-y-10'>
-                <CustomModal
-                  trigger={
-                    <Button
-                      className='w-full h-[34px] bg-fg-white text-fg-grey focus:bg-fg-grey  hover:bg-fg-grey shadow-sm hover:text-white  text-sm '
-                      variant='contained'
-                    >
-                      Sign Up
-                    </Button>
-                  }
+                <Button
+                  className='w-full h-[34px] bg-fg-white text-fg-grey focus:bg-fg-grey  hover:bg-fg-grey shadow-sm hover:text-white  text-sm '
+                  variant='contained'
+                  onClick={() => {
+                    dispatch(openRegister());
+                    dispatch(closeSignIn());
+                  }}
                 >
-                  <RegisterForm />
-                </CustomModal>
+                  Sign Up
+                </Button>
 
                 <Button
                   className='w-full h-[34px] bg-fg-white text-black focus:bg-fg-grey  hover:bg-fg-grey shadow-none hover:text-white  text-sm'

@@ -17,6 +17,7 @@ import {
   closeSignIn,
   closeForgotPassword,
 } from '../store/slices/modal-slice';
+
 import ForgotPassword from './ForgotPassword';
 
 const Header = () => {
@@ -51,28 +52,27 @@ const Header = () => {
           <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
             <IoCartOutline className='text-fg-text-white text-[26px]' />
           </div>
-          <Button
-            variant='outlined'
-            className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
-            onClick={() => dispatch(openSignIn())}
-          >
-            Sign In
-          </Button>
+          {authUser ? (
+            <UserDropdown />
+          ) : (
+            <>
+              <Button
+                variant='outlined'
+                className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
+                onClick={() => dispatch(openSignIn())}
+              >
+                Sign In
+              </Button>
 
-          <CustomModal
-            open={isSignInOpen}
-            onClose={() => dispatch(closeSignIn())}
-          >
-            <LoginForm />
-          </CustomModal>
-
-          <Button
-            variant='contained'
-            className='h-[40px] hover:bg-fg-primary-02'
-            onClick={() => dispatch(openRegister())}
-          >
-            Sign Up
-          </Button>
+              <Button
+                variant='contained'
+                className='h-[40px] hover:bg-fg-primary-02'
+                onClick={() => dispatch(openRegister())}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
 
           <CustomModal
             open={isRegisterOpen}
@@ -86,6 +86,7 @@ const Header = () => {
           >
             <ForgotPassword />
           </CustomModal>
+
         </div>
       </div>
     </div>
