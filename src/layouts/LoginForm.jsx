@@ -12,11 +12,41 @@ import {
   openRegister,
   closeSignIn,
 } from '../store/slices/modal-slice';
+import { loginUser } from '../store/slices/user-slice';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { loginSchema } from '../validators/validate-login';
+import { toast } from 'sonner';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: joiResolver(loginSchema) });
 
-  const handleLogin = () => {
+  const handleLogin = async (data) => {
+    try {
+      const promise = dispatch(loginUser(data)).unwrap();
+
+      toast.promise(promise, {
+        loading: 'Logging in...',
+        success: 'Login Successful',
+        error: (err) => {
+          console.error('Login failed:', err);
+          return 'Login Failed';
+        },
+      });
+
+      await promise;
+      dispatch(closeSignIn());
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  const handleGoogleLogin = () => {
     const googleLoginURL =
       'https://accounts.google.com/o/oauth2/v2/auth?' +
       new URLSearchParams({
@@ -24,6 +54,7 @@ const LoginForm = () => {
         redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
         response_type: 'code',
         scope: 'profile email',
+        prompt: 'consent', // ถ้าไม่อยากให้ กด allow ทุกครั้งเอาออกได้นะ?
       });
 
     window.location.href = googleLoginURL;
@@ -34,13 +65,18 @@ const LoginForm = () => {
       <div className=' w-[500px] h-[650px] flex items-center justify-center'>
         <div className='flex flex-col items-center'>
           <img src={logo} alt='' className='w-[125px] invert pb-6' />
-          <form action='' className='flex flex-col items-center justify-center'>
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className='flex flex-col items-center justify-center'
+          >
             <Input
               htmlFor='username'
               id='username'
               type='username'
               name='username'
               inputName='Username'
+              {...register('username')}
+              error={errors.username?.message}
             />
             <Input
               htmlFor='password'
@@ -48,18 +84,21 @@ const LoginForm = () => {
               type='password'
               name='password'
               inputName='Password'
+              {...register('password')}
+              error={errors.password?.message}
             />
             <div className='flex flex-col mt-5 w-full gap-4'>
               <Button
                 className='w-full h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
                 variant='contained'
+                type='submit'
               >
                 Sign In
               </Button>
               <Button
                 className='w-full h-[34px] bg-fg-secondary-01  focus:bg-fg-secondary-02 hover:bg-fg-secondary-02 flex items-center gap-4  text-sm'
                 variant='contained'
-                onClick={handleLogin}
+                onClick={handleGoogleLogin}
               >
                 <FaGoogle />
                 Sign In with Google
