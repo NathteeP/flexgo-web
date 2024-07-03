@@ -4,6 +4,7 @@ import SelectDropdown from '../../components/HostHomepage/SelectDropdown';
 import DonutChart from '../../components/HostHomepage/DonutChart';
 import BarChart from '../../components/HostHomepage/BarChart';
 import LineChartComponent from '../../components/HostHomepage/LineChart';
+import FilterBar from '../../components/HostHomepage/FilterBar';
 
 function HostHomepage() {
   return (
@@ -14,7 +15,11 @@ function HostHomepage() {
           <div className='col-span-2  rounded-xl '>
             <SelectDropdown />
           </div>
-          <div className='col-span-8 col-start-3  rounded-xl '>2</div>
+          <div className='col-span-8 col-start-3  rounded-xl '>
+            <div className='h-full w-full'>
+              <FilterBar />
+            </div>
+          </div>
 
           <div className='col-span-2 row-span-2 row-start-2   rounded-xl px-8 py-5 animated-background bg-gradient-to-bl from-fg-primary-03 to-fg-gradientBlue'>
             <div className='flex flex-col justify-between h-full pb-6 pt-2'>
