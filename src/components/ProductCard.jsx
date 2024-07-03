@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ title, price, distance, rating, imageUrl }) => {
+const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const onClickNavigate = (to) => navigate(to);
+
   return (
-    <div className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'>
-      <img className='w-full' src={imageUrl} alt={title} />
+    <div
+      id={id}
+      role='button'
+      className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'
+      onClick={() => onClickNavigate(`/accommodationDetail/${id}`)}
+    >
+      <img className='w-full object-cover' src={imageUrl} alt={title} />
       <div className='absolute top-0 left-0 bg-black bg-opacity-30 mt-2 ml-2 px-1 py-1 rounded-lg'>
         <div className='font-light text-white text-sm'>{title}</div>
       </div>
@@ -46,7 +56,7 @@ const ProductCard = ({ title, price, distance, rating, imageUrl }) => {
           <Stack spacing={1}>
             <Rating
               name='half-rating'
-              defaultValue={2.5}
+              defaultValue={rating}
               precision={0.5}
               className='text-sm'
             />

@@ -25,14 +25,21 @@ const UserDropdown = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const promise = dispatch(logoutUser()).unwrap();
     toast.promise(promise, {
-      loading: 'Log out...',
-      success: 'Log out successful',
-      error: 'Log out failed!',
+      loading: 'Logout...',
+      success: 'Logout Successfully',
+      error: 'Logout Failed',
     });
-    navigate('/');
+
+    try {
+      const response = await promise;
+      console.log('Logout Successful', response.data);
+      navigate('/');
+    } catch (error) {
+      console.error('Logout Failed', error);
+    }
   };
 
   useEffect(() => {

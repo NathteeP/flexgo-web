@@ -5,8 +5,47 @@ import FilterBar from '../components/FilterBar';
 import CardHomePage from '../components/Homepage/CardHomePage';
 import Button from '../components/Button';
 import Review from '../components/Review';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchAvailAccom } from '../store/slices/accoms-slice';
+import { useNavigate } from 'react-router-dom';
+import { getUserCurrentLocation } from '../store/slices/searchInfo-slice';
 
 const Homepage = () => {
+  const { isLoading, error, accomsList } = useSelector((state) => state.accoms);
+  const dispatch = useDispatch();
+  const { userLocation } = useSelector((state) => state.info);
+
+  const navigate = useNavigate();
+
+  // Get User location and Set state in serachInfo-slice
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          dispatch(getUserCurrentLocation({ lat: latitude, lng: longitude }));
+        },
+        (error) => {
+          console.error(error);
+        },
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
+
+  // Fetching all available Accom with/without userLocation
+  useEffect(() => {
+    if (userLocation.coordinate.lat && userLocation.coordinate.lng) {
+      dispatch(fetchAvailAccom(userLocation.coordinate));
+    } else {
+      dispatch(fetchAvailAccom());
+    }
+  }, [dispatch, userLocation]);
+
+  const onClickNavigate = (to) => navigate(to);
+
   return (
     <>
       {/* Hero Part */}
@@ -47,7 +86,7 @@ const Homepage = () => {
 
       {/* Accom Recommendation Part */}
       <div className='relative z-50 mt-32 '>
-        <Carousel />
+        <Carousel accoms={accomsList} />
       </div>
       <div className='flex justify-center flex-col items-center text-fg-text-black mt-12 '>
         <h1 className='text-[38px] font-bold'>THIS IS OUR</h1>
@@ -68,22 +107,29 @@ const Homepage = () => {
         <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
           <FilterBar />
         </div>
-        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
-          <CardHomePage />
-        </div>
-        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
-          <CardHomePage />
-        </div>
-        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
-          <CardHomePage />
-        </div>
-        <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%]  shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 pointer-events-none '>
-          <CardHomePage />
-        </div>
+        {accomsList?.length > 1
+          ? accomsList?.map((item) => (
+              <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+                <CardHomePage
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  province={item.province}
+                  district={item.district}
+                  description={item.description}
+                  price={item.price}
+                  distance={item.distance}
+                  reviews={item.reviews}
+                  photo={item.accomPhoto}
+                />
+              </div>
+            ))
+          : null}
         <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
         <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
         <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
         <Button
+          onClick={() => onClickNavigate('/searchList')}
           className='absolute z-30 bottom-0 w-[25%] h-[58px] text-white hover:bg-fg-primary-02 text-xl'
           variant='contained'
         >

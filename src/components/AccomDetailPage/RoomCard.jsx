@@ -57,7 +57,7 @@ const roomSeeding = [
   },
 ];
 
-const RoomCard = () => {
+const RoomCard = ({ room }) => {
   return (
     <div className='p-4 '>
       <div className='grid grid-cols-10 grid-rows-1 gap-4 px-16 bg-fg-primary-02 h-[60px] items-center rounded-[20px]'>
@@ -68,12 +68,12 @@ const RoomCard = () => {
         <div className='col-span-3 col-start-8'></div>
       </div>
 
-      {roomSeeding.map((item, index) => (
+      {room?.map((item, index) => (
         <div className='grid grid-cols-9 grid-rows-4 gap-4 px-16 mt-6 py-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-[20px] text-fg-text-black'>
           <div className='col-span-5 row-span-4 flex gap-6 border-r-[2px] mr-4 '>
             <div>
               <img
-                src={item.roomImage}
+                src={item.photo[0]}
                 alt=''
                 className='w-[250px] h-[200px] object-cover rounded-[40px]'
               />

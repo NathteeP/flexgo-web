@@ -39,7 +39,7 @@ const picAlbum = {
   ],
 };
 
-const Album = () => {
+const Album = ({ photos }) => {
   const dispatch = useDispatch();
   const {
     isPictureOpen,
@@ -58,7 +58,7 @@ const Album = () => {
   return (
     <div className='p-4'>
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[600px] relative'>
-        {picAlbum.image.slice(0, 5).map((src, index) => (
+        {photos?.slice(0, 5).map((src, index) => (
           <div
             key={index}
             className={`overflow-hidden relative flex ${

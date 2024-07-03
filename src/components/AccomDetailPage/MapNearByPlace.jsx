@@ -56,7 +56,7 @@ const nearbyPlaces = [
   { name: 'Tawaen Beach', distance: '40.0 km' },
 ];
 
-const MapNearByPlace = () => {
+const MapNearByPlace = ({ nearbyPlace }) => {
   const dispatch = useDispatch();
   const { isAmenitiesOpen, isNearbyOpen } = useSelector((state) => state.modal);
 
@@ -77,12 +77,14 @@ const MapNearByPlace = () => {
       {/* สถานที่ใกล้เคียง nearbyplace */}
       <div className='flex justify-between w-full border-b-[1px] text-fg-text-black'>
         <div className=' w-full m-4'>
-          {nearbyPlaces.slice(0, 6).map((item, index) => (
+          {nearbyPlace?.slice(0, 6).map((item, index) => (
             <div key={index} className='flex justify-between mt-2'>
               <div>
                 <li className=''>{item.name}</li>
               </div>
-              <div>{item.distance}</div>
+              <div>
+                {item.distance} {item.distance > 1 ? ' km.' : ' m.'}
+              </div>
             </div>
           ))}
         </div>

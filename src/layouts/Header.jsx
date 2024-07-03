@@ -26,6 +26,7 @@ import ResetPassword from './ResetPassword';
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { authUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const {
     isRegisterOpen,

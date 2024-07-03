@@ -1,169 +1,97 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import HostAddingAccommodationStep1 from '../../components/HostAddingNewAccom/AddingNewAccomStep1';
+import HostAddingAccommodationStep2 from '../../components/HostAddingNewAccom/AddingNewAccomStep2';
+import HostAddingAccommodationStep3 from '../../components/HostAddingNewAccom/AddingNewAccomStep3';
+import HostAddingAccommodationStep4 from '../../components/HostAddingNewAccom/AddingNewAccomStep4';
 
-function HostAddingNewAccomPage() {
+const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    // ใส่ฟิลด์ที่ต้องการ
-    field1: '',
-    field2: '',
-    field3: '',
-    field4: '',
-    field5: '',
+    selectedType: '',
+    selectedPlace: '',
+    country: '',
+    address: '',
+    district: '',
+    province: '',
+    roomTypes: [''],
+    bedTypes: ['Single'],
+    guests: 4,
+    amenities: [],
+    photos: [],
+    name: '',
+    description: '',
+    houseRule: '',
+    price: '',
   });
 
-  const nextStep = () => setStep((prev) => prev + 1);
-  const prevStep = () => setStep((prev) => prev - 1);
+  const topOfPageRef = useRef(null);
+
+  const nextStep = () => {
+    setStep((prev) => prev + 1);
+    scrollToTop();
+  };
+
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+    scrollToTop();
+  };
+
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
-    // ทำการ submit data ที่นี่
+    // Submit data here
   };
+
+  const scrollToTop = () => {
+    if (topOfPageRef.current) {
+      topOfPageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className='min-h-screen flex  justify-center'>
-      <div className='bg-white p-8 rounded shadow-md w-full max-w-md'>
+    <div className='min-h-screen w-full flex justify-center'>
+      <div className='bg-white p-8 rounded shadow-md w-full'>
         <form onSubmit={handleSubmit}>
+          <div ref={topOfPageRef} />
           {step === 1 && (
-            <div>
-              <h2 className='text-2xl mb-4'>Step 1</h2>
-              <input
-                type='text'
-                name='field1'
-                value={formData.field1}
-                onChange={handleChange}
-                className='mb-4 p-2 border rounded w-full'
-                placeholder='Field 1'
-              />
-              <button
-                type='button'
-                onClick={nextStep}
-                className='bg-blue-500 text-white py-2 px-4 rounded'
-              >
-                Next
-              </button>
-            </div>
+            <HostAddingAccommodationStep1
+              formData={formData}
+              setFormData={setFormData}
+              nextStep={nextStep}
+            />
           )}
           {step === 2 && (
-            <div>
-              <h2 className='text-2xl mb-4'>Step 2</h2>
-              <input
-                type='text'
-                name='field2'
-                value={formData.field2}
-                onChange={handleChange}
-                className='mb-4 p-2 border rounded w-full'
-                placeholder='Field 2'
-              />
-              <div className='flex justify-between'>
-                <button
-                  type='button'
-                  onClick={prevStep}
-                  className='bg-gray-500 text-white py-2 px-4 rounded'
-                >
-                  Previous
-                </button>
-                <button
-                  type='button'
-                  onClick={nextStep}
-                  className='bg-blue-500 text-white py-2 px-4 rounded'
-                >
-                  Next
-                </button>
-              </div>
-            </div>
+            <HostAddingAccommodationStep2
+              formData={formData}
+              setFormData={setFormData}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
           )}
           {step === 3 && (
-            <div>
-              <h2 className='text-2xl mb-4'>Step 3</h2>
-              <input
-                type='text'
-                name='field3'
-                value={formData.field3}
-                onChange={handleChange}
-                className='mb-4 p-2 border rounded w-full'
-                placeholder='Field 3'
-              />
-              <div className='flex justify-between'>
-                <button
-                  type='button'
-                  onClick={prevStep}
-                  className='bg-gray-500 text-white py-2 px-4 rounded'
-                >
-                  Previous
-                </button>
-                <button
-                  type='button'
-                  onClick={nextStep}
-                  className='bg-blue-500 text-white py-2 px-4 rounded'
-                >
-                  Next
-                </button>
-              </div>
-            </div>
+            <HostAddingAccommodationStep3
+              formData={formData}
+              setFormData={setFormData}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
           )}
           {step === 4 && (
-            <div>
-              <h2 className='text-2xl mb-4'>Step 4</h2>
-              <input
-                type='text'
-                name='field4'
-                value={formData.field4}
-                onChange={handleChange}
-                className='mb-4 p-2 border rounded w-full'
-                placeholder='Field 4'
-              />
-              <div className='flex justify-between'>
-                <button
-                  type='button'
-                  onClick={prevStep}
-                  className='bg-gray-500 text-white py-2 px-4 rounded'
-                >
-                  Previous
-                </button>
-                <button
-                  type='button'
-                  onClick={nextStep}
-                  className='bg-blue-500 text-white py-2 px-4 rounded'
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
-          {step === 5 && (
-            <div>
-              <h2 className='text-2xl mb-4'>Step 5</h2>
-              <input
-                type='text'
-                name='field5'
-                value={formData.field5}
-                onChange={handleChange}
-                className='mb-4 p-2 border rounded w-full'
-                placeholder='Field 5'
-              />
-              <div className='flex justify-between'>
-                <button
-                  type='button'
-                  onClick={prevStep}
-                  className='bg-gray-500 text-white py-2 px-4 rounded'
-                >
-                  Previous
-                </button>
-                <button
-                  type='submit'
-                  className='bg-green-500 text-white py-2 px-4 rounded'
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
+            <HostAddingAccommodationStep4
+              formData={formData}
+              setFormData={setFormData}
+              handleSubmit={handleSubmit}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
           )}
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default HostAddingNewAccomPage;
