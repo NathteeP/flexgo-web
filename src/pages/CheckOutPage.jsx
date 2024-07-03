@@ -9,45 +9,15 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
-import SelectCountry from '../components/Country';
 import RoomMock from '../assets/images/Mock/RoomMock.jpg';
 import HotelMock from '../assets/images/Mock/HotelMock.jpg';
-import CustomButton from '../components/Button';
-import Input from '../components/Input';
 import { useState } from 'react';
-import PaymentForm from '../components/CheckOutPage/PaymentForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from '../config/stripe';
 import axios from '../config/axios'
+import CheckOutForm from '../components/CheckOutPage/CheckOutForm';
 
-const HOUSE_RULES = [
-  {
-    title: 'Check-in',
-    content: [
-      'From 15:00 to 00:00',
-      'Guests are required to show a photo identification and credit card upon check-in',
-      "You'll need to let the property know in advance what time you'll arrive.",
-    ],
-  },
-  {
-    title: 'Check-out',
-    content: ['Available 24 hours'],
-  },
-  {
-    title: 'Cancellation/prepayment',
-    content: [
-      'Cancellation and prepayment policies vary according to accommodation type. Please check what conditions may apply to each option when making your selection.',
-    ],
-  },
-  {
-    title: 'Pets',
-    content: ['Pets are not allowed.'],
-  },
-  {
-    title: 'No age restriction',
-    content: ['There is no age requirement for check-in'],
-  },
-];
+
 
 const BreadcrumbNavigation = () => (
   <Breadcrumbs aria-label='breadcrumb'>
@@ -66,120 +36,10 @@ const BreadcrumbNavigation = () => (
   </Breadcrumbs>
 );
 
-const ContactForm = () => (
-  <div>
-    <FormControl className='text-fg-text-black'>
-      <RadioGroup
-        aria-labelledby='contact-radio-buttons-group-label'
-        defaultValue='Use your profile detail as contact'
-        name='radio-buttons-group'
-      >
-        <FormControlLabel
-          value='Use your profile detail as contact'
-          control={<Radio />}
-          label='Use your profile detail as contact'
-        />
-        <FormControlLabel
-          value='Use new profile as contact'
-          control={<Radio />}
-          label='Use new profile as contact'
-        />
-      </RadioGroup>
-    </FormControl>
-    <div className='mt-8 mb-4 gap-4'>
-      <Input
-        text='text'
-        inputName='Full Name'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='Enter your Full Name'
-      />
 
-      <Input
-        text='text'
-        inputName='Email'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        variant='outlined'
-        placeholder='Enter your Email'
-      />
-      <Input
-        text='text'
-        inputName='Retype Email'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='Retype your Email'
-      />
 
-      <Input
-        type='number'
-        inputName='Phone Number'
-        className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-        placeholder='Enter your Phone Number'
-      />
-      <SelectCountry width={480} />
-    </div>
-  </div>
-);
 
-// const PaymentForm = () => (
-// <div>
-// <TextField
-//   select
-//   fullWidth
-//   label='Payment Method'
-//   defaultValue='Credit or debit card'
-//   variant='outlined'
-//   className='mb-4'
-// >
-//   <MenuItem value='Credit or Debit card'>Credit or Debit card</MenuItem>
-// </TextField>
 
-// <Input
-//   text='text'
-//   inputName='Card Number'
-//   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-//   placeholder='Card Number'
-// />
-// <div className='flex space-x-4 mb-4'>
-//   <Input
-//     text='text'
-//     inputName='Expire Date'
-//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-//     placeholder='Expire Date'
-//   />
-//   <Input
-//     text='text'
-//     inputName='CVV'
-//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-//     placeholder='CVV'
-//   />
-//   <Input
-//     text='text'
-//     inputName='Zip Code'
-//     className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-//     placeholder='Zip Code'
-//   />
-// </div>
-
-// <SelectCountry width={480} />
-// </div>
-// );
-
-const HouseRules = () => (
-  <div className='p-4 bg-gray-100 rounded mb-4'>
-    {HOUSE_RULES.map((rule, index) => (
-      <div key={index}>
-        <p>
-          <strong>{rule.title}</strong>
-        </p>
-        {rule.content.map((line, idx) => (
-          <p key={idx} className='text-fg-text-black'>
-            {line}
-          </p>
-        ))}
-        {index !== HOUSE_RULES.length - 1 && <br />}
-      </div>
-    ))}
-  </div>
-);
 
 const BookingSummary = () => (
   <div className='lg:sticky lg:top-8 p-8 bg-white shadow rounded'>
@@ -308,44 +168,11 @@ const CheckOutPage = () => {
     <div className='p-8  min-h-screen mx-16'>
       <BreadcrumbNavigation />
       <div className='grid grid-cols-2 gap-8 mt-8'>
-        <div className='p-8 border-gray-900 shadow rounded'>
-          <h2 className='text-xl text-fg-text-black font-semibold mb-4'>
-            Let us confirm your Contact
-          </h2>
-          <ContactForm />
-          <h2 className='text-xl text-fg-text-black font-semibold mt-14 mb-4'>
-            Pay with
-          </h2>
-          <div>
-            {clientSecret && (
-              <Elements stripe={stripePromise} options={options}>
-                <PaymentForm clientSecret={clientSecret} />
-              </Elements>
-            )}
-          </div>
-
-
-
-
-          <h2 className='text-xl text-fg-text-black font-semibold mt-14 mb-4'>
-            House rules
-          </h2>
-          <HouseRules />
-          <h2 className='text-xl text-fg-text-black font-semibold mb-4'>
-            Special Request
-          </h2>
-          <TextField
-            fullWidth
-            label='Please write your requests'
-            variant='outlined'
-            className='mb-4'
-            multiline
-            rows={4}
-          />
-          <div className='flex justify-end'>
-            <CustomButton className='w-44 shadow-lg'> Checkout </CustomButton>
-          </div>
-        </div>
+      {clientSecret && (
+        <Elements stripe={stripePromise} options={options}>
+          <CheckOutForm clientSecret={clientSecret} />
+        </Elements>
+      )}
         <div>
           <BookingSummary />
         </div>
