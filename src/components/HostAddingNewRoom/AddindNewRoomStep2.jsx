@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddingNewAccomStep4 = ({
+const AddingNewRoomStep2 = ({
   formData,
   setFormData,
   prevStep,
@@ -23,9 +23,7 @@ const AddingNewAccomStep4 = ({
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
-        <h1 className='text-2xl font-medium mb-6 p-4'>
-          Adding New Accommodations
-        </h1>
+        <h1 className='text-2xl font-medium mb-6 p-4'>Adding New Room</h1>
       </div>
 
       <div className='mt-8'>
@@ -41,12 +39,14 @@ const AddingNewAccomStep4 = ({
         <input
           type='text'
           name='houseTitle'
-          value={formData.name}
+          value={formData.houseTitle}
           onChange={handleChange}
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           placeholder='Enter your house title...'
         />
-        <p className='text-right text-gray-600'>{formData.name.length}/50</p>
+        <p className='text-right text-gray-600'>
+          {formData.houseTitle.length}/50
+        </p>
       </div>
 
       <div className='mt-12'>
@@ -58,14 +58,14 @@ const AddingNewAccomStep4 = ({
         </div>
         <textarea
           name='accommodationDescription'
-          value={formData.description}
+          value={formData.accommodationDescription}
           onChange={handleChange}
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           rows='4'
           placeholder='You will have a great time at this comfortable place to stay'
         />
         <p className='text-right text-gray-600'>
-          {formData.description.length}/500
+          {formData.accommodationDescription.length}/500
         </p>
       </div>
 
@@ -126,4 +126,4 @@ const AddingNewAccomStep4 = ({
   );
 };
 
-export default AddingNewAccomStep4;
+export default AddingNewRoomStep2;

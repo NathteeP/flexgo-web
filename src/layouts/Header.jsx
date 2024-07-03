@@ -23,6 +23,7 @@ import ForgotPassword from './ForgotPassword';
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { authUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { isRegisterOpen, isSignInOpen, isForgotPasswordOpen } = useSelector(
     (state) => state.modal
@@ -88,6 +89,7 @@ const Header = () => {
             closeForgotPassword,
             <ForgotPassword />
           )}
+
         </div>
       </div>
     </div>

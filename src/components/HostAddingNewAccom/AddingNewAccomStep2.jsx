@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const HostAddingNewAccomStep2 = ({
   formData,
@@ -61,9 +61,10 @@ const HostAddingNewAccomStep2 = ({
               {/* Add more country options here if needed */}
             </select>
           </div>
+
           <div>
-            <label htmlFor='address' className='block mb-2 font-medium'>
-              Plot, house, etc. (if applicable)
+            <label htmlFor='streetAddress' className='block mb-2 font-medium'>
+              Address
             </label>
             <input
               type='text'
@@ -74,35 +75,10 @@ const HostAddingNewAccomStep2 = ({
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
-          <div>
-            <label htmlFor='streetAddress' className='block mb-2 font-medium'>
-              Street address
-            </label>
-            <input
-              type='text'
-              name='streetAddress'
-              id='streetAddress'
-              value={formData.streetAddress}
-              onChange={handleChange}
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
-            />
-          </div>
-          <div>
-            <label htmlFor='subdistrict' className='block mb-2 font-medium'>
-              Tambon/Thesaban (if applicable)
-            </label>
-            <input
-              type='text'
-              name='subdistrict'
-              id='subdistrict'
-              value={formData.subdistrict}
-              onChange={handleChange}
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
-            />
-          </div>
+
           <div>
             <label htmlFor='district' className='block mb-2 font-medium'>
-              Amphoe/district
+              District
             </label>
             <input
               type='text'
@@ -122,19 +98,6 @@ const HostAddingNewAccomStep2 = ({
               name='province'
               id='province'
               value={formData.province}
-              onChange={handleChange}
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
-            />
-          </div>
-          <div>
-            <label htmlFor='postalCode' className='block mb-2 font-medium'>
-              Postal code
-            </label>
-            <input
-              type='text'
-              name='postalCode'
-              id='postalCode'
-              value={formData.postalCode}
               onChange={handleChange}
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             />

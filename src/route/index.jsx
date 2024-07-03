@@ -24,6 +24,7 @@ import HostEditProfile from '../pages/Host/HostEditProfile';
 import HostContainer from '../layouts/HostContainer';
 import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
 import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
+import HostAddingNewRoom from '../pages/Host/HostAddingNewRoom';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -57,6 +58,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/host/AssetsManagement/NewAccomPage',
         element: <HostAddingNewAccomPage />,
+      },
+      {
+        path: '/host/AssetsManagement/NewRoomPage',
+        element: <HostAddingNewRoom />,
       },
 
       { path: '/host/EditProfile', element: <HostEditProfile /> },
