@@ -17,9 +17,8 @@ import {
   closeSignIn,
   closeForgotPassword,
 } from '../store/slices/modal-slice';
-
+import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
-
 
 const Header = () => {
   const location = useLocation();
@@ -29,7 +28,13 @@ const Header = () => {
     (state) => state.modal
   );
   const { authUser } = useSelector((state) => state.user);
-  
+
+  const renderModal = (isOpen, closeAction, children) => (
+    <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
+      {children}
+    </CustomModal>
+  );
+
   return (
     <div className='z-50 relative'>
       <div
@@ -76,19 +81,13 @@ const Header = () => {
             </>
           )}
 
-          <CustomModal
-            open={isRegisterOpen}
-            onClose={() => dispatch(closeRegister())}
-          >
-            <RegisterForm />
-          </CustomModal>
-          <CustomModal
-            open={isForgotPasswordOpen}
-            onClose={() => dispatch(closeForgotPassword())}
-          >
+          {renderModal(isSignInOpen, closeSignIn, <LoginForm />)}
+          {renderModal(isRegisterOpen, closeRegister, <RegisterForm />)}
+          {renderModal(
+            isForgotPasswordOpen,
+            closeForgotPassword,
             <ForgotPassword />
-          </CustomModal>
-
+          )}
         </div>
       </div>
     </div>
