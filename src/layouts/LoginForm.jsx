@@ -7,10 +7,14 @@ import { FaGoogle } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
+import { useSelector } from 'react-redux';
 import {
-  openForgotPassword,
   openRegister,
+  closeRegister,
+  openSignIn,
   closeSignIn,
+  openForgotPassword,
+  closeForgotPassword,
 } from '../store/slices/modal-slice';
 import { loginUser } from '../store/slices/user-slice';
 import { useForm } from 'react-hook-form';
@@ -25,6 +29,9 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: joiResolver(loginSchema) });
+
+  const { isForgotPasswordOpen } = useSelector((state) => state.modal);
+
 
   const handleLogin = async (data) => {
     try {
@@ -110,6 +117,7 @@ const LoginForm = () => {
                 <FaFacebookF />
                 Sign In with Facebook
               </Button>
+
               <div className='flex flex-col  gap-4 translate-y-10'>
                 <Button
                   className='w-full h-[34px] bg-fg-white text-fg-grey focus:bg-fg-grey  hover:bg-fg-grey shadow-sm hover:text-white  text-sm '
