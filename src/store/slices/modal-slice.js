@@ -36,7 +36,7 @@ export const {
   closeRegister,
   openSignIn,
   closeSignIn,
-  closeForgotPassword,
   openForgotPassword,
+  closeForgotPassword,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
