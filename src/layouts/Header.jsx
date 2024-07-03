@@ -20,7 +20,6 @@ import {
 
 import ForgotPassword from './ForgotPassword';
 
-
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -29,7 +28,8 @@ const Header = () => {
     (state) => state.modal
   );
   const { authUser } = useSelector((state) => state.user);
-  
+
+
   return (
     <div className='z-50 relative'>
       <div
