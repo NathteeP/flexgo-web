@@ -75,10 +75,10 @@ const Album = ({ photos }) => {
           >
             <div className='flex items-center justify-center w-full h-full'>
               <img
-                src={src}
+                src={src.imagePath}
                 alt={`album ${index + 1}`}
                 className='w-full h-full object-cover'
-                onClick={() => dispatch(openPicture(src))}
+                onClick={() => dispatch(openPicture(src.imagePath))}
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ const Album = ({ photos }) => {
                       alt={`album ${index + 1}`}
                       loading='lazy'
                       className='w-full h-full object-cover cursor-pointer'
-                      onClick={() => dispatch(openAlbumSelectedPicture(src))}
+                      onClick={() => dispatch(openAlbumSelectedPicture(src.imagePath))}
                     />
               </ImageListItem>
             ))}

@@ -139,8 +139,8 @@ const AccommodationDetailPage = () => {
         <div className='relative flex items-center overflow-hidden'>
           <img
             src={
-              detail?.photo?.length >= 1
-                ? detail.photo[0].imagePath
+              detail?.accomPhoto?.length >= 1
+                ? detail.accomPhoto[0].imagePath
                 : ''
             }
             alt='Cover'
