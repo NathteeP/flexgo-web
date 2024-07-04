@@ -3,6 +3,7 @@ import UserDetails from '../../components/ReservationDetail/UserDetail';
 import HotelDetails from '../../components/ReservationDetail/HotelDeatials';
 import { useStripe } from '@stripe/react-stripe-js'
 import { useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 const userInfo = {
     name: 'Katarina Bluu',
@@ -29,8 +30,11 @@ export default function CheckOutSuccessPage () {
     const stripe = useStripe()
     const location = useLocation()
     const [message, setMessage] = useState('')
+    const reservationData = useSelector((state) => state.reservation.reservationData)
+
 
     useEffect(() => {
+      console.log('reservation',reservationData)
         if(!stripe){
             return
         }

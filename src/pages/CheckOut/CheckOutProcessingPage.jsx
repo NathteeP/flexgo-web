@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useStripe } from '@stripe/react-stripe-js'
 import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function CheckOutProcessingPage () {
 
     const stripe = useStripe()
     const location = useLocation()
+    const navigate = useNavigate()
     const [message, setMessage] = useState('')
 
     useEffect(() => {
@@ -24,7 +26,9 @@ export default function CheckOutProcessingPage () {
   
           switch (paymentIntent.status) {
             case 'succeeded':
-              setMessage('Payment succeeded!')
+              setMessage('Payment succeeded')
+              await setTimeout(()=>navigate('/checkout/success'),3000)
+            
               break
             case 'processing':
               setMessage('Your payment is processing.')
@@ -45,6 +49,7 @@ export default function CheckOutProcessingPage () {
       retrievePaymentIntent()
     }, [stripe, location])
     return <div>
-        Checkout Processing
+      <h2>Payment Status</h2>
+      <p>{message}</p>
     </div>
 }

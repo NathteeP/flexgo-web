@@ -90,9 +90,6 @@ const AccommodationDetailPage = () => {
     dispatch(fetchRoomsListByAccomId(accom_id));
   }, [dispatch]);
 
-  console.log("detail", detail)
-  console.log("roomlist", roomList)
-
   return (
     <>
       <div className=' p-8 mx-16 text-fg-text-black relative'>
