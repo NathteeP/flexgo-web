@@ -12,6 +12,7 @@ const initialState = {
   currentAlbum: null,
   isAlbumSelectedPictureOpen: false,
   isResetPasswordOpen: false,
+  isNotiOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -76,6 +77,12 @@ const modalSlice = createSlice({
     closeNearby: (state) => {
       state.isNearbyOpen = false;
     },
+    openNoti: (state) => {
+      state.isNotiOpen = true;
+    },
+    closeNoti: (state) => {
+      state.isNotiOpen = false;
+    },
   },
 });
 
@@ -98,5 +105,7 @@ export const {
   closeAmenities,
   openNearby,
   closeNearby,
+  openNoti,
+  closeNoti,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
