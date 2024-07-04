@@ -29,6 +29,14 @@ import CheckOutSuccessPage from '../pages/CheckOut/CheckOutSuccessPage';
 import CheckOutProcessingPage from '../pages/CheckOut/CheckOutProcessingPage';
 import CheckOutContainer from '../layouts/CheckOutContainer';
 
+// admis's part
+import AdminHomepage from '../pages/Admin/AdminHomepage';
+import AdminHostNoti from '../pages/Admin/AdminHostNoti';
+import AdminUserNoti from '../pages/Admin/AdminUserNoti';
+import AdminHostProfile from '../pages/Admin/AdminHostProfile';
+import AdminEditHostDetail from '../pages/Admin/AdminEditHostDetail';
+import AdminEditUserProfile from '../pages/Admin/AdminEditUserProfile';
+
 const AppRouter = createBrowserRouter([
   // guest&user path
   {
@@ -43,7 +51,7 @@ const AppRouter = createBrowserRouter([
       },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
-      { path: '/hostProfile', element: <HostProfilePage /> },
+      { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/booking', element: <BookingPage /> },
       { path: '/booking/reservationID', element: <BookingReservation /> },
       { path: '/checkout', element: <CheckOutContainer />, children:[
@@ -74,17 +82,24 @@ const AppRouter = createBrowserRouter([
       { path: '/host/EditProfile', element: <HostEditProfile /> },
     ],
   },
-  // host path
-
-  // {
-  //   path: '/',
-  //   element: <MainContainer />,
-  //   children: [
-  //     { path: '/', element:  },
-
-  //   ],
-  // },
-  ,
+  {
+    path: '/',
+    element: <HostContainer />,
+    children: [
+      { path: '/Admin', element: <AdminHomepage /> },
+      { path: '/Admin/HostNotification', element: <AdminHostNoti /> },
+      { path: '/Admin/UserNotification', element: <AdminUserNoti /> },
+      { path: '/Admin/HostProfile', element: <AdminHostProfile /> },
+      {
+        path: '/Admin/Edit/HostDetail',
+        element: <AdminEditHostDetail />,
+      },
+      {
+        path: '/Admin/Edit/User',
+        element: <AdminEditUserProfile />,
+      },
+    ],
+  },
 ]);
 
 export default function appRouter() {

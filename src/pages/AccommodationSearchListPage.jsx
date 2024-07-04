@@ -49,9 +49,6 @@ const AccommodationSearchListPage = () => {
         <Link underline='hover' color='inherit' href='#'>
           Assets Search
         </Link>
-        <Link underline='hover' color='inherit' href='#' aria-current='page'>
-          CHAMPZA MOTEL
-        </Link>
       </Breadcrumbs>
 
       <div className='flex justify-between items-center my-8'>
@@ -65,7 +62,9 @@ const AccommodationSearchListPage = () => {
         <TextField
           label='Date'
           defaultValue={
-            date.from.format('DD MMMM') + ' to ' + date.to.format('DD MMMM')
+            dayjs(date.from).format('DD MMMM') +
+            ' to ' +
+            dayjs(date.to).format('DD MMMM')
           }
           variant='outlined'
           className='mr-4'

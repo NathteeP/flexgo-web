@@ -21,7 +21,7 @@ const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
       className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'
       onClick={() => onClickNavigate(`/accommodationDetail/${id}`)}
     >
-      <img className='w-full object-cover' src={imageUrl} alt={title} />
+      <img className='w-full  object-cover' src={imageUrl} alt={title} />
       <div className='absolute top-0 left-0 bg-black bg-opacity-30 mt-2 ml-2 px-1 py-1 rounded-lg'>
         <div className='font-light text-white text-sm'>{title}</div>
       </div>
