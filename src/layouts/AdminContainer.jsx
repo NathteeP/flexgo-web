@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import HostSidebar from './HostSidebar';
+import AdminSidebar from './AdminSidebar';
 
-const HostContainer = () => {
+const AdminContainer = () => {
   return (
     <>
       <Header />
       <div className='flex'>
-        <HostSidebar />
+        <AdminSidebar />
         <Outlet />
       </div>
       <Footer />
@@ -16,4 +16,4 @@ const HostContainer = () => {
   );
 };
 
-export default HostContainer;
+export default AdminContainer;

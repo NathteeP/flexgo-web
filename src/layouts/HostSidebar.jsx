@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import sBg from '../assets/images/SideBar/Background.png';
+import sBg from '../assets/images/SideBar/Host/Background.png';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = () => {
+const HostSidebar = () => {
   const dashboardRef = useRef(null);
   const location = useLocation();
   const [focused, setFocused] = useState('/host/');
@@ -58,4 +58,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default HostSidebar;
