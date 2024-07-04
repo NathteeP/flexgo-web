@@ -69,7 +69,10 @@ const RoomCard = ({ room }) => {
       </div>
 
       {room?.map((item, index) => (
-        <div className='grid grid-cols-9 grid-rows-4 gap-4 px-16 mt-6 py-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-[20px] text-fg-text-black'>
+        <div
+          key={index}
+          className='grid grid-cols-9 grid-rows-4 gap-4 px-16 mt-6 py-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-[20px] text-fg-text-black'
+        >
           <div className='col-span-5 row-span-4 flex gap-6 border-r-[2px] mr-4 '>
             <div>
               <img

@@ -24,9 +24,12 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchRoomsListByAccomId } from '../store/slices/rooms-slice';
+import { fetchAvailRoomListByAccomId } from '../store/slices/rooms-slice';
 import { Link } from 'react-router-dom';
+import cancelPolicy from '../constant/cancelPolicy';
 const images = [c01, c02, c03, c04, c05, c06, c07, c08, c09, c10];
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 const HostProfile = {
   name: 'Aerichan U.',
@@ -84,10 +87,31 @@ const AccommodationDetailPage = () => {
   // State for accommodation detail
   const { detail } = useSelector((state) => state.accom);
 
+  // State for user filter info
+  const { date, capacity } = useSelector((state) => state.info);
+
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
+  // fetch Accom details and Room
   useEffect(() => {
     dispatch(fetchAccomDetail(accom_id));
-    dispatch(fetchRoomsListByAccomId(accom_id));
+    const data = {
+      checkInDate: dayjs(date.checkInDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .toDate(),
+      checkOutDate: dayjs(date.checkOutDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .toDate(),
+      capacity: capacity.adults + capacity.children,
+      accom_id,
+    };
+    dispatch(fetchAvailRoomListByAccomId(data));
   }, [dispatch]);
 
   return (
@@ -120,7 +144,10 @@ const AccommodationDetailPage = () => {
             className='z-0 h-full object-cover w-full absolute grayscale-[60%] hover:grayscale-0  transition-all duration-500 ease-in-out'
           />
           {/* div profile host */}
-          <div className='z-10 w-[650px] h-[100%] relative p-10 flex object-cover'>
+          <div
+            onClick={() => navigate(`/hostProfile/${detail?.accom.userId}`)}
+            className='z-10 w-[650px] h-[100%] relative p-10 flex object-cover'
+          >
             <div className='bg-white/50 backdrop-blur w-[600px] h-[400px] rounded-[40px] flex py-10 px-4 cursor-pointer '>
               <div className='w-[70%] h-[100%] border-r-[2px] border-fg-text-black/20 flex flex-col items-center justify-center'>
                 <Avatar src={detail?.user?.photo} size='220' />
@@ -170,7 +197,8 @@ const AccommodationDetailPage = () => {
               <Stack spacing={1}>
                 <Rating
                   name='half-rating-read'
-                  defaultValue={detail?.reviews?.overAllReview}
+                  defaultValue={0}
+                  value={detail?.reviews?.overAllReview || 0}
                   precision={0.5}
                   readOnly
                   className='flex translate-x-1 -translate-y-[1px]'
@@ -238,7 +266,7 @@ const AccommodationDetailPage = () => {
           </div>
           <div className='col-span-2 row-start-3'>Cancellation</div>
           <div className='col-span-5 col-start-3 row-start-3 font-light'>
-            {detail?.houseRule?.cancelPolicy}
+            {cancelPolicy[detail?.houseRule?.cancelPolicy]}
           </div>
           <div className='col-span-2 row-start-4'>Pets</div>
           <div className='col-span-5 col-start-3 row-start-4 font-light'>

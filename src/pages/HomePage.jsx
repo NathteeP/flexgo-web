@@ -15,7 +15,7 @@ import { getUserCurrentLocation } from '../store/slices/searchInfo-slice';
 const Homepage = () => {
   const { isLoading, error, accomsList } = useSelector((state) => state.accoms);
   const dispatch = useDispatch();
-  const { userLocation } = useSelector((state) => state.info);
+  const { userLocation, date } = useSelector((state) => state.info);
 
   const navigate = useNavigate();
 
@@ -37,11 +37,8 @@ const Homepage = () => {
 
   // Fetching all available Accom with/without userLocation
   useEffect(() => {
-    if (userLocation.coordinate.lat && userLocation.coordinate.lng) {
-      dispatch(fetchAvailAccom(userLocation.coordinate));
-    } else {
-      dispatch(fetchAvailAccom());
-    }
+    if (accomsList.length >= 1) return;
+    dispatch(fetchAvailAccom({ ...userLocation.coordinate, ...date }));
   }, [dispatch, userLocation]);
 
   const onClickNavigate = (to) => navigate(to);
@@ -107,9 +104,12 @@ const Homepage = () => {
         <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
           <FilterBar />
         </div>
-        {accomsList?.length > 1
+        {accomsList?.length >= 1
           ? accomsList?.map((item) => (
-              <div className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'>
+              <div
+                key={item.id}
+                className='w-[768px]  transition transform hover:-translate-y-3 md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer'
+              >
                 <CardHomePage
                   key={item.id}
                   id={item.id}

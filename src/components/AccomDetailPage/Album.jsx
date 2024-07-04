@@ -84,26 +84,24 @@ const Album = ({ photos }) => {
         <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px] '>
           <ImageList variant='masonry' cols={3} gap={8}>
             {photos?.map((src, index) => (
-              <>
-                <ImageListItem key={index.img}>
-                  <CustomModal
-                    trigger={
-                      <img
-                        src={src.imagePath}
-                        alt={`album ${index + 1}`}
-                        loading='lazy'
-                        className='w-full h-full object-cover'
-                      />
-                    }
-                  >
+              <ImageListItem key={index}>
+                <CustomModal
+                  trigger={
                     <img
                       src={src.imagePath}
                       alt={`album ${index + 1}`}
+                      loading='lazy'
                       className='w-full h-full object-cover'
                     />
-                  </CustomModal>
-                </ImageListItem>
-              </>
+                  }
+                >
+                  <img
+                    src={src.imagePath}
+                    alt={`album ${index + 1}`}
+                    className='w-full h-full object-cover'
+                  />
+                </CustomModal>
+              </ImageListItem>
             ))}
           </ImageList>
         </Box>

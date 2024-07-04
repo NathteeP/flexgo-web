@@ -5,19 +5,56 @@ import { HiMagnifyingGlass } from 'react-icons/hi2';
 import DatePickerValue from './DatePicker';
 import GuestDropdown from './GuestDropdown';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setUserDesiredLocation } from '../store/slices/searchInfo-slice';
+import { fetchAvailAccom } from '../store/slices/accoms-slice';
+import dayjs from 'dayjs';
+import { fetchAvailRoomListByAccomId } from '../store/slices/rooms-slice';
+import { useParams } from 'react-router-dom';
 
 const FilterBar = () => {
-  const [guests, setGuests] = useState({ adults: 2, children: 0 });
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const { capacity } = useSelector((state) => state.info);
+  const dispatch = useDispatch();
+  const { capacity, userLocation, desiredLocation, date } = useSelector(
+    (state) => state.info
+  );
+
+  const { accom_id } = useParams();
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    if (Object.keys(desiredLocation.coordinate).length < 1) {
+      dispatch(setUserDesiredLocation({ ...userLocation.coordinate }));
+    }
+    const data = {
+      ...desiredLocation.coordinate,
+      checkInDate: dayjs(date.checkInDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .toDate(),
+      checkOutDate: dayjs(date.checkOutDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .toDate(),
+      capacity: capacity.adults + capacity.children,
+      accom_id,
+    };
+    if (window.location.pathname.split('/')[1] === 'accommodationDetail') {
+      dispatch(fetchAvailRoomListByAccomId(data));
+    } else {
+      dispatch(fetchAvailAccom(data));
+    }
+  };
 
   return (
     <div className='px-4 bg-white w-full  h-full md:h-full lg:h-[85px]  rounded-[20px] shadow-sm pointer-events-auto flex justify-center'>
       <form
         action=''
         className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleOnSubmit}
       >
         <div className=' flex items-center justify-center w-full lg:flex-1'>
           <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden'>
@@ -45,10 +82,11 @@ const FilterBar = () => {
           >
             {`${capacity.adults} adults, ${capacity.children} children`}
           </button>
-          {showDropdown && <GuestDropdown updateGuests={setGuests} />}
+          {showDropdown && <GuestDropdown />}
         </div>
         <div className='flex justify-center items-center w-full lg:w-[150px]'>
           <Button
+            type='submit'
             className='w-full h-[48px] hover:bg-fg-primary-02'
             variant='contained'
           >
