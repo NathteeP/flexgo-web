@@ -65,6 +65,7 @@ import {
 } from '../Icons/AllIcons';
 import Button from '../Button';
 import CustomModal from '../Modal';
+import { useSelector } from 'react-redux';
 
 const amenityTypeSeeding = [
   { name: 'Free Wi-Fi', icon: FaWifiIcon },
@@ -146,6 +147,9 @@ const amenityTypeSeeding = [
 
 const AmenitiesSelector = ({ formData, setFormData }) => {
   const [filterText, setFilterText] = useState('');
+
+  const { amenities } = useSelector((state) => state.amenities);
+  console.log(amenities);
 
   const handleSelect = (name) => {
     setFormData((prevData) => ({
