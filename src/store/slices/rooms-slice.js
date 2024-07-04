@@ -19,6 +19,21 @@ export const fetchRoomsListByAccomId = createAsyncThunk(
   }
 );
 
+export const fetchAvailRoomListByAccomId = createAsyncThunk(
+  'roooms/fetchAvailRoom',
+  async (body, thunkAPI) => {
+    try {
+      const { data } = await accomApi.getAvailRoomListByAccomId(
+        +body.accom_id,
+        body
+      );
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
 const rooms = createSlice({
   name: 'rooms',
   initialState,
@@ -30,10 +45,24 @@ const rooms = createSlice({
         state.error = false;
       })
       .addCase(fetchRoomsListByAccomId.fulfilled, (state, action) => {
-        (state.isLoading = false), (state.roomList = action.payload);
+        state.isLoading = false;
+        state.roomList = action.payload;
       })
       .addCase(fetchRoomsListByAccomId.rejected, (state, action) => {
-        (state.isLoading = false), (state.error = action.payload);
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAvailRoomListByAccomId.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(fetchAvailRoomListByAccomId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.roomList = action.payload;
+      })
+      .addCase(fetchAvailRoomListByAccomId.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });

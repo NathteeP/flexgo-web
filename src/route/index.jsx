@@ -49,7 +49,7 @@ const AppRouter = createBrowserRouter([
       { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
-      { path: '/hostProfile', element: <HostProfilePage /> },
+      { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/booking', element: <BookingPage /> },
       { path: '/booking/reservationID', element: <BookingReservation /> },
     ],

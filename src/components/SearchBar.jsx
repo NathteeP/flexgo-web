@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Input from './Input';
 import Button from './Button';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import DatePickerValue from './DatePicker';
 import GuestDropdown from './GuestDropdown';
 import { useSelector } from 'react-redux';
+import { setUserDesiredLocation } from '../store/slices/searchInfo-slice';
+import { useDispatch } from 'react-redux';
+import { fetchAvailAccom } from '../store/slices/accoms-slice';
+import dayjs from 'dayjs';
 
 const SearchBar = () => {
-  const [guests, setGuests] = useState({ adults: 2, children: 0 });
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const { desiredLocation, rooms, capacity } = useSelector(
+  const dispatch = useDispatch();
+  const { userLocation, desiredLocation, rooms, capacity, date } = useSelector(
     (state) => state.info
   );
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    if (Object.keys(desiredLocation.coordinate).length < 1) {
+      dispatch(setUserDesiredLocation({ ...userLocation.coordinate }));
+    }
+    const data = {
+      checkInDate: dayjs(date.from)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0),
+      checkOutDate: date.to,
+      lat: desiredLocation.coordinate.lat,
+      lng: desiredLocation.coordinate.lng,
+      capacity: capacity.adults + capacity.children,
+    };
+    dispatch(fetchAvailAccom(data));
+  };
 
   return (
     <div className='px-4 bg-white w-full max-w-[90%] h-full md:h-full lg:h-[85px] mx-10 rounded-[20px] shadow-sm pointer-events-auto flex justify-center'>
       <form
         action=''
         className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleOnSubmit}
       >
         <div className=' flex items-center justify-center w-full lg:flex-1'>
           <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden'>
@@ -47,7 +69,7 @@ const SearchBar = () => {
           >
             {`${capacity.adults} adults, ${capacity.children} children`}
           </button>
-          {showDropdown && <GuestDropdown updateGuests={setGuests} />}
+          {showDropdown && <GuestDropdown />}
         </div>
         <div className='flex justify-center items-center w-full lg:w-[150px]'>
           <Button
