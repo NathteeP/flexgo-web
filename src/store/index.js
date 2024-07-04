@@ -5,6 +5,7 @@ import accomsReducer from './slices/accoms-slice';
 import accomDetailReducer from './slices/accomDetail-slice';
 import roomsReducer from './slices/rooms-slice';
 import searchInfoReducer from './slices/searchInfo-slice';
+import { amenitiesReducer } from './slices/amenities-slice';
 import hostReducer from './slices/host-accom-slice';
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
     accom: accomDetailReducer,
     rooms: roomsReducer,
     info: searchInfoReducer,
+    amenities: amenitiesReducer,
     host: hostReducer,
   },
 });

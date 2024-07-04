@@ -283,7 +283,10 @@ const CheckOutPage = () => {
             rows={4}
           />
           <div className='flex justify-end'>
-            <CustomButton className='w-44 shadow-lg'> Checkout </CustomButton>
+            <CustomButton className='w-44 shadow-lg text-fg-text-white hover:bg-fg-grey'>
+              {' '}
+              Checkout{' '}
+            </CustomButton>
           </div>
         </div>
         <div>

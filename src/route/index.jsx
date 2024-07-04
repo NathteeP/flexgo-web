@@ -24,6 +24,15 @@ import HostEditProfile from '../pages/Host/HostEditProfile';
 import HostContainer from '../layouts/HostContainer';
 import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
 import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
+import HostAddingNewRoom from '../pages/Host/HostAddingNewRoom';
+
+// admis's part
+import AdminHomepage from '../pages/Admin/AdminHomepage';
+import AdminHostNoti from '../pages/Admin/AdminHostNoti';
+import AdminUserNoti from '../pages/Admin/AdminUserNoti';
+import AdminHostProfile from '../pages/Admin/AdminHostProfile';
+import AdminEditHostDetail from '../pages/Admin/AdminEditHostDetail';
+import AdminEditUserProfile from '../pages/Admin/AdminEditUserProfile';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -58,21 +67,32 @@ const AppRouter = createBrowserRouter([
         path: '/host/AssetsManagement/NewAccomPage',
         element: <HostAddingNewAccomPage />,
       },
+      {
+        path: '/host/AssetsManagement/NewRoomPage',
+        element: <HostAddingNewRoom />,
+      },
 
       { path: '/host/EditProfile', element: <HostEditProfile /> },
     ],
   },
-  // host path
-
-  // {
-  //   path: '/',
-  //   element: <MainContainer />,
-  //   children: [
-  //     { path: '/', element:  },
-
-  //   ],
-  // },
-  ,
+  {
+    path: '/',
+    element: <HostContainer />,
+    children: [
+      { path: '/Admin', element: <AdminHomepage /> },
+      { path: '/Admin/HostNotification', element: <AdminHostNoti /> },
+      { path: '/Admin/UserNotification', element: <AdminUserNoti /> },
+      { path: '/Admin/HostProfile', element: <AdminHostProfile /> },
+      {
+        path: '/Admin/Edit/HostDetail',
+        element: <AdminEditHostDetail />,
+      },
+      {
+        path: '/Admin/Edit/User',
+        element: <AdminEditUserProfile />,
+      },
+    ],
+  },
 ]);
 
 export default function appRouter() {

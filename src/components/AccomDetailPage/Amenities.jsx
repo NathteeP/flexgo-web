@@ -1,4 +1,11 @@
 import Button from '../Button';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  openAmenities,
+  closeAmenities,
+  openNearby,
+  closeNearby,
+} from '../../store/slices/modal-slice';
 import {
   FaSwimmingPoolIcon,
   FaConciergeBellIcon,
@@ -71,7 +78,7 @@ import CustomModal from '../Modal';
 const amenityTypeSeeding = [
   {
     name: 'Free Wi-Fi',
-    icon: FaWifiIcon,
+    icon: 'FaWifiIcon',
   },
   {
     name: 'Complimentary breakfast',
@@ -369,6 +376,16 @@ const amenitiesRenderer = (componentName) => {
 };
 
 const Amenities = ({ amenities }) => {
+  const dispatch = useDispatch();
+  const { isAmenitiesOpen, isNearbyOpen } = useSelector((state) => state.modal);
+
+  const renderModal = (isOpen, closeAction, children) => (
+    <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
+      {children}
+    </CustomModal>
+  );
+
+  const amenitiesToShow = amenityTypeSeeding.slice(0, 10);
   return (
     <>
       <div className='flex flex-wrap w-full'>
@@ -380,16 +397,16 @@ const Amenities = ({ amenities }) => {
         ))}
       </div>
       <div>
-        <CustomModal
-          trigger={
-            <Button
-              className='text-[12px] w-[140px] h-[48px] hover:bg-fg-primary-02 my-4'
-              variant='contained'
-            >
-              Show all amenities
-            </Button>
-          }
+        <Button
+          className='text-[12px] w-[140px] h-[48px] hover:bg-fg-primary-02 my-4'
+          variant='contained'
+          onClick={() => dispatch(openAmenities())}
         >
+          Show all amenities
+        </Button>
+        {renderModal(
+          isAmenitiesOpen,
+          closeAmenities,
           <div className='h-[600px] w-[600px] px-6 pt-12'>
             <div className=' mb-4'>
               <h1>What this place offers</h1>
@@ -406,7 +423,7 @@ const Amenities = ({ amenities }) => {
               ))}
             </div>
           </div>
-        </CustomModal>
+        )}
       </div>
     </>
   );

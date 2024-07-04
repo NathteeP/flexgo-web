@@ -114,6 +114,9 @@ const AccommodationDetailPage = () => {
     dispatch(fetchAvailRoomListByAccomId(data));
   }, [dispatch]);
 
+  console.log("detail", detail)
+  console.log("roomlist", roomList)
+
   return (
     <>
       <div className=' p-8 mx-16 text-fg-text-black relative'>
@@ -136,8 +139,8 @@ const AccommodationDetailPage = () => {
         <div className='relative flex items-center overflow-hidden'>
           <img
             src={
-              detail?.accomPhoto?.length >= 1
-                ? detail.accomPhoto[0].imagePath
+              detail?.photo?.length >= 1
+                ? detail.photo[0].imagePath
                 : ''
             }
             alt='Cover'
