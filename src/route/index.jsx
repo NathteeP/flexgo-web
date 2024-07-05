@@ -56,7 +56,7 @@ const AppRouter = createBrowserRouter([
     ],
   },
   {
-    path: '/',
+    path: '/host',
     element: <HostContainer />,
     children: [
       { path: '/host', element: <HostHomepage /> },

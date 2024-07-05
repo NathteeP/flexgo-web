@@ -37,7 +37,6 @@ const Homepage = () => {
 
   // Fetching all available Accom with/without userLocation
   useEffect(() => {
-    if (accomsList.length >= 1) return;
     dispatch(fetchAvailAccom({ ...userLocation.coordinate, ...date }));
   }, [dispatch, userLocation]);
 
