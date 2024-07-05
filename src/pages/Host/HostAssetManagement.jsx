@@ -42,7 +42,7 @@ const hostData = {
   reviews: 301,
   rating: 4.8,
   yearsHosting: 3,
-  description: `Thank you for visiting my page. My name is Aerichan.\n I hope you will enjoy our place, and wish you have a lively time in Bangkok Thailand through FlexGO.\nGood luck and have a wonderful trip. Thank you very much!!`,
+  description: `Thank you for visiting my page.\nMy name is Aerichan.\n I hope you will enjoy our place, and wish you have a lively time in Bangkok Thailand through FlexGO.\nGood luck and have a wonderful trip. Thank you very much!!`,
 };
 
 const HostAssetManagement = () => {
@@ -62,7 +62,7 @@ const HostAssetManagement = () => {
                 <button
                   className='w-full h-12 border border-gray-200 flex rounded-xl items-center justify-center animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black'
                   onClick={() =>
-                    window.open('/host/AssetsManagement/NewRoomPage', '_blank')
+                    window.open('/host/AssetsManagement/NewAccomPage', '_blank')
                   }
                 >
                   Add new accommodation +
@@ -72,7 +72,7 @@ const HostAssetManagement = () => {
             {roomData.map((room) => (
               <div
                 key={room.id}
-                className='flex w-full h-52 items-center justify-center bg-white border rounded-lg shadow-lg p-4 mb-4'
+                className='flex w-full h-52 items-center justify-center border rounded-lg  p-4 mb-4 animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black'
               >
                 <div className='flex'>
                   <img
@@ -119,26 +119,31 @@ const HostAssetManagement = () => {
             </button>
           </div>
         </div>
-        <div className='w-[30%] h-[655px] mt-20 md:w-1/3 md:ml-4 bg-white rounded-lg shadow-lg border border-gray-200 p-4'>
+        <div className='w-[30%] h-[655px] mt-20 md:w-1/3 md:ml-4 rounded-lg  border border-gray-200 p-4 bg-fg-gradientBlue bg-opacity-40 shadow-lg'>
           <div className='flex flex-col items-center'>
             <img
               src={hostData.image}
               alt='Host'
-              className='w-52 h-52 rounded-full mb-4'
+              className='w-52 h-52 rounded-full mb-4 shadow-lg'
             />
-            <h3 className='text-lg font-bold'>{hostData.name}</h3>
-            <p className='text-gray-600'>Host ID: {hostData.hostId}</p>
-            <div className='flex items-center space-x-1 my-2'>
-              <span className='text-yellow-500'>&#9733;</span>
-              <span>{hostData.reviews} reviews</span>
-              <span className='text-gray-600'>{hostData.rating} rating</span>
+            <div className='flex flex-col items-center justify-center w-full h-full border-[2px] border-gray-200 bg-fg-primary-03 rounded-2xl p-2 shadow-lg '>
+              <h3 className='text-lg font-bold'>{hostData.name}</h3>
+              <p className='text-gray-600'>Host ID: {hostData.hostId}</p>
+              <div className='flex items-center space-x-1 my-2'>
+                <span className='text-yellow-500'>&#9733;</span>
+                <span>{hostData.reviews} reviews</span>
+                <span className='text-gray-600'>{hostData.rating} rating</span>
+              </div>
+              <p className='text-gray-600'>
+                Years Hosting: {hostData.yearsHosting}
+              </p>
+              <p
+                className='text-center text-gray-600 mt-4'
+                style={{ whiteSpace: 'pre-line' }}
+              >
+                {hostData.description}
+              </p>
             </div>
-            <p className='text-gray-600'>
-              Years Hosting: {hostData.yearsHosting}
-            </p>
-            <p className='text-center text-gray-600 mt-4'>
-              {hostData.description}
-            </p>
           </div>
         </div>
       </div>
