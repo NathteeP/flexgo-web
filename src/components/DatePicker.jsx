@@ -28,9 +28,12 @@ export default function DatePickerValue() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
         <DatePicker
+          minDate={dayjs().tz('Asia/Bangkok')}
           label='From'
-          value={date.from}
-          onChange={(newValue) => dispatch(setUserCheckInDay(newValue))}
+          value={dayjs(date.checkInDate).tz('Asia/Bangkok')}
+          onChange={(newValue) =>
+            dispatch(setUserCheckInDay(newValue.toString()))
+          }
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
             '& .MuiOutlinedInput-root': {
@@ -49,8 +52,11 @@ export default function DatePickerValue() {
         />
         <DatePicker
           label='To'
-          value={date.to}
-          onChange={(newValue) => dispatch(setUserCheckOutDay(newValue))}
+          minDate={dayjs().add('1', 'day').tz('Asia/Bangkok')}
+          value={dayjs(date.checkOutDate).tz('Asia/Bangkok')}
+          onChange={(newValue) =>
+            dispatch(setUserCheckOutDay(newValue).toString())
+          }
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
             '& .MuiOutlinedInput-root': {

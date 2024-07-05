@@ -6,6 +6,12 @@ import pin from '../../assets/images/HostProfile/pin.png';
 import world from '../../assets/images/HostProfile/world.png';
 import Review from '../../components/Review';
 import ProductCard from '../../components/ProductCard';
+import { useNavigate, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchHostAndAccom } from '../../store/slices/host-accom-slice';
+import { useSelector } from 'react-redux';
 
 const HostProfile = {
   name: 'Aerichan U.',
@@ -33,11 +39,28 @@ const productData = Array(15).fill({
 });
 
 const HostProfilePage = () => {
+  const { user_id } = useParams();
+
+  const dispatch = useDispatch();
+  const { accomList, user, featureReview } = useSelector((state) => state.host);
+  useEffect(() => {
+    dispatch(fetchHostAndAccom(user_id));
+  }, [dispatch]);
+
   return (
     <div>
       <div className='p-8  min-h-screen mx-16 text-fg-text-black'>
-        <div>
-          <p>Breadcrum / Breadcrum</p>
+        <div className='flex gap-2'>
+          <Link
+            className='hover:border-black border-b-2 border-transparent'
+            to='/'
+          >
+            Home
+          </Link>
+          <p>/ host /</p>
+          <Link className='hover:border-black border-b-2 border-transparent'>
+            {user.fullName}
+          </Link>
         </div>
         <div className='mt-8'>
           <TitlePage>Host Profile</TitlePage>
@@ -46,18 +69,18 @@ const HostProfilePage = () => {
         {/* Left Part */}
         <div className='h-[900px] border-[2px] border-fg-grey/50 rounded-[40px] mt-10 pt-14 pb-2 px-10 flex gap-8'>
           <div>
-            <ProfileBox>
+            <ProfileBox src={user.photo}>
               <div className='px-10 py-4'>
                 <div className='flex flex-col items-center'>
-                  <div className='text-3xl'>{HostProfile.name}</div>
-                  <div className='font-light'>Host ID: {HostProfile.id}</div>
+                  <div className='text-3xl'>{user.fullName}</div>
+                  <div className='font-light'>Host ID: {user.id}</div>
                 </div>
 
                 <div className='mt-4'>
                   <div className='flex justify-between'>
                     <h3>Rating</h3>
                     <div className='flex gap-2'>
-                      <div>{HostProfile.rating}</div>
+                      <div>{+user?.rating?.overAll}</div>
                       <img
                         src={star}
                         alt=''
@@ -67,11 +90,11 @@ const HostProfilePage = () => {
                   </div>
                   <div className='flex justify-between'>
                     <h3>Review</h3>
-                    <div>{HostProfile.review}</div>
+                    <div>{user?.rating?.count}</div>
                   </div>
                   <div className='flex justify-between'>
                     <h3>Years Hosting</h3>
-                    <div>{HostProfile.hosting}</div>
+                    <div>{user.hostTime}</div>
                   </div>
                 </div>
               </div>
@@ -84,7 +107,7 @@ const HostProfilePage = () => {
               <div className=' w-[100%] h-[160px] rounded-[20px] bg-fg-primary-03 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]'>
                 <div className='pt-6 px-4 flex flex-col'>
                   <div className='text-3xl pl-16 font-semibold'>
-                    About {HostProfile.name}
+                    About {user.fullName}
                   </div>
                   <div className='flex items-center gap-4'>
                     <img src={world} alt='' className='pl-2' />
@@ -99,7 +122,7 @@ const HostProfilePage = () => {
 
               <div>
                 <div className='mt-4 whitespace-pre-line text-base'>
-                  {HostProfile.profileDetail}
+                  {user.description}
                 </div>
               </div>
             </div>
@@ -109,22 +132,29 @@ const HostProfilePage = () => {
         {/* Middle part */}
         <hr className='mt-10 mb-24 border-[1px]' />
         <div>
-          <TitlePage>{HostProfile.name} Reviews</TitlePage>
+          <TitlePage>{user.name} Reviews</TitlePage>
           <div className='relative'>
             <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
             <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
 
-            <Review />
+            <Review reviews={featureReview} />
           </div>
         </div>
 
         {/* Bottom Part */}
         <hr className='mt-10 mb-24 border-[1px]' />
-        <TitlePage>{HostProfile.name} Listings</TitlePage>
+        <TitlePage>{user.fullName} Listings</TitlePage>
         <div className='flex w-[100%] overflow-auto my-20 '>
           <div className='flex flex-wrap gap-10 justify-center'>
-            {productData.map((product, index) => (
-              <ProductCard key={index} {...product} />
+            {accomList?.map((product, index) => (
+              <ProductCard
+                key={index}
+                id={product.id}
+                title={product.name}
+                price={product.minPrice}
+                rating={product.reviews.overAllReview}
+                imageUrl={product.image}
+              />
             ))}
           </div>
         </div>
