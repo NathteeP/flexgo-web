@@ -101,6 +101,7 @@ const modalSlice = createSlice({
     },
     closeResetPassword: (state) => {
       state.isResetPasswordOpen = false;
+    },
     openHostNotiByAdmin: (state) => {
       state.isHostNotiByAdminOpen = true;
     },
