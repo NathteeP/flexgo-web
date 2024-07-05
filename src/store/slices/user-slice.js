@@ -41,6 +41,50 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+// ส่วนของ forgot password
+export const requestOtp = createAsyncThunk(
+  'user/requestOtp',
+  async (data, thunkAPI) => {
+    try {
+      const response = await userApi.requestOtp(data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
+
+export const verifyOtp = createAsyncThunk(
+  'user/verifyOtp',
+  async (data, thunkAPI) => {
+    try {
+      const response = await userApi.verifyOtp(data);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  'user/changePassword',
+  async (data, thunkAPI) => {
+    try {
+      const response = await userApi.changePassword(data);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
 export const fetchAllUserAccom = createAsyncThunk("user/fetchAccomList", async(body,thunkAPI) => {
   try {
     const {data} = await accomApi.getAllAccomByUserId(body)
@@ -63,6 +107,8 @@ const initialState = {
   authUser: null,
   isLoading: false,
   error: null,
+  otpRefCode: null,
+  userEmail: null,
   accomsList : [],
   roomsList : [],
   isLoadingAccom : false,
@@ -114,6 +160,42 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
         state.authUser = null;
+        state.error = action.payload;
+      })
+      // ส่วนของ forgot Password
+      .addCase(requestOtp.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(requestOtp.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.otpRefCode = action.payload.refCode;
+      })
+      .addCase(requestOtp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userEmail = action.payload;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       })
       // --- fetch All of user accom ---

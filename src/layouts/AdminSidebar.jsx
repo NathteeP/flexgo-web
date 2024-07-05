@@ -23,33 +23,33 @@ const AdminSidebar = () => {
 
       <div className='flex flex-col overflow-y-auto text-right items-end relative z-10 w-full'>
         <nav className='flex-1 py-4 text-right'>
-          <Link to='/host/'>
+          <Link to='/Admin/'>
             <div
               ref={dashboardRef}
-              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/host/' ? 'bg-fg-primary-01 outline-none' : ''}`}
+              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/Admin/' ? 'bg-fg-secondary-01 outline-none' : ''}`}
               tabIndex={0}
-              onFocus={() => setFocused('/host/')}
+              onFocus={() => setFocused('/Admin/')}
             >
               Dashboard
             </div>
           </Link>
-          <Link to='/host/AssetsManagement'>
+          <Link to='/Admin/userNotification'>
             <div
-              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/host/AssetsManagement' ? 'bg-fg-primary-01 outline-none' : ''}`}
+              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/Admin/userNotification' ? 'bg-fg-secondary-01 outline-none' : ''}`}
               tabIndex={0}
-              onFocus={() => setFocused('/host/AssetsManagement')}
+              onFocus={() => setFocused('/Admin/userNotification')}
             >
-              Accommodation
+              User Notification
             </div>
           </Link>
 
-          <Link to='/host/Notification'>
+          <Link to='/Admin/HostNotification'>
             <div
-              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/host/Notification' ? 'bg-fg-primary-01 outline-none' : ''}`}
+              className={`flex w-[250px] justify-end px-2 py-6 mt-10 text-white text-right text-xl border-white border-y-[2px] border-l-[2px] rounded-l-[40px] backdrop-blur-[4px] transition duration-300 cursor-pointer ${focused === '/Admin/HostNotification' ? 'bg-fg-secondary-01 outline-none' : ''}`}
               tabIndex={0}
-              onFocus={() => setFocused('/host/Notification')}
+              onFocus={() => setFocused('/Admin/HostNotification')}
             >
-              Notification
+              Host Notification
             </div>
           </Link>
         </nav>
