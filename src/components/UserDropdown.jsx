@@ -49,7 +49,7 @@ const UserDropdown = () => {
     };
   }, []);
   return (
-    <div className='relative inline-block text-left' ref={dropdownRef}>
+    <div className='relative inline-block text-left mr-12' ref={dropdownRef}>
       <div
         type='button'
         className='cursor-pointer flex justify-center items-center'
