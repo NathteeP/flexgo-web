@@ -1,9 +1,12 @@
 import React from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import { useDispatch, useSelector } from 'react-redux';
-import { openNoti, closeNoti } from '../../store/slices/modal-slice';
+import {
+  openHostNotiByAdmin,
+  closeHostNotiByAdmin,
+} from '../../store/slices/modal-slice';
 import CustomModal from '../../components/Modal';
-import CardModal from '../../components/HostNotification/CardModal';
+import HostNotiCard from '../../components/Admin/HostNotiCard';
 
 const detailMockup = [
   {
@@ -18,7 +21,7 @@ const detailMockup = [
   {
     HostID: 30102934,
     AccomID: 30102934,
-    HostName: 'Wendy Shon',
+    HostName: 'Irene Bae',
     Accommodations: 'HotelB',
     Address: 'Bangkok, Thailand',
     CreatedDate: '20.12.24',
@@ -27,7 +30,7 @@ const detailMockup = [
   {
     HostID: 30102934,
     AccomID: 30102934,
-    HostName: 'Wendy Shon',
+    HostName: 'Joy P.',
     Accommodations: 'HotelC',
     Address: 'Bangkok, Thailand',
     CreatedDate: '20.12.24',
@@ -36,7 +39,7 @@ const detailMockup = [
   {
     HostID: 30102934,
     AccomID: 30102934,
-    HostName: 'Wendy Shon',
+    HostName: 'Winter K.',
     Accommodations: 'HotelD',
     Address: 'Bangkok, Thailand',
     CreatedDate: '20.12.24',
@@ -45,7 +48,7 @@ const detailMockup = [
   {
     HostID: 30102934,
     AccomID: 30102934,
-    HostName: 'Wendy Shon',
+    HostName: 'Ning Y.',
     Accommodations: 'HotelE',
     Address: 'Bangkok, Thailand',
     CreatedDate: '20.12.24',
@@ -55,7 +58,7 @@ const detailMockup = [
 
 function AdminHostNoti() {
   const dispatch = useDispatch();
-  const { isNotiOpen } = useSelector((state) => state.modal);
+  const { isHostNotiByAdminOpen } = useSelector((state) => state.modal);
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
@@ -66,7 +69,7 @@ function AdminHostNoti() {
     <>
       <div className='w-screen mx-36 mt-6'>
         <div className='mb-10'>
-          <TitlePage>Booking Details</TitlePage>
+          <TitlePage>Host Notification</TitlePage>
         </div>
 
         <div className='grid grid-cols-7 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
@@ -84,7 +87,7 @@ function AdminHostNoti() {
             key={index}
             className='grid grid-cols-7 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
             onClick={() => {
-              dispatch(openNoti());
+              dispatch(openHostNotiByAdmin());
             }}
           >
             <div className='h-[60px] flex items-center justify-center'>
@@ -115,7 +118,11 @@ function AdminHostNoti() {
           </div>
         ))}
 
-        {renderModal(isNotiOpen, closeNoti, <CardModal />)}
+        {renderModal(
+          isHostNotiByAdminOpen,
+          closeHostNotiByAdmin,
+          <HostNotiCard />
+        )}
 
         <div className='grid grid-cols-7 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'></div>
       </div>
