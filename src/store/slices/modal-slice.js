@@ -13,6 +13,9 @@ const initialState = {
   isAlbumSelectedPictureOpen: false,
   isResetPasswordOpen: false,
   isNotiOpen: false,
+  // ส่วนของ OTP
+  isOtpFormOpen: false,
+  isResetPasswordOpen: false,
   isHostNotiByAdminOpen: false,
 };
 
@@ -84,6 +87,20 @@ const modalSlice = createSlice({
     closeNoti: (state) => {
       state.isNotiOpen = false;
     },
+    // ส่วนของ OTP
+    openOtpForm: (state, action) => {
+      state.isOtpFormOpen = true;
+      state.email = action.payload.email;
+      state.refCode = action.payload.refCode;
+    },
+    closeOtpForm: (state) => {
+      state.isOtpFormOpen = false;
+    },
+    openResetPassword: (state) => {
+      state.isResetPasswordOpen = true;
+    },
+    closeResetPassword: (state) => {
+      state.isResetPasswordOpen = false;
     openHostNotiByAdmin: (state) => {
       state.isHostNotiByAdminOpen = true;
     },

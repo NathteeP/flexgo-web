@@ -8,20 +8,20 @@ import { IoCartOutline } from 'react-icons/io5';
 import CustomModal from '../components/Modal';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   openRegister,
   closeRegister,
   openSignIn,
   closeSignIn,
   closeForgotPassword,
-  openResetPassword,
+  openForgotPassword,
   closeResetPassword,
+  openResetPassword,
 } from '../store/slices/modal-slice';
-import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import UserDropdown from '../components/UserDropdown';
 import ToggleSwitch from '../components/ToggleSwitch';
 import { useNavigate } from 'react-router-dom';
 
