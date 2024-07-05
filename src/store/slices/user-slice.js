@@ -197,7 +197,7 @@ const userSlice = createSlice({
       .addCase(changePassword.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
+      })
       // --- fetch All of user accom ---
       .addCase(fetchAllUserAccom.pending, (state,action) => {
         state.isLoadingAccom = true;

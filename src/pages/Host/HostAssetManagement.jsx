@@ -85,7 +85,6 @@ const HostAssetManagement = () => {
               <div
 
                 key={room?.id}
-                key={room.id}
                 className='flex w-full h-52 items-center justify-center border rounded-lg  p-4 mb-4 animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black'
               >
                 <div className='flex'>
@@ -155,7 +154,7 @@ const HostAssetManagement = () => {
                 className='text-center text-gray-600 mt-4'
                 style={{ whiteSpace: 'pre-line' }}
               >
-                {hostData.description}
+                {hostData?.description}
               </p>
             </div>
           </div>
