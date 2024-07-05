@@ -90,8 +90,8 @@ const AccommodationDetailPage = () => {
     dispatch(fetchRoomsListByAccomId(accom_id));
   }, [dispatch]);
 
-  console.log("detail", detail)
-  console.log("roomlist", roomList)
+  console.log('detail', detail);
+  console.log('roomlist', roomList);
 
   return (
     <>
@@ -114,11 +114,7 @@ const AccommodationDetailPage = () => {
       <div className='h-[480px] w-full border-[2px] text-fg-text-black relative '>
         <div className='relative flex items-center overflow-hidden'>
           <img
-            src={
-              detail?.photo?.length >= 1
-                ? detail.photo[0].imagePath
-                : ''
-            }
+            src={detail?.photo?.length >= 1 ? detail.photo[0].imagePath : ''}
             alt='Cover'
             className='z-0 h-full object-cover w-full absolute grayscale-[60%] hover:grayscale-0  transition-all duration-500 ease-in-out'
           />
