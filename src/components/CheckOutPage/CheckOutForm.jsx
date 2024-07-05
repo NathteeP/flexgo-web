@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { joiResolver } from "@hookform/resolvers/joi";
 import { reservationSchema } from "../../validators/validate-reservation";
 import { confirmPayment } from "../../store/slices/payment-slice";
-import { setReservationData } from "../../store/slices/reservation-slice";
+import reservationApi from "../../api/reservation";
 
 export default function CheckOutForm ({clientSecret}) {
 
@@ -57,12 +57,29 @@ export default function CheckOutForm ({clientSecret}) {
       }
       
       //ปั้นข้อมูล
-      // data.checkInDate = 
+      const reservationAddingData ={
+        checkInDate: "Fri, 06 Jul 2024 08:20:20 GMT",
+        checkOutDate: "Wed, 10 Jul 2024 08:20:20 GMT",
+        customerAmount: 2,
+        roomId: 1,
+        transaction: {
+          netPrice: 2000,
+          feeId: 1
+        }
+      }
+
+      data = {
+        ...data, ...reservationAddingData
+      }
+
       console.log(data)
 
+      const response = await reservationApi.create(data)
+      console.log("response",response)
+      const reservationId = response.data.id
+      const transactionId = response.data.transaction.id
 
-      const reservationId = '1111111'
-      // dispatch(confirmPayment({stripe, elements, reservationId}))
+      dispatch(confirmPayment({stripe, elements, reservationId, transactionId}))
 
 }
   const handleCountryChange = (country) => {

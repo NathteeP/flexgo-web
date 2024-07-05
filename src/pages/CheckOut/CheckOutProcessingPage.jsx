@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useStripe } from '@stripe/react-stripe-js'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import reservationApi from '../../api/reservation'
 
 export default function CheckOutProcessingPage () {
 
@@ -16,7 +17,9 @@ export default function CheckOutProcessingPage () {
         }
 
     const clientSecret = new URLSearchParams(location.search).get('payment_intent_client_secret')
-    const reservationId = new URLSearchParams(location.search).get('res_id')
+    const reservationId = new URLSearchParams(location.search).get('reserv_id')
+    const transactionId = new URLSearchParams(location.search).get('transac_id')
+    
     if (!clientSecret) {
         return
       }
@@ -29,6 +32,8 @@ export default function CheckOutProcessingPage () {
           switch (paymentIntent.status) {
             case 'succeeded':
               setMessage('Payment succeeded')
+              const updatePayload = {transactionId: +transactionId}
+              await reservationApi.confirm(updatePayload)
               await setTimeout(()=>navigate(`/checkout/success/${reservationId}`),3000)
             
               break

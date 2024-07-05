@@ -10,12 +10,12 @@ const initialState = {
 
   export const confirmPayment = createAsyncThunk(
     'payment/confirmPayment',
-    async ({ stripe, elements, reservationId }, thunkAPI) => {
+    async ({ stripe, elements, reservationId, transactionId }, thunkAPI) => {
       try {
         const payload = await stripe.confirmPayment({
           elements,
           confirmParams: {
-            return_url: `${window.location.origin}/checkout/processing?reserv_id=${reservationId}`, 
+            return_url: `${window.location.origin}/checkout/processing?reserv_id=${reservationId}&transac_id=${transactionId}`, 
             payment_method_data: {
               billing_details: {
                 address: {

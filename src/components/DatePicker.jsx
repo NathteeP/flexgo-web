@@ -55,7 +55,7 @@ export default function DatePickerValue() {
           minDate={dayjs().add('1', 'day').tz('Asia/Bangkok')}
           value={dayjs(date.checkOutDate).tz('Asia/Bangkok')}
           onChange={(newValue) =>
-            dispatch(setUserCheckOutDay(newValue).toString())
+            dispatch(setUserCheckOutDay(newValue.toString()))
           }
           sx={{
             '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },

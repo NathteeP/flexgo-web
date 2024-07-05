@@ -26,5 +26,8 @@ export const reservationSchema = Joi.object({
     customerCountry: Joi.any().required().messages({
         'any.required': 'Please select your country'
     }),
-    optionalRequest: Joi.any()
-})
+    optionalRequest: Joi.alternatives().conditional(Joi.any().valid(''), {
+        then: Joi.strip(),
+        otherwise: Joi.string().trim(),
+      }),
+    });

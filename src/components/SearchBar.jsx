@@ -24,11 +24,11 @@ const SearchBar = () => {
       dispatch(setUserDesiredLocation({ ...userLocation.coordinate }));
     }
     const data = {
-      checkInDate: dayjs(date.from)
+      checkInDate: dayjs(date.checkInDate)
         .set('hour', 0)
         .set('minute', 0)
         .set('second', 0),
-      checkOutDate: date.to,
+      checkOutDate: date.checkOutDate,
       lat: desiredLocation.coordinate.lat,
       lng: desiredLocation.coordinate.lng,
       capacity: capacity.adults + capacity.children,
