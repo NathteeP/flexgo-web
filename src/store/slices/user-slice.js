@@ -46,7 +46,6 @@ export const requestOtp = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await userApi.requestOtp(data);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -91,6 +90,7 @@ const initialState = {
   isLoading: false,
   error: null,
   otpRefCode: null,
+  userEmail: null,
 };
 
 const userSlice = createSlice({
@@ -155,6 +155,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyOtp.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.userEmail = action.payload;
       })
       .addCase(verifyOtp.rejected, (state, action) => {
         state.isLoading = false;

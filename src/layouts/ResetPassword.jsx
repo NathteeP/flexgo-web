@@ -13,7 +13,7 @@ import Bg from '../assets/images/SignInUp/Bg.png';
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.user);
+  const { userEmail } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -24,7 +24,7 @@ const ResetPassword = () => {
 
   const handleResetPassword = async (data) => {
     try {
-      const promise = dispatch(changePassword({ ...data, email })).unwrap();
+      const promise = dispatch(changePassword({ ...data, userEmail })).unwrap();
       toast.promise(promise, {
         loading: 'Changing Password...',
         success: 'Password changed successfully',
