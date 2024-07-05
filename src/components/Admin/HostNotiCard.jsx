@@ -15,7 +15,7 @@ import c10 from '../../assets/images/coverImage/10.png';
 import Avatar from '../../components/Avatar';
 import Album from '../../components/AccomDetailPage/Album';
 import Amenities from '../../components/AccomDetailPage/Amenities';
-import Button from '../../components/Button';
+import CusttonButton from '../../components/Button';
 import MapNearByPlace from '../../components/AccomDetailPage/MapNearByPlace';
 import RoomCard from '../../components/AccomDetailPage/RoomCard';
 import Review from '../../components/Review';
@@ -89,7 +89,7 @@ const HostNotiCard = () => {
   }, [dispatch]);
 
   return (
-    <div className='overflow-y-scroll h-[90vh] p-8 mx-16 text-fg-text-black relative'>
+    <div className='overflow-y-scroll h-[90vh] w-[170vh] p-8 mx-16 text-fg-text-black relative'>
       <div className='flex gap-2'>
         <Link className='hover:underline' to='/'>
           Home
@@ -97,8 +97,15 @@ const HostNotiCard = () => {
         <p>/</p>
         <Link className='hover:underline'>{detail?.accom?.name}</Link>
       </div>
-      <div className='my-6'>
-        <FilterBar />
+      <div className='flex justify-end my-6 gap-4'>
+        <CusttonButton className='text-black bg-green-500 hover:bg-fg-gradientBlue shadow-lg'>
+          {' '}
+          Approve{' '}
+        </CusttonButton>
+        <CusttonButton className='text-white bg-red-300 hover:text-fg-text-black shadow-lg'>
+          {' '}
+          Reject{' '}
+        </CusttonButton>
       </div>
 
       {/* ภาพปก */}
@@ -192,7 +199,7 @@ const HostNotiCard = () => {
       {/* Room part */}
       <div className='p-8 mx-36 '>
         <div className='border-t-[2px] my-16 mx-28'></div>
-        <FilterBar />
+
         <div>
           <RoomCard room={roomList?.room} />
         </div>
