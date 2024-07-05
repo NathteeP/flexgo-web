@@ -33,6 +33,7 @@ import AdminUserNoti from '../pages/Admin/AdminUserNoti';
 import AdminHostProfile from '../pages/Admin/AdminHostProfile';
 import AdminEditHostDetail from '../pages/Admin/AdminEditHostDetail';
 import AdminEditUserProfile from '../pages/Admin/AdminEditUserProfile';
+import AdminContainer from '../layouts/AdminContainer';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -77,11 +78,11 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: '/',
-    element: <HostContainer />,
+    element: <AdminContainer />,
     children: [
       { path: '/Admin', element: <AdminHomepage /> },
       { path: '/Admin/HostNotification', element: <AdminHostNoti /> },
-      { path: '/Admin/UserNotification', element: <AdminUserNoti /> },
+      { path: '/Admin/UserNotification', element: <HostNotification /> },
       { path: '/Admin/HostProfile', element: <AdminHostProfile /> },
       {
         path: '/Admin/Edit/HostDetail',
