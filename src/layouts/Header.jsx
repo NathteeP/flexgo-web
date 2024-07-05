@@ -22,12 +22,17 @@ import {
 import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+
   const { authUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate()
+
   const {
     isRegisterOpen,
     isSignInOpen,
@@ -47,7 +52,7 @@ const Header = () => {
         className={`${isHomePage ? 'bg-gradient-to-b from-fg-black/50' : 'bg-fg-primary-01'} h-20 w-screen px-14 flex items-center justify-between`}
       >
         <div className='flex items-center'>
-          <div>
+          <div role='button' onClick={() => navigate("/")}>
             <img src={logo} alt='Logo' />
           </div>
           <div className='flex items-center'>
