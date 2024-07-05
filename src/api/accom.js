@@ -11,4 +11,6 @@ accomApi.getRoomListByAccomId = (accomId) =>
 accomApi.getAvailRoomListByAccomId = (accomId, data) =>
   axios.post(`accom/availrooms/${accomId}`, data);
 
+accomApi.getAllAccomByUserId = user_id => axios.get(`/accom/all/${user_id}`)
+
 export default accomApi;

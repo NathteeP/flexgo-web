@@ -55,14 +55,14 @@ const UserDropdown = () => {
         className='cursor-pointer flex justify-center items-center'
         onClick={handleToggle}
       >
-        <Avatar size='50' />
+        <Avatar src={authUser?.profileImage?.imagePath} size='50' />
       </div>
 
       {isOpen && (
         <div className='origin-top-right absolute right-0 mt-2  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5  z-50'>
           <div className='py-1 mx-4 w-64 flex flex-col gap-2'>
             <div className='flex items-center p-2 border-b  h-full '>
-              <Avatar size='40' />
+              <Avatar src={authUser?.profileImage?.imagePath} size='40' />
               <div className='ml-3 flex w-full justify-between items-center pr-6'>
                 <p className='text-base font-light text-gray-900'>
                   {authUser.fullName}
