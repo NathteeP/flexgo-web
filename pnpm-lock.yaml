@@ -43,7 +43,7 @@ importers:
         version: 4.18.0
       '@stripe/react-stripe-js':
         specifier: ^2.7.2
-        version: 2.7.2(@stripe/stripe-js@4.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 2.7.2(@stripe/stripe-js@4.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@stripe/stripe-js':
         specifier: ^4.0.0
         version: 4.0.0
@@ -679,7 +679,6 @@ packages:
 
   '@rollup/rollup-darwin-x64@4.18.0':
     resolution: {integrity: sha512-n2LMsUz7Ynu7DoQrSQkBf8iNrjOGyPLrdSg802vk6XT3FtsgX6JbE8IHRvposskFm9SNxzkLYGSq9QdpLYpRNA==}
-    cpu: [x64]
     os: [darwin]
 
   '@rollup/rollup-linux-arm-gnueabihf@4.18.0':
@@ -2302,12 +2301,12 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
-  '@stripe/react-stripe-js@2.7.2(@stripe/stripe-js@4.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@stripe/react-stripe-js@2.7.2(@stripe/stripe-js@4.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@stripe/stripe-js': 4.0.0
       prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   '@stripe/stripe-js@4.0.0': {}
 

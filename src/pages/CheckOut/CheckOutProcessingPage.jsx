@@ -16,9 +16,11 @@ export default function CheckOutProcessingPage () {
         }
 
     const clientSecret = new URLSearchParams(location.search).get('payment_intent_client_secret')
+    const reservationId = new URLSearchParams(location.search).get('res_id')
     if (!clientSecret) {
         return
       }
+
 
       const retrievePaymentIntent = async () => {
         try {
@@ -27,7 +29,7 @@ export default function CheckOutProcessingPage () {
           switch (paymentIntent.status) {
             case 'succeeded':
               setMessage('Payment succeeded')
-              await setTimeout(()=>navigate('/checkout/success'),3000)
+              await setTimeout(()=>navigate(`/checkout/success/${reservationId}`),3000)
             
               break
             case 'processing':

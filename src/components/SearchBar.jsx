@@ -33,6 +33,7 @@ const SearchBar = () => {
       lng: desiredLocation.coordinate.lng,
       capacity: capacity.adults + capacity.children,
     };
+    console.log(date)
     dispatch(fetchAvailAccom(data));
   };
 
@@ -75,6 +76,7 @@ const SearchBar = () => {
           <Button
             className='w-full h-[48px] hover:bg-fg-primary-02'
             variant='contained'
+            type='submit'
           >
             Search
           </Button>

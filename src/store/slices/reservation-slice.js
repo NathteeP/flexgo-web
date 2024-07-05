@@ -33,7 +33,7 @@ const reservationSlice = createSlice({
     initialState: initialState,
     reducers: {
         setReservationData(state, action) {
-            state.reservationData.reservation.data = action.payload;
+            state.reservationData.reservation = action.payload;
     }
 }
 })

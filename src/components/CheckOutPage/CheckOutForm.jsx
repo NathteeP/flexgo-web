@@ -55,15 +55,19 @@ export default function CheckOutForm ({clientSecret}) {
         console.error('Stripe.js has not yet loaded.')
         return
       }
+      
+      //ปั้นข้อมูล
+      // data.checkInDate = 
+      console.log(data)
 
-      dispatch(setReservationData({data: data}))
-      console.log('reservation',reservationData)
-      // dispatch(confirmPayment({stripe, elements, clientSecret}))
+
+      const reservationId = '1111111'
+      // dispatch(confirmPayment({stripe, elements, reservationId}))
 
 }
   const handleCountryChange = (country) => {
-      setValue('country', country.label)
-      clearErrors('country')
+      setValue('customerCountry', country.label)
+      clearErrors('customerCountry')
 };
 
     return (
@@ -95,9 +99,9 @@ export default function CheckOutForm ({clientSecret}) {
                 <Input
                   text='text'
                   inputName='Full Name'
-                  name='fullName'
-                  {...register('fullName')}
-                  error={errors.fullName?.message}
+                  name='customerName'
+                  {...register('customerName')}
+                  error={errors.customerName?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   placeholder='Enter your Full Name'
                 />
@@ -105,9 +109,9 @@ export default function CheckOutForm ({clientSecret}) {
                 <Input
                   text='text'
                   inputName='Email'
-                  name='email'
-                  {...register('email')}
-                  error={errors.email?.message}
+                  name='customerEmail'
+                  {...register('customerEmail')}
+                  error={errors.customerEmail?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   variant='outlined'
                   placeholder='Enter your Email'
@@ -115,7 +119,7 @@ export default function CheckOutForm ({clientSecret}) {
                 <Input
                   text='text'
                   inputName='Confirm Email'
-                  name='email'
+                  name='confirmEmail'
                   {...register('confirmEmail')}
                   error={errors.confirmEmail?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -125,16 +129,16 @@ export default function CheckOutForm ({clientSecret}) {
                 <Input
                   type='text'
                   inputName='Phone Number'
-                  name='phoneNumber'
-                  {...register('phoneNumber')}
-                  error={errors.phoneNumber?.message}
+                  name='customerPhone'
+                  {...register('customerPhone')}
+                  error={errors.customerPhone?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   placeholder='Enter your Phone Number'
                 />
                 <SelectCountry width="100%" onCountryChange={handleCountryChange} />
-                {errors.country?.message && 
+                {errors.customerCountry?.message && 
                 <p className="text-red-500 text-sm mt-2">
-                  {errors.country?.message}
+                  {errors.customerCountry?.message}
                 </p>
                 }
               </div>
@@ -163,6 +167,8 @@ export default function CheckOutForm ({clientSecret}) {
           className='mb-4'
           multiline
           rows={4}
+          name='optionalRequest'
+          {...register('optionalRequest')}
         />
         <div className='flex justify-end'>
           <CustomButton className='w-44 shadow-lg' type="submit"

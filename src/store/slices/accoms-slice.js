@@ -11,8 +11,8 @@ export const fetchAvailAccom = createAsyncThunk(
   'accoms/fetchAvailAccom',
   async (body, thunkAPI) => {
     try {
-      // const { data } = await accomApi.getAvailAccom(body);
-      // return data;
+      const { data } = await accomApi.getAvailAccom(body);
+      return data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -31,12 +31,12 @@ const accomsSlice = createSlice({
       })
       .addCase(fetchAvailAccom.fulfilled, (state, action) => {
         state.isLoading = false;
-        // state.accomsList = action.payload;
+        state.accomsList = action.payload;
         state.error = false;
       })
       .addCase(fetchAvailAccom.rejected, (state, action) => {
         state.isLoading = false;
-        // state.error = action.payload;
+        state.error = action.payload;
       });
   },
 });

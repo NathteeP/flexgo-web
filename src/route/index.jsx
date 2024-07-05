@@ -57,7 +57,7 @@ const AppRouter = createBrowserRouter([
       { path: '/checkout', element: <CheckOutContainer />, children:[
         { path: 'processing', element: <CheckOutProcessingPage />},
         { path: '', element: <CheckOutPage />},
-        { path: 'success', element: <CheckOutSuccessPage />},
+        { path: 'success/:reservationId', element: <CheckOutSuccessPage />},
       ] },
     ],
   },
