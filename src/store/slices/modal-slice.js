@@ -16,6 +16,7 @@ const initialState = {
   // ส่วนของ OTP
   isOtpFormOpen: false,
   isResetPasswordOpen: false,
+  isHostNotiByAdminOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -100,6 +101,11 @@ const modalSlice = createSlice({
     },
     closeResetPassword: (state) => {
       state.isResetPasswordOpen = false;
+    openHostNotiByAdmin: (state) => {
+      state.isHostNotiByAdminOpen = true;
+    },
+    closeHostNotiByAdmin: (state) => {
+      state.isHostNotiByAdminOpen = false;
     },
   },
 });
@@ -125,5 +131,7 @@ export const {
   closeNearby,
   openNoti,
   closeNoti,
+  openHostNotiByAdmin,
+  closeHostNotiByAdmin,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;

@@ -13,4 +13,7 @@ userApi.requestOtp = (data) => axios.post('/user/request-otp', data);
 userApi.verifyOtp = (data) => axios.post('/user/verify-otp', data);
 userApi.changePassword = (data) => axios.post('/user/change-password', data);
 
+// Get Host and Accom detail
+userApi.getHostAndAccom = (user_id) => axios.get(`/user/accom/${user_id}`);
+
 export default userApi;

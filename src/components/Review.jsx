@@ -118,7 +118,7 @@ const Review = ({ direction = 'right', reviews }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {reviews?.map((review, index) => (
+        {reviews?.concat(reviews).map((review, index) => (
           <div key={index} className='flex '>
             <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
               <div className='flex mb-6 '>
@@ -133,8 +133,8 @@ const Review = ({ direction = 'right', reviews }) => {
                   </div>
                   <Stack spacing={1}>
                     <Rating
+                      value={review.overAllReview || 0}
                       name='half-rating-read'
-                      defaultValue={review.overAllReview}
                       precision={0.5}
                       readOnly
                       className='flex translate-x-1 -translate-y-[1px]'

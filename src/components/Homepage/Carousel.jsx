@@ -75,9 +75,9 @@ const Carousel = ({ accoms }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {accoms.concat(accoms).map((item) => (
+        {accoms.concat(accoms).map((item, index) => (
           <div
-            key={item.id}
+            key={index}
             id={item.id}
             onClick={() => onClickNavigate(`/accommodationDetail/${item.id}`)}
             className='flex items-center '

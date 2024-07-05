@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import { useDispatch, useSelector } from 'react-redux';
 import { openNoti, closeNoti } from '../../store/slices/modal-slice';
 import CustomModal from '../../components/Modal';
 import CardModal from '../../components/HostNotification/CardModal';
+import Input from '../../components/Input';
 
 const detailMockup = [
   {
@@ -111,19 +112,38 @@ const detailMockup = [
 function HostNotification() {
   const dispatch = useDispatch();
   const { isNotiOpen } = useSelector((state) => state.modal);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredDetails = detailMockup.filter(
+    (detail) =>
+      detail.id.toString().includes(searchTerm) ||
+      detail.customer.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
       {children}
     </CustomModal>
   );
+
   return (
     <>
       <div className='w-screen mx-36 mt-6'>
         <div className='mb-10'>
           <TitlePage>Booking Details</TitlePage>
         </div>
-
+        <div className='flex justify-end items-end h-[48px] w-full animated-background bg-gradient-to-r from-fg-primary-03 to-fg-gradientBlue rounded-[40px] my-2'>
+          <Input
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder='Search by Booking ID or Customer'
+            className='flex border-[1px] mb-2 bg-[#F3F4F6] rounded-xl w-[350px] h-[32px] px-2 text-gray-500 text-[13px] mr-8 hover:border-[2px] hover:border-fg-secondary-02 hover:scale-105 transition duration-500 focus:border-[1px] focus:border-fg-secondary-02 focus:outline-none'
+          />
+        </div>
         <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
           <div>BookingID</div>
           <div>Customer</div>
@@ -135,10 +155,10 @@ function HostNotification() {
           <div>Status</div>
         </div>
 
-        {detailMockup.map((detail, index) => (
+        {filteredDetails.map((detail, index) => (
           <div
             key={index}
-            className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500  hover:scale-[105%] cursor-pointer'
+            className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
             onClick={() => {
               dispatch(openNoti());
             }}

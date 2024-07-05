@@ -1,26 +1,13 @@
 import React, { useState } from 'react';
+import { setGuest } from '../store/slices/searchInfo-slice';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-const GuestDropdown = ({ updateGuests }) => {
-  const [guests, setGuests] = useState({ adults: 1, children: 0 });
+const GuestDropdown = () => {
+  const { capacity } = useSelector((state) => state.info);
 
-  const handleChange = (type, operation) => {
-    setGuests((prevGuests) => {
-      const newGuests = { ...prevGuests };
-      if (type === 'adults') {
-        newGuests.adults =
-          operation === 'increment'
-            ? newGuests.adults + 1
-            : Math.max(1, newGuests.adults - 1);
-      } else if (type === 'children') {
-        newGuests.children =
-          operation === 'increment'
-            ? newGuests.children + 1
-            : Math.max(0, newGuests.children - 1);
-      }
-      updateGuests(newGuests); // อัปเดต parent component
-      return newGuests;
-    });
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className='absolute top-full mt-2 w-[200px] p-2 bg-white border rounded shadow-lg z-50'>
@@ -29,14 +16,28 @@ const GuestDropdown = ({ updateGuests }) => {
         <div className='flex items-center'>
           <button
             type='button'
-            onClick={() => handleChange('adults', 'decrement')}
+            onClick={() =>
+              dispatch(
+                setGuest({
+                  type: 'adults',
+                  operation: 'decrement',
+                })
+              )
+            }
           >
             -
           </button>
-          <span className='mx-2'>{guests.adults}</span>
+          <span className='mx-2'>{capacity.adults}</span>
           <button
             type='button'
-            onClick={() => handleChange('adults', 'increment')}
+            onClick={() =>
+              dispatch(
+                setGuest({
+                  type: 'adults',
+                  operation: 'increment',
+                })
+              )
+            }
           >
             +
           </button>
@@ -47,14 +48,28 @@ const GuestDropdown = ({ updateGuests }) => {
         <div className='flex items-center'>
           <button
             type='button'
-            onClick={() => handleChange('children', 'decrement')}
+            onClick={() =>
+              dispatch(
+                setGuest({
+                  type: 'children',
+                  operation: 'decrement',
+                })
+              )
+            }
           >
             -
           </button>
-          <span className='mx-2'>{guests.children}</span>
+          <span className='mx-2'>{capacity.children}</span>
           <button
             type='button'
-            onClick={() => handleChange('children', 'increment')}
+            onClick={() =>
+              dispatch(
+                setGuest({
+                  type: 'children',
+                  operation: 'increment',
+                })
+              )
+            }
           >
             +
           </button>

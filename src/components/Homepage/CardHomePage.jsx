@@ -96,7 +96,7 @@ const CardHomePage = ({
               <Stack spacing={1}>
                 <Rating
                   name='half-rating-read'
-                  defaultValue={4.5}
+                  value={reviews?.overAllReview || 0}
                   precision={0.5}
                   readOnly
                   className='flex translate-x-1 -translate-y-[1px]'
