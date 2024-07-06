@@ -1,48 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../../components/Input';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import Button from '../../components/Button';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { userSchema } from '../../validators/validate-user';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  updateUserProfile,
+  fetchAuthUser,
+} from '../../store/slices/user-slice';
+import { toast } from 'sonner';
 
-const UserAccountPage = () => {
-  const initialFormData = {
-    name: '',
-    email: '',
-    phone: '',
-    birthday: new Date(),
-    nationality: '',
-    gender: '',
-    address: '',
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
+const AccountPage = () => {
+  const dispatch = useDispatch();
+  const { authUser, isLoading } = useSelector((state) => state.user);
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: joiResolver(userSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      birthday: '',
+      nationality: '',
+      gender: '',
+      address: '',
+    },
+  });
 
-  const handleDateChange = (date) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      birthday: date,
-    }));
-  };
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, [dispatch]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
-  };
+  useEffect(() => {
+    if (authUser) {
+      setValue('firstName', authUser.fullName?.split(' ')[0] || '');
+      setValue('lastName', authUser.fullName?.split(' ')[1] || '');
+      setValue('email', authUser.email);
+      setValue('phone', authUser.phoneNumber);
+      setValue(
+        'birthday',
+        authUser.birthDate
+          ? new Date(authUser.birthDate).toISOString().split('T')[0]
+          : ''
+      );
+      setValue('nationality', authUser.nationality);
+      setValue('gender', authUser.gender);
+      setValue('address', authUser.address);
+      setImagePreview(
+        authUser.profileImage?.imagePath || 'https://via.placeholder.com/80'
+      );
+    }
+  }, [authUser, setValue]);
 
-  const handleCancel = () => {
-    setFormData(initialFormData);
-    setProfileImage(null);
-    setImagePreview(null);
+  const onSubmit = async (data) => {
+    const { firstName, lastName, ...rest } = data;
+    const formData = new FormData();
+    formData.append('fullName', `${firstName} ${lastName}`);
+    for (const key in rest) {
+      formData.append(key, rest[key]);
+    }
+    if (profileImage) {
+      formData.append('profileImage', profileImage);
+    }
+
+    const promise = dispatch(updateUserProfile(formData)).unwrap();
+    toast.promise(promise, {
+      loading: 'Updating profile...',
+      success: 'Profile updated successfully!',
+      error: 'Failed to update profile.',
+    });
+
+    try {
+      await promise;
+    } catch (error) {
+      console.error('Update failed', error);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -55,7 +97,7 @@ const UserAccountPage = () => {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className='p-8 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto my-12'
     >
       <div className='flex items-center mb-8 w-full border-[2px] border-gray-100 rounded-lg p-6 shadow-sm'>
@@ -67,46 +109,51 @@ const UserAccountPage = () => {
         </div>
         <div className='flex flex-col items-center gap-2'>
           <div className='w-40 h-40 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden'>
-            {imagePreview ? (
-              <img
-                src={imagePreview}
-                alt='Profile'
-                className='w-full h-full object-cover'
-              />
-            ) : (
-              <img
-                src='https://via.placeholder.com/80'
-                alt='Profile Placeholder'
-                className='w-full h-full object-cover'
-              />
-            )}
+            <img
+              src={imagePreview}
+              alt='Profile'
+              className='w-full h-full object-cover'
+            />
           </div>
-          <input
-            type='file'
-            accept='image/*'
-            onChange={handleImageChange}
-            className='hidden'
-            id='upload-profile'
-          />
-          <label
-            htmlFor='upload-profile'
-            className='bg-fg-secondary-02 hover:bg-fg-secondary-01 hover:text-fg-text-black text-white px-4 py-2 text-center rounded-lg cursor-pointer w-[150px] transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
-          >
-            Upload Profile
-          </label>
+          {!authUser?.googleId && (
+            <>
+              <input
+                type='file'
+                accept='image/*'
+                onChange={handleImageChange}
+                className='hidden'
+                id='upload-profile'
+              />
+              <label
+                htmlFor='upload-profile'
+                className='bg-fg-secondary-02 hover:bg-fg-secondary-01 hover:text-fg-text-black text-white px-4 py-2 text-center rounded-lg cursor-pointer w-[150px] transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
+              >
+                Upload Profile
+              </label>
+            </>
+          )}
         </div>
       </div>
 
       <div className='mb-6'>
         <Input
-          htmlFor='name'
-          inputName='Name'
-          id='name'
-          name='name'
-          value={formData.name}
-          onChange={handleChange}
-          placeholder='Enter your name'
-          className='mb-4 block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          htmlFor='firstName'
+          inputName='First Name'
+          id='firstName'
+          name='firstName'
+          {...register('firstName')}
+          error={errors.firstName?.message}
+        />
+      </div>
+
+      <div className='mb-6'>
+        <Input
+          htmlFor='lastName'
+          inputName='Last Name'
+          id='lastName'
+          name='lastName'
+          {...register('lastName')}
+          error={errors.lastName?.message}
         />
       </div>
 
@@ -117,10 +164,9 @@ const UserAccountPage = () => {
           inputName='Email'
           id='email'
           name='email'
-          value={formData.email}
-          onChange={handleChange}
-          placeholder='Enter your email'
-          className='mb-4 block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          disabled={true}
+          {...register('email')}
+          error={errors.email?.message}
         />
       </div>
 
@@ -131,12 +177,8 @@ const UserAccountPage = () => {
           inputName='Phone'
           id='phone'
           name='phone'
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder='Enter your phone number'
-          className='mb-4 block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
-          inputMode='numeric'
-          pattern='[0-9]*'
+          {...register('phone')}
+          error={errors.phone?.message}
         />
       </div>
 
@@ -147,16 +189,11 @@ const UserAccountPage = () => {
         >
           Birthday
         </label>
-        <DatePicker
+        <input
+          type='date'
           id='birthday'
-          selected={formData.birthday}
-          onChange={handleDateChange}
+          {...register('birthday')}
           className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
-          showYearDropdown
-          scrollableYearDropdown
-          yearDropdownItemNumber={100}
-          minDate={new Date(1900, 0, 1)}
-          maxDate={new Date()}
         />
       </div>
 
@@ -170,8 +207,7 @@ const UserAccountPage = () => {
         <select
           id='nationality'
           name='nationality'
-          value={formData.nationality}
-          onChange={handleChange}
+          {...register('nationality')}
           className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         >
           <option value='' disabled>
@@ -209,16 +245,15 @@ const UserAccountPage = () => {
         <select
           id='gender'
           name='gender'
-          value={formData.gender}
-          onChange={handleChange}
+          {...register('gender')}
           className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         >
           <option value='' disabled>
             Select your gender
           </option>
-          <option value='male'>Male</option>
-          <option value='female'>Female</option>
-          <option value='prefer_not_to_say'>Prefer not to say</option>
+          <option value='MALE'>Male</option>
+          <option value='FEMALE'>Female</option>
+          <option value='OTHER'>Prefer not to say</option>
         </select>
       </div>
 
@@ -228,30 +263,29 @@ const UserAccountPage = () => {
           inputName='Address'
           id='address'
           name='address'
-          value={formData.address}
-          onChange={handleChange}
-          placeholder='Enter your address'
-          className='mb-4 block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          {...register('address')}
+          error={errors.address?.message}
         />
       </div>
 
       <div className='flex justify-end space-x-6 mt-8'>
-        <button
+        <Button
+          className='w-full h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
+          variant='contained'
           type='submit'
-          className='bg-fg-secondary-02 text-white hover:bg-fg-secondary-01 hover:text-fg-text-black px-6 py-1 rounded-lg text-lg shadow-lg transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
         >
           Save
-        </button>
-        <button
+        </Button>
+        <Button
           type='button'
-          onClick={handleCancel}
+          onClick={() => reset()}
           className='bg-gray-500 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-lg transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
         >
           Reset
-        </button>
+        </Button>
       </div>
     </form>
   );
 };
 
-export default UserAccountPage;
+export default AccountPage;
