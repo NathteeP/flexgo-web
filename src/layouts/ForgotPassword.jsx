@@ -155,7 +155,7 @@ const ForgotPassword = () => {
             </form>
           ) : (
             <div className='w-full flex flex-col items-center'>
-              <div className='grid grid-cols-6 gap-x-4 my-2'>
+              <div className='grid grid-cols-6 gap-x-5 mb-10 mt-20'>
                 {otpValues.map((value, index) => (
                   <input
                     key={index}
@@ -167,23 +167,34 @@ const ForgotPassword = () => {
                     onChange={(event) =>
                       handleInputChange(index, event.target.value)
                     }
-                    className='rounded-lg bg-gray-100 w-14 aspect-square flex items-center justify-center text-center text-2xl'
+                    className='rounded-md font-normal text-fg-text-black bg-gray-100 w-[30px] h-[48px] flex items-center justify-center text-center text-xl transition-all transform  hover:border-fg-primary-01 hover:border-[2px] focus:outline-none focus:border-[1px] focus:border-fg-primary-01 hover:scale-105 focus-within:bg-fg-primary-02/20'
                   />
                 ))}
               </div>
-              <Button onClick={handleVerifyOtp}>
-                Verify ({Math.floor(otpCountdown / 60)}:
-                {String(otpCountdown % 60).padStart(2, '0')})
-              </Button>
-              <Button onClick={handleResendOtp} disabled={isResendDisabled}>
-                Request Again (
-                {isResendDisabled
-                  ? `${Math.floor(resendCountdown / 60)}:${String(resendCountdown % 60).padStart(2, '0')}`
-                  : 'Send OTP'}
-                )
-              </Button>
+              <div className='flex  flex-col w-full'>
+                {' '}
+                <Button
+                  onClick={handleResendOtp}
+                  disabled={isResendDisabled}
+                  className='h-[35px] w-full bg-white  text-fg-text-black ring-[1px] ring-fg-primary-01 hover:bg-fg-primary-02/20 hover:border-[2px] focus:bg-fg-primary-01/25 active:bg-fg-primary-02 focus-visible:bg-fg-primary-01 transition-all transform  hover:scale-110 focus-within:bg-fg-primary-02/20 active:scale-90 active:ring-[3px] font-light'
+                >
+                  Request Again (
+                  {isResendDisabled
+                    ? `${Math.floor(resendCountdown / 60)}:${String(resendCountdown % 60).padStart(2, '0')}`
+                    : 'Send OTP'}
+                  )
+                </Button>
+                <Button
+                  onClick={handleVerifyOtp}
+                  className='mt-3 h-[35px] w-full text-white hover:bg-fg-primary-02 hover:border-[2px] focus:bg-fg-primary-01 active:bg-fg-primary-02 focus-visible:bg-fg-primary-01 transition-all transform  hover:scale-110 focus-within:bg-fg-primary-02/20 active:scale-90 shadow-[0_3px_10px_rgb(0,0,0,0.2)] font-light'
+                >
+                  Verify ({Math.floor(otpCountdown / 60)}:
+                  {String(otpCountdown % 60).padStart(2, '0')})
+                </Button>
+              </div>
+
               {otpCountdown === 0 && (
-                <p className='text-red-500 text-center'>
+                <p className='text-red-500 text-center mt-3 text-[13px]'>
                   OTP expired, please request a new one
                 </p>
               )}
