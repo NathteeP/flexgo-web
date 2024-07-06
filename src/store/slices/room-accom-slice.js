@@ -6,7 +6,7 @@ import roomApi from '../../api/room';
 
 
 const initialState = {
-    room: {},
+    roomData: {},
     isLoading: false,
     error: null
 }
@@ -35,7 +35,7 @@ const roomAccomSlice = createSlice({
             })
             .addCase(fetchRoomAndAccomByRoomId.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.room = action.payload;
+                state.roomData = action.payload;
             })
             .addCase(fetchRoomAndAccomByRoomId.rejected, (state, action) => {
                 state.isLoading = false;
@@ -43,3 +43,5 @@ const roomAccomSlice = createSlice({
             })
     }
 })
+
+export const roomReducer = roomAccomSlice.reducer

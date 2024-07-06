@@ -17,17 +17,24 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { reservationSchema } from "../../validators/validate-reservation";
 import { confirmPayment } from "../../store/slices/payment-slice";
 import reservationApi from "../../api/reservation";
+import { setReservationId, setTransactionId, setUsingCurrentUserProfile } from "../../store/slices/reservation-slice";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function CheckOutForm ({clientSecret}) {
 
   const stripe = useStripe()
   const elements = useElements()
   const dispatch = useDispatch();
+  const authUser = useSelector((state) => state.user.authUser)
+  const { isLoading, error } = useSelector((state) => state.payment)
+  const useCurrentUserProfile = useSelector((state) => state.reservation.useCurrentUserProfile)
+  const {checkInDate, checkOutDate, roomId, customerAmount} = useSelector((state) => state.reservation.reservationData)
+  const {netPrice, serviceFee} = useSelector((state) => state.payment.transactionData)
 
-  const { isLoading, error, message } = useSelector((state) => state.payment);
-  const reservationData = useSelector((state) => state.reservation.reservationData)
 
 
+  //================REACT HOOK FORM======================
   const {
     register,
     handleSubmit,
@@ -37,7 +44,24 @@ export default function CheckOutForm ({clientSecret}) {
   } = useForm({
     resolver: joiResolver(reservationSchema)
   })
+//=================USE CURRENT PROFILE LOGIC==============
+const usingExistedProfileData = () => {
+  setValue('customerName', authUser.fullName)
+  setValue('customerEmail', authUser.email)
+  setValue('confirmEmail', authUser.email)
+  setValue('customerPhone', authUser.phoneNumber)
+}
 
+if (!authUser) dispatch(setUsingCurrentUserProfile(false))
+else usingExistedProfileData()
+
+const handleChangeRadio = (event) => {
+  const value = event.target.value === 'true' //convert string to boolean
+  dispatch(setUsingCurrentUserProfile(value))
+}
+
+
+//===================STRIPE OPTION=========================
   const options = {
     business: {name:"FLEXGO"},
     fields: {
@@ -48,45 +72,66 @@ export default function CheckOutForm ({clientSecret}) {
       }
     }
   }
-
+//====================SUBMIT FORM=========================
   const handleCheckOut = async (data) => {
 
     if (!stripe || !elements) {
         console.error('Stripe.js has not yet loaded.')
         return
       }
-      
-      //ปั้นข้อมูล
-      const reservationAddingData ={
-        checkInDate: "Fri, 06 Jul 2024 08:20:20 GMT",
-        checkOutDate: "Wed, 10 Jul 2024 08:20:20 GMT",
-        customerAmount: 2,
-        roomId: 1,
-        transaction: {
-          netPrice: 2000,
-          feeId: 1
+      try {
+        //ปั้นข้อมูล
+        const reservationAddingData ={
+          checkInDate,
+          checkOutDate,
+          customerAmount,
+          roomId,
+          transaction: {
+            netPrice,
+            serviceFee,
+            feeId: +import.meta.env.VITE_FEE_ID
+          }
         }
+  
+        data = {
+          ...data, ...reservationAddingData
+        }  
+        
+        const promise = reservationApi.create(data)
+        
+        toast.promise(promise, {
+          error: (err) => {
+            console.error('Login failed:', err);
+            return `Reservation failed. Please contact admin`;
+          },
+        });
+        
+        const response = await promise;
+        const reservationId = response.data.id
+        const transactionId = response.data.transaction.id
+        
+        dispatch(setReservationId(reservationId))
+        dispatch(setTransactionId(transactionId))
+
+        const paymentConfirmationResult = await dispatch(confirmPayment({stripe, elements}))
+
+      if (confirmPayment.rejected.match(paymentConfirmationResult)) {
+            console.log(paymentConfirmationResult.error)
+            toast.error('Payment confirmation failed. Please try again.')
+          }
+
+      } catch (err) {
+        console.log(err)
       }
-
-      data = {
-        ...data, ...reservationAddingData
-      }
-
-      console.log(data)
-
-      const response = await reservationApi.create(data)
-      console.log("response",response)
-      const reservationId = response.data.id
-      const transactionId = response.data.transaction.id
-
-      dispatch(confirmPayment({stripe, elements, reservationId, transactionId}))
-
+      
 }
+  //===============COUNTRY COMPONENT======================
   const handleCountryChange = (country) => {
       setValue('customerCountry', country.label)
       clearErrors('customerCountry')
-};
+}
 
+  //====================RENDERING===============================
     return (
         <div className='p-8 border-gray-900 shadow rounded'>
           <form onSubmit={handleSubmit(handleCheckOut)}>
@@ -97,16 +142,18 @@ export default function CheckOutForm ({clientSecret}) {
               <FormControl className='text-fg-text-black'>
                 <RadioGroup
                   aria-labelledby='contact-radio-buttons-group-label'
-                  defaultValue='Use your profile detail as contact'
                   name='radio-buttons-group'
+                  value={useCurrentUserProfile.toString()}
+                  onChange={handleChangeRadio}
                 >
                   <FormControlLabel
-                    value='Use your profile detail as contact'
+                    value="true"
                     control={<Radio />}
                     label='Use your profile detail as contact'
+                    disabled={!authUser}
                   />
                   <FormControlLabel
-                    value='Use new profile as contact'
+                    value="false"
                     control={<Radio />}
                     label='Use new profile as contact'
                   />
@@ -121,6 +168,7 @@ export default function CheckOutForm ({clientSecret}) {
                   error={errors.customerName?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   placeholder='Enter your Full Name'
+                  disabled={useCurrentUserProfile}
                 />
           
                 <Input
@@ -132,6 +180,7 @@ export default function CheckOutForm ({clientSecret}) {
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   variant='outlined'
                   placeholder='Enter your Email'
+                  disabled={useCurrentUserProfile}
                 />
                 <Input
                   text='text'
@@ -141,6 +190,7 @@ export default function CheckOutForm ({clientSecret}) {
                   error={errors.confirmEmail?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   placeholder='Retype your Email'
+                  disabled={useCurrentUserProfile}
                 />
           
                 <Input
@@ -151,6 +201,7 @@ export default function CheckOutForm ({clientSecret}) {
                   error={errors.customerPhone?.message}
                   className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                   placeholder='Enter your Phone Number'
+                  disabled={useCurrentUserProfile}
                 />
                 <SelectCountry width="100%" onCountryChange={handleCountryChange} />
                 {errors.customerCountry?.message && 
@@ -165,8 +216,7 @@ export default function CheckOutForm ({clientSecret}) {
         </h2>
         <div>
         {clientSecret ? <PaymentElement options={options} /> : <div>Loading...</div>}
-        {message && <div>{message}</div>}
-        {error && <div>{error}</div>}
+        {error && <div className="text-red-500">{error}</div>}
 
         </div>
 

@@ -1,21 +1,26 @@
-import RoomMock from '../../assets/images/Mock/RoomMock.jpg';
-import HotelMock from '../../assets/images/Mock/HotelMock.jpg';
+import { useSelector } from 'react-redux';
+import { numberToDecimalString, numberToString } from '../../utils/numberToString';
 
 export default function BookingSummary () {
+  const roomAccom = useSelector((state) => state.room.roomData)
+  const accom = roomAccom?.accom
+  const {bookingDays} = useSelector((state) => state.reservation.reservationData)
+  const {clientFee} = useSelector((state) => state.reservation.feeData)
+  const transactionData = useSelector((state) => state.payment.transactionData)
+
     return (
             <div className='lg:sticky lg:top-8 p-8 bg-white shadow rounded'>
               <h2 className='text-xl text-fg-text-black font-semibold mb-4'>
                 Booking Summary
               </h2>
               <div className='flex mb-4'>
-                <img src={HotelMock} className='w-56 h-auto rounded-xl' />
+                <img src={accom?.accomPhoto} className='w-56 h-auto rounded-xl' />
                 <div className='flex flex-col ml-4'>
                   <h3 className='text-lg  text-fg-text-black font-semibold'>
-                    Hilton Pattaya
+                    {accom?.name}
                   </h3>
                   <p className=' text-fg-text-black'>
-                    333/101 Moo 9, Nong Prue, Banglamung, Pattaya Beach Road, Pattaya,
-                    Thailand, 20260
+                    {accom?.address} {accom?.district} {accom?.province}
                   </p>
                   <div className='flex'>
                     <div>
@@ -42,37 +47,40 @@ export default function BookingSummary () {
                     </div>
                     <div className='mt-2'>
                       {' '}
-                      <p>5.0 (1 review)</p>{' '}
+                      <p>{accom?.review.overAllReview} ({accom?.review.count} reviews)</p>{' '}
                     </div>
                   </div>
                 </div>
               </div>
               <div className='flex mb-4'>
-                <img src={RoomMock} className='w-56 h-auto rounded-xl' />
+                <img src={roomAccom?.roomPhoto} className='w-56 h-auto rounded-xl' />
                 <div className='flex flex-col ml-4  text-fg-text-black'>
-                  <h4 className='text-lg font-semibold'>Studio Executive</h4>
-                  <p>1 single bed</p>
-                  <p>30 sq.m.</p>
-                  <p>THB 3,726 / Per night</p>
+                  <h4 className='text-lg font-semibold'>{roomAccom.roomType}</h4>
+                  {roomAccom.name}
+                  {roomAccom.roomBed && roomAccom.roomBed.map(el => {
+                    return <p>{el.amount} {el.bedType.name}</p>
+                  })}
+                  <p>{roomAccom.size} sq.m.</p>
+                  <p>THB {numberToString(roomAccom.price)} / Per night</p>
                 </div>
               </div>
               <hr />
               <div className='mt-8'>
                 <div className='flex justify-between text-fg-text-black '>
-                  <p>Room price (1 room x 4 nights): </p>
-                  <p>THB 24,000.00 </p>
+                  <p>Room price (1 room x {bookingDays} nights): </p>
+                  <p>THB {numberToDecimalString(roomAccom.price * bookingDays)} </p>
                 </div>
                 <div className='flex justify-between text-fg-text-black'>
                   <p>Service fee: </p>
-                  <p> THB 1,826.84</p>
+                  <p> THB {numberToDecimalString(transactionData.serviceFee)}</p>
                 </div>
                 <div className='flex justify-between mt-2 text-lg font-semibold'>
                   <p>Total Payment: </p>
-                  <p>THB 25,820.84 </p>
+                  <p>THB {numberToDecimalString(transactionData.netPrice)} </p>
                 </div>
                 <div className='mt-2'>
                   <small className='text-fg-text-black'>
-                    Included in price: Tax 7%, Service charge 10%
+                    Included in price: Service charge {clientFee*100}%, Tax 7% 
                   </small>
                 </div>
               </div>
