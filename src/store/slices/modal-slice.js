@@ -17,6 +17,8 @@ const initialState = {
   isOtpFormOpen: false,
   isResetPasswordOpen: false,
   isHostNotiByAdminOpen: false,
+  isAdminRemoveRoomOpen: false,
+  isHostConfirmAddNewAccom: false,
 };
 
 const modalSlice = createSlice({
@@ -108,6 +110,18 @@ const modalSlice = createSlice({
     closeHostNotiByAdmin: (state) => {
       state.isHostNotiByAdminOpen = false;
     },
+    openAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = true;
+    },
+    closeAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = false;
+    },
+    openHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = true;
+    },
+    closeHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = false;
+    },
   },
 });
 
@@ -134,5 +148,9 @@ export const {
   closeNoti,
   openHostNotiByAdmin,
   closeHostNotiByAdmin,
+  openAdminRemoveRoom,
+  closeAdminRemoveRoom,
+  openHostConfirmAddNewAccom,
+  closeHostConfirmAddNewAccom,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
