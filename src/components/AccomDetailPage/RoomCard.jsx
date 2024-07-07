@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setReservationData } from '../../store/slices/reservation-slice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const roomSeeding = [
   {
@@ -67,13 +68,19 @@ const dispatch = useDispatch()
 const {date, capacity} = useSelector((state) => state.info)
 const navigate = useNavigate()
 
-const handleBooking = (roomId) => {
+const handleBooking = (roomId, roomCapacity) => {
   const reservationData = {
     ...date,
     ...capacity,
     customerAmount: capacity.adults + capacity.children,
     roomId
   }
+
+  if (reservationData.customerAmount > roomCapacity) {
+    toast.error('Customer amount exceeded the room capacity')
+    return
+  }
+
   dispatch(setReservationData(reservationData))
   navigate('/checkout')
 }
@@ -119,7 +126,7 @@ const handleBooking = (roomId) => {
             <Button
               variant='contained'
               className='w-[200px] h-[48px] hover:bg-fg-primary-02'
-              onClick={() => handleBooking(item.id)}
+              onClick={() => handleBooking(item.id, item.capacity)}
             >
               Booking
             </Button>

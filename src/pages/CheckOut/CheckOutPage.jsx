@@ -71,7 +71,7 @@ useEffect(() => {
   );
 
   const dataToStripe = {
-    amount: netPrice * 100 ,
+    amount: +(netPrice * 100).toFixed() ,
     //stripe are unable to send mail to customer in test account
     // receipt_email: 'client@mail.com',
     description: "testing"
