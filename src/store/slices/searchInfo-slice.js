@@ -35,12 +35,10 @@ const searchInfo = createSlice({
       state.userLocation.coordinate = action.payload;
     },
     setUserCheckInDay: (state, action) => {
-      state.date.from = action.payload;
+      state.date.checkInDate = action.payload;
     },
     setUserCheckOutDay: (state, action) => {
-      state.date.to = action.payload;
-      console.log(dayjs(state.date.from).get('day'));
-      console.log(dayjs(state.date.to).get('day'));
+      state.date.checkOutDate = action.payload;
     },
     setGuest: (state, action) => {
       if (action.payload.operation == 'increment') {

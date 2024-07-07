@@ -109,21 +109,25 @@ const ForgotPassword = () => {
   };
 
   const handleResendOtp = async () => {
-    try {
-      setIsResendDisabled(true);
-      setResendCountdown(60);
-      setOtpCountdown(300);
-      setOtpValues(['', '', '', '', '', '']);
-      const promise = dispatch(requestOtp({ email })).unwrap();
-      toast.promise(promise, {
-        loading: 'Resending OTP...',
-        success: 'OTP resent successfully',
-        error: 'Failed to resend OTP',
-      });
+    if (!isResendDisabled) {
+      try {
+        setIsResendDisabled(true);
+        setResendCountdown(60);
+        setOtpCountdown(300);
+        setOtpValues(['', '', '', '', '', '']);
+        const promise = dispatch(requestOtp({ email })).unwrap();
+        toast.promise(promise, {
+          loading: 'Resending OTP...',
+          success: 'OTP resent successfully',
+          error: 'Failed to resend OTP',
+        });
 
-      await promise;
-    } catch (error) {
-      console.error('Failed to resend OTP:', error);
+        await promise;
+      } catch (error) {
+        console.error('Failed to resend OTP:', error);
+      }
+    } else {
+      toast.error(`You can request a new OTP in ${resendCountdown} seconds`);
     }
   };
 
@@ -155,6 +159,16 @@ const ForgotPassword = () => {
             </form>
           ) : (
             <div className='w-full flex flex-col items-center'>
+              <p className='text-center mb-4'>
+                Ref Code: <strong>{otpRefCode}</strong>
+              </p>
+              <p className='text-center mb-4'>
+                Verify the OTP within:{' '}
+                <strong>
+                  {Math.floor(otpCountdown / 60)}:
+                  {String(otpCountdown % 60).padStart(2, '0')}
+                </strong>
+              </p>
               <div className='grid grid-cols-6 gap-x-5 mb-10 mt-20'>
                 {otpValues.map((value, index) => (
                   <input
@@ -171,8 +185,7 @@ const ForgotPassword = () => {
                   />
                 ))}
               </div>
-              <div className='flex  flex-col w-full'>
-                {' '}
+              <div className='flex flex-col w-full'>
                 <Button
                   onClick={handleResendOtp}
                   disabled={isResendDisabled}
@@ -188,8 +201,7 @@ const ForgotPassword = () => {
                   onClick={handleVerifyOtp}
                   className='mt-3 h-[35px] w-full text-white hover:bg-fg-primary-02 hover:border-[2px] focus:bg-fg-primary-01 active:bg-fg-primary-02 focus-visible:bg-fg-primary-01 transition-all transform  hover:scale-110 focus-within:bg-fg-primary-02/20 active:scale-90 shadow-[0_3px_10px_rgb(0,0,0,0.2)] font-light'
                 >
-                  Verify ({Math.floor(otpCountdown / 60)}:
-                  {String(otpCountdown % 60).padStart(2, '0')})
+                  Verify OTP
                 </Button>
               </div>
 

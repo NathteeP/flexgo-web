@@ -62,9 +62,9 @@ const AccommodationSearchListPage = () => {
         <TextField
           label='Date'
           defaultValue={
-            dayjs(date.from).format('DD MMMM') +
+            dayjs(date.checkInDate).format('DD MMMM') +
             ' to ' +
-            dayjs(date.to).format('DD MMMM')
+            dayjs(date.checkOutDate).format('DD MMMM')
           }
           variant='outlined'
           className='mr-4'

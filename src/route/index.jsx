@@ -5,7 +5,7 @@ import MainContainer from '../layouts/MainContainer';
 import Homepage from '../pages/HomePage';
 import AccommodationSearchListPage from '../pages/AccommodationSearchListPage';
 import AccommodationDetailPage from '../pages/AccommodationDetailPage';
-import CheckOutPage from '../pages/CheckOutPage';
+import CheckOutPage from '../pages/CheckOut/CheckOutPage';
 import WishListPage from '../pages/Users/WishListPage';
 import AccountPage from '../pages/Users/AccountPage';
 import HostProfilePage from '../pages/Users/HostProfilePage';
@@ -25,6 +25,9 @@ import HostContainer from '../layouts/HostContainer';
 import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
 import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
 import HostAddingNewRoom from '../pages/Host/HostAddingNewRoom';
+import CheckOutSuccessPage from '../pages/CheckOut/CheckOutSuccessPage';
+import CheckOutProcessingPage from '../pages/CheckOut/CheckOutProcessingPage';
+import CheckOutContainer from '../layouts/CheckOutContainer';
 
 // admis's part
 import AdminHomepage from '../pages/Admin/AdminHomepage';
@@ -49,12 +52,16 @@ const AppRouter = createBrowserRouter([
         path: '/accommodationDetail/:accom_id',
         element: <AccommodationDetailPage />,
       },
-      { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/booking', element: <BookingPage /> },
       { path: '/booking/reservationID', element: <BookingReservation /> },
+      { path: '/checkout', element: <CheckOutContainer />, children:[
+        { path: 'processing', element: <CheckOutProcessingPage />},
+        { path: '', element: <CheckOutPage />},
+        { path: 'success/:reservationId', element: <CheckOutSuccessPage />},
+      ] },
     ],
   },
   {
