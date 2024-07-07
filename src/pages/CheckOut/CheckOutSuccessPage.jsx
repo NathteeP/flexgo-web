@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { fetchRoomAndAccomByRoomId } from '../../store/slices/room-accom-slice';
 import dayjs from 'dayjs';
 import monthsConstant from '../../constant/months';
+import reservationApi from '../../api/reservation';
 
 const userInfo = {
     name: 'Katarina Bluu',
@@ -42,6 +43,8 @@ export default function CheckOutSuccessPage () {
 const dispatch = useDispatch()
 const {reservationId} = useParams()
 
+//=====================================FETCH DATA===========================================
+
 useEffect(() => {
   dispatch(fetchReservationById(reservationId))
 
@@ -55,14 +58,29 @@ const reservationData = useSelector((state) => state.reservation.reservationData
 useEffect(()=> {
   dispatch(fetchRoomAndAccomByRoomId(reservationData.roomId))
 },[reservationData.roomId])
-  
+
 const roomAccom = useSelector((state) => state.room.roomData)
 const accom = roomAccom.accom
 const bookingDays = dayjs(reservationData.checkOutDate).diff(reservationData.checkInDate, 'days')
-const transaction = reservationData.transaction
-const basePrice = transaction.netPrice - transaction.serviceFee
+const transaction = reservationData?.transaction
+const basePrice = transaction ? transaction.netPrice - transaction.serviceFee : 0
+
+//==========================RESERVATION APPROVE LOGIC========================================
+const handleReservationApproval = async reservationId => {
+  //check if approval needed
+  if (!accom.isApprovalNeeded) {
+    await reservationApi.approve(reservationId)
+  }
+  else {
+    //handle logic send to host here
 
 
+  }
+}
+
+  if (accom) handleReservationApproval(reservationId)
+
+  
     return (
 <div className=' flex flex-col items-center justify-center p-4 mx-16'>
       {/* <div className='w-full'>
@@ -90,8 +108,8 @@ const basePrice = transaction.netPrice - transaction.serviceFee
             checkInDate={dateStringToObj(reservationData.checkInDate)}
             checkOutDate={dateStringToObj(reservationData.checkOutDate)}
             price={basePrice}
-            tax={transaction.serviceFee}
-            totalPrice={transaction.netPrice}
+            tax={transaction?.serviceFee}
+            totalPrice={transaction?.netPrice}
             imageSrc={roomAccom.roomPhoto}
           />
         </div>

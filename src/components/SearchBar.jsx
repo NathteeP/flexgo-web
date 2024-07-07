@@ -33,7 +33,6 @@ const SearchBar = () => {
       lng: desiredLocation.coordinate.lng,
       capacity: capacity.adults + capacity.children,
     };
-    console.log(date)
     dispatch(fetchAvailAccom(data));
   };
 

@@ -2,17 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import feeApi from '../../api/fee'
 import reservationApi from '../../api/reservation'
 
-const MockData = {
-    checkInDate: "Sun, 08 Jul 2024 08:20:20 GMT",
-    checkOutDate: "Thu, 12 Jul 2024 08:20:20 GMT",
-    customerAmount: 2,
-    roomId: 1,
-    feeId: null
-}
-
 
 const initialState = {
-    reservationData: {...MockData},
+    reservationData: {},
     feeData: {},
     useCurrentUserProfile: true,
     reservationId: null,
@@ -62,7 +54,13 @@ const reservationSlice = createSlice({
             state.transactionId = action.payload
         },
         resetReservationSlice(state, action) {
-            state = initialState
+            state.reservationData = initialState.reservationData;
+            state.feeData = initialState.feeData;
+            state.useCurrentUserProfile = initialState.useCurrentUserProfile;
+            state.reservationId = initialState.reservationId;
+            state.transactionId = initialState.transactionId;
+            state.isLoading = initialState.isLoading;
+            state.error = initialState.error;
         }
 },
     extraReducers: (builder) => {

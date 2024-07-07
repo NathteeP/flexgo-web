@@ -34,6 +34,7 @@ const roomAccom = useSelector((state) => state.room.roomData)
 //calculating price
 const bookingDays = dayjs(checkOutDate).diff(checkInDate, 'days')
 const {clientFee, hostFee} = useSelector((state) => state.reservation.feeData)
+const {netPrice} = useSelector((state) => state.payment.transactionData)
 const pricePerDay = roomAccom.price
 const VAT = 7
 
@@ -70,7 +71,7 @@ useEffect(() => {
   );
 
   const dataToStripe = {
-    amount: totalPayment * 100 ,
+    amount: netPrice * 100 ,
     //stripe are unable to send mail to customer in test account
     // receipt_email: 'client@mail.com',
     description: "testing"
@@ -78,10 +79,10 @@ useEffect(() => {
   
   useEffect(() => {
     
-    if (!isNaN(totalPayment)) {
+    if (!isNaN(netPrice)) {
       dispatch(fetchClientSecret(dataToStripe));
     }
-}, [totalPayment])
+}, [netPrice])
 
   const stripeFormAppearance = {
     theme: 'stripe',

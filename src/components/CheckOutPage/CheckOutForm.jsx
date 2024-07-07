@@ -19,7 +19,6 @@ import { confirmPayment } from "../../store/slices/payment-slice";
 import reservationApi from "../../api/reservation";
 import { setReservationId, setTransactionId, setUsingCurrentUserProfile } from "../../store/slices/reservation-slice";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 export default function CheckOutForm ({clientSecret}) {
 
@@ -93,6 +92,7 @@ const handleChangeRadio = (event) => {
             feeId: +import.meta.env.VITE_FEE_ID
           }
         }
+        if (authUser) reservationAddingData.userId = authUser.id
   
         data = {
           ...data, ...reservationAddingData

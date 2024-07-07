@@ -36,7 +36,7 @@ export default function CheckOutProcessingPage () {
             case 'succeeded':
               setMessage('Payment succeeded')
               const updatePayload = {transactionId: +transactionId}
-              await reservationApi.confirm(updatePayload)
+              await reservationApi.confirmPayment(updatePayload)
               setTimeout(()=>navigate(`/checkout/success/${reservationId}`),3000)
             
               break
