@@ -13,6 +13,12 @@ const initialState = {
   isAlbumSelectedPictureOpen: false,
   isResetPasswordOpen: false,
   isNotiOpen: false,
+  // ส่วนของ OTP
+  isOtpFormOpen: false,
+  isResetPasswordOpen: false,
+  isHostNotiByAdminOpen: false,
+  isAdminRemoveRoomOpen: false,
+  isHostConfirmAddNewAccom: false,
 };
 
 const modalSlice = createSlice({
@@ -83,6 +89,39 @@ const modalSlice = createSlice({
     closeNoti: (state) => {
       state.isNotiOpen = false;
     },
+    // ส่วนของ OTP
+    openOtpForm: (state, action) => {
+      state.isOtpFormOpen = true;
+      state.email = action.payload.email;
+      state.refCode = action.payload.refCode;
+    },
+    closeOtpForm: (state) => {
+      state.isOtpFormOpen = false;
+    },
+    openResetPassword: (state) => {
+      state.isResetPasswordOpen = true;
+    },
+    closeResetPassword: (state) => {
+      state.isResetPasswordOpen = false;
+    },
+    openHostNotiByAdmin: (state) => {
+      state.isHostNotiByAdminOpen = true;
+    },
+    closeHostNotiByAdmin: (state) => {
+      state.isHostNotiByAdminOpen = false;
+    },
+    openAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = true;
+    },
+    closeAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = false;
+    },
+    openHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = true;
+    },
+    closeHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = false;
+    },
   },
 });
 
@@ -107,5 +146,11 @@ export const {
   closeNearby,
   openNoti,
   closeNoti,
+  openHostNotiByAdmin,
+  closeHostNotiByAdmin,
+  openAdminRemoveRoom,
+  closeAdminRemoveRoom,
+  openHostConfirmAddNewAccom,
+  closeHostConfirmAddNewAccom,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;

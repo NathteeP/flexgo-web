@@ -37,7 +37,6 @@ const Homepage = () => {
 
   // Fetching all available Accom with/without userLocation
   useEffect(() => {
-    if (accomsList.length >= 1) return;
     dispatch(fetchAvailAccom({ ...userLocation.coordinate, ...date }));
   }, [dispatch, userLocation]);
 
@@ -58,7 +57,7 @@ const Homepage = () => {
       <div className='absolute z-50 bottom-[-270px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
       <div className='absolute z-50 bottom-[-370px] w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
 
-      <div className='relative z-50 w-[700px] md:w-[700px] lg:w-[90%] h-[830px] mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none'>
+      <div className='relative z-30 w-[700px] md:w-[700px] lg:w-[90%] h-[830px] mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none'>
         <div className='flex flex-col'>
           <div className='mx-24 mt-32 flex flex-col'>
             <div className='mb-8 overflow-hidden w-[600px] md:w-[600px] lg:w-[600px]'>
@@ -125,9 +124,9 @@ const Homepage = () => {
               </div>
             ))
           : null}
+        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
         <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
         <Button
           onClick={() => onClickNavigate('/searchList')}
           className='absolute z-30 bottom-0 w-[25%] h-[58px] text-white hover:bg-fg-primary-02 text-xl'
