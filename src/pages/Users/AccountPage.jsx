@@ -11,11 +11,14 @@ import {
 } from '../../store/slices/user-slice';
 import { toast } from 'sonner';
 
+const defaultAvatar =
+  'https://t3.ftcdn.net/jpg/05/70/71/06/360_F_570710660_Jana1ujcJyQTiT2rIzvfmyXzXamVcby8.jpg';
+
 const AccountPage = () => {
   const dispatch = useDispatch();
   const { authUser, isLoading } = useSelector((state) => state.user);
   const [profileImage, setProfileImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(defaultAvatar);
 
   const {
     register,
@@ -56,9 +59,7 @@ const AccountPage = () => {
       setValue('nationality', authUser.nationality);
       setValue('gender', authUser.gender);
       setValue('address', authUser.address);
-      setImagePreview(
-        authUser.profileImage?.imagePath || 'https://via.placeholder.com/80'
-      );
+      setImagePreview(authUser.profileImage?.imagePath || defaultAvatar);
     }
   }, [authUser, setValue]);
 
@@ -95,6 +96,12 @@ const AccountPage = () => {
     }
   };
 
+  const handleReset = () => {
+    reset();
+    setProfileImage(null);
+    setImagePreview(defaultAvatar);
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +115,7 @@ const AccountPage = () => {
           </p>
         </div>
         <div className='flex flex-col items-center gap-2'>
-          <div className='w-40 h-40 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden'>
+          <div className='w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden'>
             <img
               src={imagePreview}
               alt='Profile'
@@ -143,6 +150,7 @@ const AccountPage = () => {
           name='firstName'
           {...register('firstName')}
           error={errors.firstName?.message}
+          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         />
       </div>
 
@@ -154,6 +162,7 @@ const AccountPage = () => {
           name='lastName'
           {...register('lastName')}
           error={errors.lastName?.message}
+          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         />
       </div>
 
@@ -161,12 +170,13 @@ const AccountPage = () => {
         <Input
           htmlFor='email'
           type='email'
-          inputName='Email'
+          inputName='Email (unable to change)'
           id='email'
           name='email'
           disabled={true}
           {...register('email')}
           error={errors.email?.message}
+          className='block bg-gray-400 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         />
       </div>
 
@@ -179,6 +189,7 @@ const AccountPage = () => {
           name='phone'
           {...register('phone')}
           error={errors.phone?.message}
+          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         />
       </div>
 
@@ -265,12 +276,13 @@ const AccountPage = () => {
           name='address'
           {...register('address')}
           error={errors.address?.message}
+          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         />
       </div>
 
       <div className='flex justify-end space-x-6 mt-8'>
         <Button
-          className='w-full h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
+          className='bg-fg-primary-01 text-white hover:bg-fg-primary-02 px-6 py-2 rounded-lg text-lg transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
           variant='contained'
           type='submit'
         >
@@ -278,7 +290,7 @@ const AccountPage = () => {
         </Button>
         <Button
           type='button'
-          onClick={() => reset()}
+          onClick={handleReset}
           className='bg-gray-500 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-lg transition transform duration-200 ease-in-out hover:scale-105 active:scale-95'
         >
           Reset
