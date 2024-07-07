@@ -49,7 +49,8 @@ const usingExistedProfileData = () => {
   setValue('customerName', authUser.fullName)
   setValue('customerEmail', authUser.email)
   setValue('confirmEmail', authUser.email)
-  setValue('customerPhone', authUser.phoneNumber)
+  if (authUser.phoneNumber) setValue('customerPhone', authUser.phoneNumber)
+  else dispatch(setUsingCurrentUserProfile(false))
 }
 
 if (!authUser) dispatch(setUsingCurrentUserProfile(false))

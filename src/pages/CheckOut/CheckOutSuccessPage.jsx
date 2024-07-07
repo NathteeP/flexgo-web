@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import UserDetails from '../../components/ReservationDetail/UserDetail';
 import HotelDetails from '../../components/ReservationDetail/HotelDeatials';
-import { useStripe } from '@stripe/react-stripe-js'
-import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { fetchReservationById, resetReservationSlice } from '../../store/slices/reservation-slice';
+import { useParams } from 'react-router-dom';
+import { fetchRoomAndAccomByRoomId } from '../../store/slices/room-accom-slice';
+import dayjs from 'dayjs';
+import monthsConstant from '../../constant/months';
 
 const userInfo = {
     name: 'Katarina Bluu',
@@ -26,10 +30,37 @@ const userInfo = {
       'https://cf2.bstatic.com/xdata/images/hotel/max1024x768/252156497.jpg?k=355b900708a7de8ebcbae929334c8875ec2fa6e7f0f8cf3f59897a62f18ed883&o=&hp=1',
   }
 
+  const dateStringToObj = (date) => {
+    return {
+      day: dayjs(date).date(),
+      month: monthsConstant[dayjs(date).month()]
+    }
+  }
+
 export default function CheckOutSuccessPage () {
 
-    const reservationData = useSelector((state) => state.reservation.reservationData)
+const dispatch = useDispatch()
+const {reservationId} = useParams()
 
+useEffect(() => {
+  dispatch(fetchReservationById(reservationId))
+
+  return () => {
+    dispatch(resetReservationSlice())
+  }
+},[])
+
+const reservationData = useSelector((state) => state.reservation.reservationData)
+
+useEffect(()=> {
+  dispatch(fetchRoomAndAccomByRoomId(reservationData.roomId))
+},[reservationData.roomId])
+  
+const roomAccom = useSelector((state) => state.room.roomData)
+const accom = roomAccom.accom
+const bookingDays = dayjs(reservationData.checkOutDate).diff(reservationData.checkInDate, 'days')
+const transaction = reservationData.transaction
+const basePrice = transaction.netPrice - transaction.serviceFee
 
 
     return (
@@ -40,28 +71,28 @@ export default function CheckOutSuccessPage () {
       <div className='max-w-5xl w-full border-[2px] border-fg-grey/50 rounded-2xl flex flex-col items-center p-8 my-24'>
         <div className='max-w-4xl w-full flex justify-start mb-8'>
           <p className='font-medium mt-2 text-xl text-fg-text-black'>
-            Reservation ID: 17180820245689
+            Reservation ID: {reservationId}
           </p>
         </div>
         <div className='bg-fg-primary-01 bg-opacity-60 shadow-md rounded-tl-2xl rounded-tr-2xl max-w-5xl w-full border-[1px] border-fg-grey/50'>
           <UserDetails
-            name={userInfo.name}
-            userId={userInfo.userId}
-            hotelName={userInfo.hotelName}
-            address={userInfo.address}
+            name={reservationData.customerName}
+            userId={reservationData.userId || "Not Registered"}
+            hotelName={accom?.name}
+            address={`${accom?.address} ${accom?.district} ${accom?.province}`}
           />
         </div>
         <div className='bg-fg-primary-03 shadow-md rounded-bl-2xl rounded-br-2xl max-w-5xl w-full border-[1px] border-fg-grey/50'>
           <HotelDetails
-            adults={HotelInfo.adults}
-            roomType={HotelInfo.roomType}
-            nights={HotelInfo.nights}
-            checkInDate={HotelInfo.checkInDate}
-            checkOutDate={HotelInfo.checkOutDate}
-            price={HotelInfo.price}
-            tax={HotelInfo.tax}
-            totalPrice={HotelInfo.totalPrice}
-            imageSrc={HotelInfo.imageSrc}
+            guests={reservationData.customerAmount}
+            roomType={roomAccom.roomType}
+            nights={bookingDays}
+            checkInDate={dateStringToObj(reservationData.checkInDate)}
+            checkOutDate={dateStringToObj(reservationData.checkOutDate)}
+            price={basePrice}
+            tax={transaction.serviceFee}
+            totalPrice={transaction.netPrice}
+            imageSrc={roomAccom.roomPhoto}
           />
         </div>
       </div>

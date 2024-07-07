@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import feeApi from '../../api/fee'
+import reservationApi from '../../api/reservation'
 
 const MockData = {
     checkInDate: "Sun, 08 Jul 2024 08:20:20 GMT",
@@ -32,6 +33,18 @@ export const fetchFeeData = createAsyncThunk(
     }
 )
 
+export const fetchReservationById = createAsyncThunk(
+    'reservation/fetchReservationById',
+    async(reservationId, thunkAPI) => {
+        try {
+            const response = await reservationApi.getReservationById(reservationId)
+            return response.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
+    }
+)
+
 const reservationSlice = createSlice({
     name: 'reservation',
     initialState: initialState,
@@ -47,6 +60,9 @@ const reservationSlice = createSlice({
         },
         setTransactionId(state, action) {
             state.transactionId = action.payload
+        },
+        resetReservationSlice(state, action) {
+            state = initialState
         }
 },
     extraReducers: (builder) => {
@@ -63,6 +79,18 @@ const reservationSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
+            .addCase(fetchReservationById.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchReservationById.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.reservationData = action.payload;
+            })
+            .addCase(fetchReservationById.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload
+            })
     }
 })
 
@@ -70,7 +98,8 @@ export const {
     setReservationData,
     setUsingCurrentUserProfile,
     setReservationId,
-    setTransactionId
+    setTransactionId,
+    resetReservationSlice
 } = reservationSlice.actions;
 export const reservationReducer = reservationSlice.reducer
 
