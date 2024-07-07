@@ -12,10 +12,11 @@ const initialState = {
   currentAlbum: null,
   isAlbumSelectedPictureOpen: false,
   isResetPasswordOpen: false,
-  isNotiOpen: false,
+  isUserManagementOpen: false,
   // ส่วนของ OTP
   isOtpFormOpen: false,
   isResetPasswordOpen: false,
+  isAccomManagementOpen: false,
   isHostNotiByAdminOpen: false,
   isAdminRemoveRoomOpen: false,
   isHostConfirmAddNewAccom: false,
@@ -83,11 +84,11 @@ const modalSlice = createSlice({
     closeNearby: (state) => {
       state.isNearbyOpen = false;
     },
-    openNoti: (state) => {
-      state.isNotiOpen = true;
+    openUserManagement: (state) => {
+      state.isUserManagementOpen = true;
     },
-    closeNoti: (state) => {
-      state.isNotiOpen = false;
+    closeUserManagement: (state) => {
+      state.isUserManagementOpen = false;
     },
     // ส่วนของ OTP
     openOtpForm: (state, action) => {
@@ -104,11 +105,11 @@ const modalSlice = createSlice({
     closeResetPassword: (state) => {
       state.isResetPasswordOpen = false;
     },
-    openHostNotiByAdmin: (state) => {
-      state.isHostNotiByAdminOpen = true;
+    openAccomManagement: (state) => {
+      state.isAccomManagementOpen = true;
     },
-    closeHostNotiByAdmin: (state) => {
-      state.isHostNotiByAdminOpen = false;
+    closeAccomManagement: (state) => {
+      state.isAccomManagementOpen = false;
     },
     openAdminRemoveRoom: (state) => {
       state.isAdminRemoveRoomOpen = true;
@@ -144,6 +145,10 @@ export const {
   closeAmenities,
   openNearby,
   closeNearby,
+  openUserManagement,
+  closeUserManagement,
+  openAccomManagement,
+  closeAccomManagement,
   openNoti,
   closeNoti,
   openHostNotiByAdmin,

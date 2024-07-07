@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import { useDispatch, useSelector } from 'react-redux';
-import { openNoti, closeNoti } from '../../store/slices/modal-slice';
+// import { openNoti, closeNoti } from '../../store/slices/modal-slice';
 import CustomModal from '../../components/Modal';
 import CardModal from '../../components/HostNotification/CardModal';
 import Input from '../../components/Input';
@@ -194,7 +194,7 @@ function HostNotification() {
           </div>
         ))}
 
-        {renderModal(isNotiOpen, closeNoti, <CardModal />)}
+        {/* {renderModal(isNotiOpen, closeNoti, <CardModal />)} */}
 
         <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'></div>
       </div>
