@@ -10,7 +10,10 @@ const GenericTable = ({
   totalPages,
   onPageChange,
 }) => {
-  const [sortConfig, setSortConfig] = useState(null);
+  const [sortConfig, setSortConfig] = useState({
+    key: 'createdAt',
+    direction: 'descending',
+  });
 
   const handleSort = (key) => {
     let direction = 'ascending';
