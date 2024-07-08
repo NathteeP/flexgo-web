@@ -1,8 +1,10 @@
+// HostAddingNewAccomPage.js
 import React, { useState, useRef } from 'react';
 import HostAddingAccommodationStep1 from '../../components/HostAddingNewAccom/AddingNewAccomStep1';
 import HostAddingAccommodationStep2 from '../../components/HostAddingNewAccom/AddingNewAccomStep2';
 import HostAddingAccommodationStep3 from '../../components/HostAddingNewAccom/AddingNewAccomStep3';
 import HostAddingAccommodationStep4 from '../../components/HostAddingNewAccom/AddingNewAccomStep4';
+import HostAddingAccommodationStep5 from '../../components/HostAddingNewAccom/AddingNewAccomStep5';
 
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
@@ -13,8 +15,7 @@ const HostAddingNewAccomPage = () => {
     address: '',
     district: '',
     province: '',
-    roomTypes: [''],
-    bedTypes: ['Single'],
+    roomTypes: [{ id: Date.now(), name: '', bedType: 'Single bed' }],
     guests: 4,
     amenities: [],
     photos: [],
@@ -85,6 +86,13 @@ const HostAddingNewAccomPage = () => {
               setFormData={setFormData}
               handleSubmit={handleSubmit}
               nextStep={nextStep}
+              prevStep={prevStep}
+            />
+          )}
+          {step === 5 && (
+            <HostAddingAccommodationStep5
+              formData={formData}
+              handleSubmit={handleSubmit}
               prevStep={prevStep}
             />
           )}
