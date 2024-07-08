@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchAllRoomByAccomId, fetchAllUserAccom,fetchAuthUser } from '../../store/slices/user-slice';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const roomData = [
   {
@@ -53,6 +54,7 @@ const HostAssetManagement = () => {
 
   const {accomsList, roomsList,authUser,hostTime,rating} = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchAllRoomByAccomId(accomsList[0]?.id))
@@ -69,7 +71,7 @@ const HostAssetManagement = () => {
         <div className='w-full md:w-2/3'>
           <div className='bg-white rounded-lg p-4 mb-4'>
             <div className='flex justify-start gap-4 mb-4'>
-              <AccomSelector accoms={accomsList}/>
+              {accomsList.length >= 1 ? <AccomSelector accoms={accomsList}/> : <p className='text-transparent'>spacer</p>}
               <div className='w-1/2 h-10'>
                 <button
                   className='w-full h-12 border border-gray-200 flex rounded-xl items-center justify-center animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black'
@@ -81,7 +83,7 @@ const HostAssetManagement = () => {
                 </button>
               </div>
             </div>
-            {roomsList.length >= 1 ? roomsList?.map((room) => (
+            {roomsList?.length >= 1 ? roomsList?.map((room) => (
               <div
                 key={room?.id}
                 className='flex w-full h-52 items-center justify-center bg-white border rounded-lg shadow-lg p-4 mb-4'
@@ -94,9 +96,9 @@ const HostAssetManagement = () => {
                   />
                   <div className='flex flex-col justify-end w-96'>
                     <div>
-                      <h3 className='text-base font-bold'>{room.roomType}</h3>
-                      <div className='flex'>{room?.bed?.map((item,index) => (<p key={index} className='text-gray-600'>{item.amount} {item.type}</p>))}</div>
-                      <p className='text-gray-600'>Guests: {room.capacity}</p>
+                      <h3 className='text-base font-bold'>{room?.roomType}</h3>
+                      <div className='flex'>{room.bed ? room?.bed?.map((item,index) => (<p key={index} className='text-gray-600'>{item.amount} {item.type}</p>)): null}</div>
+                      <p className='text-gray-600'>Guests: {room?.capacity}</p>
                     </div>
                     <div className='flex justify-between items-center mt-4'>
                       <p className='text-base font-normal'>
@@ -142,8 +144,8 @@ const HostAssetManagement = () => {
             <p className='text-gray-600'>Host ID: {authUser?.id}</p>
             <div className='flex items-center space-x-1 my-2'>
               <span className='text-yellow-500'>&#9733;</span>
-              <span>{rating?.count} reviews</span>
-              <span className='text-gray-600'>{rating.overAllReview} rating</span>
+              <span>{ rating?.count} reviews</span>
+              <span className='text-gray-600'>{isNaN(rating.overAllReview) ? rating?.overAllReview : null} rating</span>
             </div>
             <p className='text-gray-600'>
               Years Hosting: {hostTime}

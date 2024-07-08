@@ -61,20 +61,21 @@ export const fetchAllRoomByAccomId = createAsyncThunk("user/fetchUserAccomRoom",
 
 const initialState = {
   authUser: null,
-  isLoading: false,
+  isLoading: true,
   error: null,
   accomsList : [],
   roomsList : [],
   isLoadingAccom : false,
   isLoadingRoomList : false,
-  rating : {},
+  rating : null,
   hostTime : 0
 };
 
 const userSlice = createSlice({
   name: 'authUser',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAuthUser.pending, (state, action) => {

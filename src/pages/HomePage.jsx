@@ -17,6 +17,8 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const { userLocation, date } = useSelector((state) => state.info);
 
+  const {authUser} = useSelector(state => state.user)
+
   const navigate = useNavigate();
 
   // Get User location and Set state in serachInfo-slice
