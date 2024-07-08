@@ -1,0 +1,123 @@
+import React from 'react';
+import CheckoutSpinner from '../../pages/CheckOut/CheckoutSpinner';
+
+const PaymentSuccess = ({ reservationId, message }) => (
+  <div className='flex flex-col items-center justify-center min-h-screen bg-white'>
+    <div className='mb-8'>
+      <h1 className='text-3xl font-medium'> Payment Status </h1>
+    </div>
+    <div className='bg-white-border border-[2px] border-gray-200 rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
+      <div className='flex justify-start w-[700px] mb-4'>
+        <h1 className='text-lg font-light'>
+          {' '}
+          Reservation ID : {reservationId}{' '}
+        </h1>
+      </div>
+      <div className='flex flex-col justify-center bg-fg-primary-03 bg-opacity-80 w-[700px] h-[400px] p-8 rounded-lg shadow-lg text-center'>
+        <div className='flex justify-center mb-4'>
+          <div className='relative'>
+            <svg
+              className='w-28 h-28 text-green-500 animate-spin-check'
+              viewBox='0 0 32 32'
+              version='1.1'
+              xmlns='http://www.w3.org/2000/svg'
+              xmlns:xlink='http://www.w3.org/1999/xlink'
+              xmlns:sketch='http://www.bohemiancoding.com/sketch/ns'
+              fill='#2CB15A'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
+                <title>checkmark-circle</title>
+                <desc>Created with Sketch Beta.</desc>
+                <defs></defs>
+                <g
+                  id='Page-1'
+                  stroke='none'
+                  strokeWidth='1'
+                  fill='none'
+                  fillRule='evenodd'
+                  sketch:type='MSPage'
+                >
+                  <g
+                    id='Icon-Set'
+                    sketch:type='MSLayerGroup'
+                    transform='translate(-100.000000, -1139.000000)'
+                    fill='#2CB15A'
+                  >
+                    <path
+                      d='M122.027,1148.07 C121.548,1147.79 120.937,1147.96 120.661,1148.43 L114.266,1159.51 L110.688,1156.21 C110.31,1155.81 109.677,1155.79 109.274,1156.17 C108.871,1156.54 108.85,1157.18 109.228,1157.58 L113.8,1161.8 C114.177,1162.2 114.81,1162.22 115.213,1161.84 C115.335,1161.73 122.393,1149.43 122.393,1149.43 C122.669,1148.96 122.505,1148.34 122.027,1148.07 L122.027,1148.07 Z M116,1169 C108.268,1169 102,1162.73 102,1155 C102,1147.27 108.268,1141 116,1141 C123.732,1141 130,1147.27 130,1155 C130,1162.73 123.732,1169 116,1169 L116,1169 Z M116,1139 C107.164,1139 100,1146.16 100,1155 C100,1163.84 107.164,1171 116,1171 C124.836,1171 132,1163.84 132,1155 C132,1146.16 124.836,1139 116,1139 L116,1139 Z'
+                      id='checkmark-circle'
+                      sketch:type='MSShapeGroup'
+                    ></path>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <h2 className='text-2xl font-bold mb-2'>Payment Success</h2>
+        <p className='mb-4'>{message}</p>
+        <p className='text-gray-500'>
+          Take a moment, we are redirecting you to your booking details.
+        </p>
+        <p className='text-gray-500'>May you a wonderful trip!</p>
+      </div>
+    </div>
+  </div>
+);
+
+const PaymentFailed = ({ reservationId, message }) => (
+  <div className='flex flex-col items-center justify-center min-h-screen bg-white'>
+    <div className='mb-8'>
+      <h1 className='text-3xl font-medium'> Payment Status </h1>
+    </div>
+    <div className='bg-white-border border-[2px] border-gray-200 shadow-lg rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
+      <div className='flex justify-start w-[700px] mb-4'>
+        {/* <h1 className='text-lg font-light'>
+          {' '}
+          Reservation ID : {reservationId}{' '}
+        </h1> */}
+      </div>
+      <div className='flex flex-col justify-center bg-fg-primary-03 bg-opacity-80 w-[700px] h-[400px] p-8 rounded-lg shadow-lg text-center'>
+        <div className='flex justify-center mb-4'>
+          <div className='relative'>
+            <svg
+              className='w-32 h-32 text-red-500'
+              viewBox='0 0 24 24'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
+                <path
+                  d='M16 8L8 16M8.00001 8L16 16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z'
+                  stroke='#FF6B6B'
+                  strokeWidth='1.5'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                ></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <h2 className='text-2xl font-bold mb-2'>Payment Failed</h2>
+        <p className='mb-4'>{message}</p>
+        <p className='text-gray-500'>
+          Your payment was not successful, please try again.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+export { PaymentSuccess, PaymentFailed };
