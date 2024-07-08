@@ -5,7 +5,7 @@ import MainContainer from '../layouts/MainContainer';
 import Homepage from '../pages/HomePage';
 import AccommodationSearchListPage from '../pages/AccommodationSearchListPage';
 import AccommodationDetailPage from '../pages/AccommodationDetailPage';
-import CheckOutPage from '../pages/CheckOutPage';
+import CheckOutPage from '../pages/CheckOut/CheckOutPage';
 import WishListPage from '../pages/Users/WishListPage';
 import AccountPage from '../pages/Users/AccountPage';
 import HostProfilePage from '../pages/Users/HostProfilePage';
@@ -26,14 +26,20 @@ import HostContainer from '../layouts/HostContainer';
 import HostDashboardAccom from '../pages/Host/HostDashboardAccom';
 import HostAddingNewAccomPage from '../pages/Host/HostAddingNewAccomPage';
 import HostAddingNewRoom from '../pages/Host/HostAddingNewRoom';
+import CheckOutSuccessPage from '../pages/CheckOut/CheckOutSuccessPage';
+import CheckOutProcessingPage from '../pages/CheckOut/CheckOutProcessingPage';
+import CheckOutContainer from '../layouts/CheckOutContainer';
 
 // admis's part
 import AdminHomepage from '../pages/Admin/AdminHomepage';
-import AdminHostNoti from '../pages/Admin/AdminHostNoti';
+import AdminHostNoti from '../pages/Admin/AdminAccomManagement';
 import AdminUserNoti from '../pages/Admin/AdminUserNoti';
 import AdminHostProfile from '../pages/Admin/AdminHostProfile';
 import AdminEditHostDetail from '../pages/Admin/AdminEditHostDetail';
 import AdminEditUserProfile from '../pages/Admin/AdminEditUserProfile';
+import AdminContainer from '../layouts/AdminContainer';
+import UserManagement from '../pages/Admin/AdminUserManagement';
+import AccommodationManagement from '../pages/Admin/AdminAccomManagement';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -47,12 +53,16 @@ const AppRouter = createBrowserRouter([
         path: '/accommodationDetail/:accom_id',
         element: <AccommodationDetailPage />,
       },
-      { path: '/checkout', element: <CheckOutPage /> },
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/booking', element: <BookingPage /> },
       { path: '/booking/reservationID', element: <BookingReservation /> },
+      { path: '/checkout', element: <CheckOutContainer />, children:[
+        { path: 'processing', element: <CheckOutProcessingPage />},
+        { path: '', element: <CheckOutPage />},
+        { path: 'success/:reservationId', element: <CheckOutSuccessPage />},
+      ] },
     ],
   },
   {
@@ -78,11 +88,11 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: '/',
-    element: <HostContainer />,
+    element: <AdminContainer />,
     children: [
       { path: '/Admin', element: <AdminHomepage /> },
-      { path: '/Admin/HostNotification', element: <AdminHostNoti /> },
-      { path: '/Admin/UserNotification', element: <AdminUserNoti /> },
+      { path: '/Admin/AccomManagement', element: <AccommodationManagement /> },
+      { path: '/Admin/UserManagement', element: <UserManagement /> },
       { path: '/Admin/HostProfile', element: <AdminHostProfile /> },
       {
         path: '/Admin/Edit/HostDetail',

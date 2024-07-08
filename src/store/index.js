@@ -7,6 +7,16 @@ import roomsReducer from './slices/rooms-slice';
 import searchInfoReducer from './slices/searchInfo-slice';
 import { amenitiesReducer } from './slices/amenities-slice';
 import hostReducer from './slices/host-accom-slice';
+import { reservationReducer } from './slices/reservation-slice';
+import { paymentReducer } from './slices/payment-slice';
+import { roomReducer } from './slices/room-accom-slice';
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist';
+
+const reservationPersistConfig = {
+  key: 'reservation',
+  storage: storage
+}
 
 const store = configureStore({
   reducer: {
@@ -18,7 +28,12 @@ const store = configureStore({
     info: searchInfoReducer,
     amenities: amenitiesReducer,
     host: hostReducer,
+    reservation: persistReducer(reservationPersistConfig, reservationReducer),
+    payment: paymentReducer,
+    room: roomReducer
   },
 });
+
+export const persistor = persistStore(store)
 
 export default store;

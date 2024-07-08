@@ -12,7 +12,14 @@ const initialState = {
   currentAlbum: null,
   isAlbumSelectedPictureOpen: false,
   isResetPasswordOpen: false,
-  isNotiOpen: false,
+  isUserManagementOpen: false,
+  // ส่วนของ OTP
+  isOtpFormOpen: false,
+  isResetPasswordOpen: false,
+  isAccomManagementOpen: false,
+  isHostNotiByAdminOpen: false,
+  isAdminRemoveRoomOpen: false,
+  isHostConfirmAddNewAccom: false,
 };
 
 const modalSlice = createSlice({
@@ -77,11 +84,44 @@ const modalSlice = createSlice({
     closeNearby: (state) => {
       state.isNearbyOpen = false;
     },
-    openNoti: (state) => {
-      state.isNotiOpen = true;
+    openUserManagement: (state) => {
+      state.isUserManagementOpen = true;
     },
-    closeNoti: (state) => {
-      state.isNotiOpen = false;
+    closeUserManagement: (state) => {
+      state.isUserManagementOpen = false;
+    },
+    // ส่วนของ OTP
+    openOtpForm: (state, action) => {
+      state.isOtpFormOpen = true;
+      state.email = action.payload.email;
+      state.refCode = action.payload.refCode;
+    },
+    closeOtpForm: (state) => {
+      state.isOtpFormOpen = false;
+    },
+    openResetPassword: (state) => {
+      state.isResetPasswordOpen = true;
+    },
+    closeResetPassword: (state) => {
+      state.isResetPasswordOpen = false;
+    },
+    openAccomManagement: (state) => {
+      state.isAccomManagementOpen = true;
+    },
+    closeAccomManagement: (state) => {
+      state.isAccomManagementOpen = false;
+    },
+    openAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = true;
+    },
+    closeAdminRemoveRoom: (state) => {
+      state.isAdminRemoveRoomOpen = false;
+    },
+    openHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = true;
+    },
+    closeHostConfirmAddNewAccom: (state) => {
+      state.isHostConfirmAddNewAccom = false;
     },
   },
 });
@@ -105,7 +145,17 @@ export const {
   closeAmenities,
   openNearby,
   closeNearby,
+  openUserManagement,
+  closeUserManagement,
+  openAccomManagement,
+  closeAccomManagement,
   openNoti,
   closeNoti,
+  openHostNotiByAdmin,
+  closeHostNotiByAdmin,
+  openAdminRemoveRoom,
+  closeAdminRemoveRoom,
+  openHostConfirmAddNewAccom,
+  closeHostConfirmAddNewAccom,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;

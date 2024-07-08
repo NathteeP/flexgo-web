@@ -30,6 +30,7 @@ import cancelPolicy from '../constant/cancelPolicy';
 const images = [c01, c02, c03, c04, c05, c06, c07, c08, c09, c10];
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { resetReservationSlice } from '../store/slices/reservation-slice';
 
 const HostProfile = {
   name: 'Aerichan U.',
@@ -112,10 +113,10 @@ const AccommodationDetailPage = () => {
       accom_id,
     };
     dispatch(fetchAvailRoomListByAccomId(data));
-  }, [dispatch]);
 
-  console.log("detail", detail)
-  console.log("roomlist", roomList)
+    //reset all persist reservation data
+    dispatch(resetReservationSlice())
+  }, [dispatch]);
 
   return (
     <>

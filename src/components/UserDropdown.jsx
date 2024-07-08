@@ -35,7 +35,6 @@ const UserDropdown = () => {
 
     try {
       const response = await promise;
-      console.log('Logout Successful', response.data);
       navigate('/');
     } catch (error) {
       console.error('Logout Failed', error);
@@ -49,7 +48,7 @@ const UserDropdown = () => {
     };
   }, []);
   return (
-    <div className='relative inline-block text-left' ref={dropdownRef}>
+    <div className='relative inline-block text-left mr-12' ref={dropdownRef}>
       <div
         type='button'
         className='cursor-pointer flex justify-center items-center'
