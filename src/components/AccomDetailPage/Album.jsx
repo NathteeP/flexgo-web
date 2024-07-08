@@ -61,7 +61,7 @@ const Album = ({ photos }) => {
         {photos?.slice(0, 5).map((src, index) => (
           <div
             key={index}
-            className={`overflow-hidden relative flex ${
+            className={`overflow-hidden relative flex hover:ring-4 hover:ring-fg-primary-02 transition-all duration-500 active:scale-90 cursor-pointer animate-fade ${
               index === 0
                 ? 'col-span-2 row-span-4 rounded-l-[40px]'
                 : index === 1
@@ -111,14 +111,15 @@ const Album = ({ photos }) => {
           <ImageList variant='masonry' cols={3} gap={8}>
             {photos?.map((src, index) => (
               <ImageListItem key={index}>
-
-                    <img
-                      src={src.imagePath}
-                      alt={`album ${index + 1}`}
-                      loading='lazy'
-                      className='w-full h-full object-cover cursor-pointer'
-                      onClick={() => dispatch(openAlbumSelectedPicture(src.imagePath))}
-                    />
+                <img
+                  src={src.imagePath}
+                  alt={`album ${index + 1}`}
+                  loading='lazy'
+                  className='w-full h-full object-cover cursor-pointer'
+                  onClick={() =>
+                    dispatch(openAlbumSelectedPicture(src.imagePath))
+                  }
+                />
               </ImageListItem>
             ))}
           </ImageList>

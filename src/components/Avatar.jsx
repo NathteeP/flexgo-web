@@ -1,12 +1,14 @@
 import profileImage from '../assets/images/Profile/blankProfile.png';
-export default function Avatar({ src, size = 300 }) {
-  // console.log('profileImg::: ', profileImage);
+
+const Avatar = ({ src, size = 300 }) => {
   return (
     <img
-      src={src || profileImage}
+      src={src ? src : profileImage}
       alt='user'
       style={{ width: `${size}px`, height: `${size}px` }}
-      className='rounded-full'
+      className='rounded-full object-cover'
     />
   );
-}
+};
+
+export default Avatar;
