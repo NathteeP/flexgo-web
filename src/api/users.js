@@ -6,7 +6,10 @@ userApi.register = (data) => axios.post('/user/register', data);
 userApi.login = (data) => axios.post('/user/login', data);
 userApi.logout = () => axios.post('/user/logout');
 userApi.getAuthUser = () => axios.get('/user/me');
-userApi.edit = (data) => axios.patch('/user/:user_id', data);
+userApi.edit = (user_id, data) => axios.patch(`/user/${user_id}`, data); // แก้ให้เป็น literal Id
+
+// ดึงข้อมูล users ทั้งหมด
+userApi.getAllUsers = () => axios.get('/user/all');
 
 // ส่วนของ forgotPassword
 userApi.requestOtp = (data) => axios.post('/user/request-otp', data);
