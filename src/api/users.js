@@ -6,6 +6,10 @@ userApi.register = (data) => axios.post('/user/register', data);
 userApi.login = (data) => axios.post('/user/login', data);
 userApi.logout = () => axios.post('/user/logout');
 userApi.getAuthUser = () => axios.get('/user/me');
+userApi.edit = (user_id, data) => axios.patch(`/user/${user_id}`, data); // แก้ให้เป็น literal Id
+
+// ดึงข้อมูล users ทั้งหมด
+userApi.getAllUsers = () => axios.get('/user/all');
 userApi.editAuthUser = (data) => axios.patch('/user/me', data);
 userApi.edit = (data) => axios.patch('/user/:user_id', data);
 

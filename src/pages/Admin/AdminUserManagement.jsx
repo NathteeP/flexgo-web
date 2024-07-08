@@ -1,124 +1,68 @@
-import React, { useState } from 'react';
-import TitlePage from '../../layouts/TitlePage';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers, setPage } from '../../store/slices/users-slice';
 import {
   openUserManagement,
   closeUserManagement,
 } from '../../store/slices/modal-slice';
+import TitlePage from '../../layouts/TitlePage';
 import CustomModal from '../../components/Modal';
 import Input from '../../components/Input';
 import UserManagementCard from '../../components/AdminUserManagement/UserManagementCard';
+import GenericTable from '../../components/GenericTable';
 
-const userMockup = [
-  {
-    id: 1,
-    username: 'john123',
-    email: 'John@mail.com',
-    full_name: 'John Doe',
-    phone_number: '0112345671',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 2,
-    username: 'john124',
-    email: 'john12@mail.com',
-    full_name: 'John Dim',
-    phone_number: '0123456712',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 3,
-    username: 'jack123',
-    email: 'Jack@mail.com',
-    full_name: 'Jack Die',
-    phone_number: '0112345673',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 4,
-    username: 'abby123',
-    email: 'abbie@mail.com',
-    full_name: 'Abby Brown',
-    phone_number: '045451217',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 5,
-    username: 'bob12321',
-    email: 'Bob@mail.com',
-    full_name: 'Bobby Carter',
-    phone_number: '0112141271',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 6,
-    username: 'cathy12321',
-    email: 'cathy@mail.com',
-    full_name: 'Catherine Carlie',
-    phone_number: '0112141271',
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 7,
-    username: 'dim12321',
-    email: 'Dim@mail.com',
-    full_name: 'Dimon Long',
-    phone_number: '0258341271',
-    role: 'ADMIN',
-    is_active: 1,
-    created_at: '2024-07-02 07:40:45.487',
-  },
-  {
-    id: 8,
-    username: null,
-    email: 'keartisukookow@gmail.com',
-    full_name: 'Keartisku Sookow',
-    phone_number: null,
-    role: 'CLIENT',
-    is_active: 1,
-    created_at: '2024-07-05 09:11:29.150',
-  },
-  {
-    id: 9,
-    username: null,
-    email: 'keartisukp@gmail.com',
-    full_name: 'white shiro',
-    phone_number: null,
-    role: null,
-    is_active: null,
-    created_at: null,
-  },
-];
-
-function UserManagement() {
+const UserManagement = () => {
   const dispatch = useDispatch();
+  const { users, isLoading, currentPage, totalPages } = useSelector(
+    (state) => state.users
+  );
   const { isUserManagementOpen } = useSelector((state) => state.modal);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredUsers = userMockup.filter(
-    (user) =>
-      user.id.toString().includes(searchTerm) ||
-      (user.username &&
-        user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.full_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleRowClick = (user) => {
+    dispatch(openUserManagement());
+    // ส่งค่าของ user ไปที่ UserManagementCard
+  };
+
+  const handleSort = (key, direction) => {
+    // ปรับปรุงให้ทำการเรียงลำดับตาม key และ direction
+  };
+
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
+    // Fetch data ใหม่เมื่อมีการเปลี่ยนหน้า
+    dispatch(fetchUsers());
+  };
+
+  const filteredUsers = Array.isArray(users)
+    ? users.filter(
+        (user) =>
+          user.id.toString().includes(searchTerm) ||
+          (user.username &&
+            user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+
+  const columns = [
+    { key: 'id', label: 'User ID' },
+    { key: 'username', label: 'Username' },
+    { key: 'email', label: 'Email' },
+    { key: 'fullName', label: 'Full Name' },
+    { key: 'phoneNumber', label: 'Phone Number' },
+    { key: 'createdAt', label: 'Created At' },
+    { key: 'role', label: 'Role' },
+    { key: 'isActive', label: 'Is Active' },
+  ];
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
@@ -140,74 +84,27 @@ function UserManagement() {
             className='flex border-[1px] mb-2 bg-[#F3F4F6] rounded-xl w-[350px] h-[32px] px-2 text-gray-500 text-[13px] mr-8 hover:border-[2px] hover:border-fg-secondary-02 hover:scale-105 transition duration-500 focus:border-[1px] focus:border-fg-secondary-02 focus:outline-none'
           />
         </div>
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
-          <div>User ID</div>
-          <div>Username</div>
-          <div>Email</div>
-          <div>Full Name</div>
-          <div>Phone Number</div>
-          <div>Created At</div>
-          <div>Role</div>
-          <div>Is Active</div>
-        </div>
-
-        {filteredUsers.map((user, index) => (
-          <div
-            key={index}
-            className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-            onClick={() => {
-              dispatch(openUserManagement());
-            }}
-          >
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.id}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.username || 'N/A'}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.email}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.full_name}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.phone_number || 'N/A'}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {user.created_at || 'N/A'}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              <span
-                className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
-                  user.role === 'ADMIN' ? 'bg-blue-200' : 'bg-fg-primary-03'
-                }`}
-              >
-                {user.role || 'N/A'}
-              </span>
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              <span
-                className={`px-2 py-1 rounded-lg text-[12px]  w-[80px] ${
-                  user.is_active ? 'bg-green-200' : 'bg-red-200'
-                }`}
-              >
-                {user.is_active ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-          </div>
-        ))}
-
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <GenericTable
+            columns={columns}
+            data={filteredUsers}
+            onRowClick={handleRowClick}
+            onSort={handleSort}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
         {renderModal(
           isUserManagementOpen,
           closeUserManagement,
           <UserManagementCard />
         )}
-
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'></div>
       </div>
     </>
   );
-}
+};
 
 export default UserManagement;
