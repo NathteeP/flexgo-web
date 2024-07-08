@@ -10,7 +10,10 @@ const GenericTable = ({
   totalPages,
   onPageChange,
 }) => {
-  const [sortConfig, setSortConfig] = useState(null);
+  const [sortConfig, setSortConfig] = useState({
+    key: 'createdAt',
+    direction: 'descending',
+  });
 
   const handleSort = (key) => {
     let direction = 'ascending';
@@ -44,14 +47,15 @@ const GenericTable = ({
   return (
     <>
       <div>
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
+        <div className='grid grid-cols-8 gap-2 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
           {columns.map((col) => (
             <div
               key={col.key}
               onClick={() => handleSort(col.key)}
-              className='cursor-pointer'
+              className='cursor-pointer hover:scale-[103%] transition-all active:scale-90 flex justify-center gap-2 h-full w-full items-end hover:font-semibold'
             >
-              {col.label} {renderArrow(col.key)}
+              <div className=''>{col.label}</div>{' '}
+              <div>{renderArrow(col.key)}</div>
             </div>
           ))}
         </div>
@@ -64,7 +68,7 @@ const GenericTable = ({
             {columns.map((col) => (
               <div
                 key={col.key}
-                className='h-[60px] flex items-center justify-center'
+                className={`h-[60px] flex items-center justify-center ${col.key === 'email' ? 'break-all whitespace-normal' : ''}`}
               >
                 {col.key === 'isActive' ? (
                   <span
@@ -86,21 +90,21 @@ const GenericTable = ({
           </div>
         ))}
 
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'>
-          <div className='flex justify-center items-center mt-4 col-span-8'>
+        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10 '>
+          <div className='flex justify-center items-center mt-4 col-span-8 -translate-y-3 '>
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
             >
               Previous
             </button>
-            <div className='flex mx-2'>
+            <div className='flex mx-2 hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold'>
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index + 1}
                   onClick={() => onPageChange(index + 1)}
-                  className={`px-2 py-1 ${currentPage === index + 1 ? 'text-bold' : 'cursor-pointer'}`}
+                  className={`px-2 py-1 hover:scale-[120%] ${currentPage === index + 1 ? 'text-bold' : 'cursor-pointer'}`}
                 >
                   {index + 1}
                 </button>
@@ -109,7 +113,7 @@ const GenericTable = ({
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
             >
               Next
             </button>
