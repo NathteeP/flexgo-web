@@ -45,7 +45,7 @@ const ResetPassword = () => {
           <img src={logo} alt='' className='w-[125px] invert pb-6' />
           <form
             onSubmit={handleSubmit(handleResetPassword)}
-            className='flex flex-col items-center justify-center'
+            className='flex flex-col items-center justify-center w-[350px]'
           >
             <Input
               htmlFor='newPassword'
@@ -66,7 +66,7 @@ const ResetPassword = () => {
               error={errors.confirmPassword?.message}
             />
             <Button
-              className='h-[31px] w-[90px] text-white text-[11px]'
+              className='h-[31px] w-full text-white text-[11px] mt-4 transition-all transform hover:bg-fg-primary-02 active:scale-90 hover:border-fg-primary-01 hover:border-[2px] focus:outline-none focus:border-[1px] focus:border-fg-primary-01 hover:scale-105 focus-within:bg-fg-primary-02/20'
               type='submit'
             >
               Submit

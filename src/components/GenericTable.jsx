@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(dateString).toLocaleDateString('en-CA', options);
+};
+
 const GenericTable = ({
   columns,
   data,
@@ -46,8 +51,8 @@ const GenericTable = ({
 
   return (
     <>
-      <div>
-        <div className='grid grid-cols-8 gap-2 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
+      <div className='hover:w-[101.3%] h-[640px] overflow-y-hidden overflow-x-hidden relative transition-all duration-1000 hover:overflow-y-scroll'>
+        <div className='grid grid-cols-8 gap-2 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2 sticky top-0 z-30'>
           {columns.map((col) => (
             <div
               key={col.key}
@@ -72,7 +77,7 @@ const GenericTable = ({
               >
                 {col.key === 'isActive' ? (
                   <span
-                    className={`px-2 py-1 rounded-lg text-[12px] ${item[col.key] ? 'bg-green-200' : 'bg-red-200'}`}
+                    className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${item[col.key] ? 'bg-green-200' : 'bg-red-200'}`}
                   >
                     {item[col.key] ? 'Active' : 'Inactive'}
                   </span>
@@ -82,6 +87,8 @@ const GenericTable = ({
                   >
                     {item[col.key] || 'N/A'}
                   </span>
+                ) : col.key === 'createdAt' ? (
+                  formatDate(item[col.key])
                 ) : (
                   item[col.key] || 'N/A'
                 )}
@@ -90,8 +97,8 @@ const GenericTable = ({
           </div>
         ))}
 
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10 '>
-          <div className='flex justify-center items-center mt-4 col-span-8 -translate-y-3 '>
+        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] sticky bottom-0'>
+          <div className='flex justify-center items-center mt-4 col-span-8 -translate-y-3'>
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
