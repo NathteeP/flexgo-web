@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, setPage } from '../../store/slices/users-slice';
+import {
+  fetchUsers,
+  setPage,
+  setSortConfig,
+  setSearchTerm,
+} from '../../store/slices/users-slice';
 import {
   openUserManagement,
   closeUserManagement,
@@ -13,45 +18,53 @@ import GenericTable from '../../components/GenericTable';
 
 const UserManagement = () => {
   const dispatch = useDispatch();
-  const { users, isLoading, currentPage, totalPages } = useSelector(
-    (state) => state.users
-  );
+  const {
+    users,
+    isLoading,
+    currentPage,
+    totalPages,
+    sortKey,
+    sortOrder,
+    searchTerm,
+  } = useSelector((state) => state.users);
   const { isUserManagementOpen } = useSelector((state) => state.modal);
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    dispatch(fetchUsers({ page: currentPage, sortKey, sortOrder, searchTerm }));
+  }, [dispatch, currentPage, sortKey, sortOrder, searchTerm]);
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    const term = e.target.value;
+    dispatch(setSearchTerm(term));
+    dispatch(
+      fetchUsers({ page: currentPage, sortKey, sortOrder, searchTerm: term })
+    );
   };
 
   const handleRowClick = (user) => {
     dispatch(openUserManagement());
-    // ส่งค่าของ user ไปที่ UserManagementCard
   };
 
-  const handleSort = (key, direction) => {
-    // ปรับปรุงให้ทำการเรียงลำดับตาม key และ direction
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      direction = 'desc';
+    }
+    dispatch(setSortConfig({ key, direction }));
+    dispatch(
+      fetchUsers({
+        page: currentPage,
+        sortKey: key,
+        sortOrder: direction,
+        searchTerm,
+      })
+    );
   };
 
   const handlePageChange = (page) => {
     dispatch(setPage(page));
-    // Fetch data ใหม่เมื่อมีการเปลี่ยนหน้า
-    dispatch(fetchUsers());
+    dispatch(fetchUsers({ page, sortKey, sortOrder, searchTerm }));
   };
-
-  const filteredUsers = Array.isArray(users)
-    ? users.filter(
-        (user) =>
-          user.id.toString().includes(searchTerm) ||
-          (user.username &&
-            user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : [];
 
   const columns = [
     { key: 'id', label: 'User ID' },
@@ -89,12 +102,14 @@ const UserManagement = () => {
         ) : (
           <GenericTable
             columns={columns}
-            data={filteredUsers}
+            data={users}
             onRowClick={handleRowClick}
             onSort={handleSort}
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            sortKey={sortKey}
+            sortOrder={sortOrder}
           />
         )}
         {renderModal(
