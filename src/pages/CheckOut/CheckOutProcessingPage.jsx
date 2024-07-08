@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import {
   PaymentSuccess,
   PaymentFailed,
-} from '../../components/CheckOutPage/CheckoutProcessing';
+} from '../../components/CheckOutPage/CheckoutStatus';
 import CheckoutSpinner from './CheckoutSpinner';
 
 export default function CheckOutProcessingPage() {
@@ -47,7 +47,7 @@ export default function CheckOutProcessingPage() {
             setStatus('success');
             setTimeout(
               () => navigate(`/checkout/success/${reservationId}`),
-              3000
+              5000
             );
             break;
           case 'processing':

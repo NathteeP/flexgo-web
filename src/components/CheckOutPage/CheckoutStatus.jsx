@@ -6,7 +6,7 @@ const PaymentSuccess = ({ reservationId, message }) => (
     <div className='mb-8'>
       <h1 className='text-3xl font-medium'> Payment Status </h1>
     </div>
-    <div className='bg-white-border border-[2px] border-gray-200 rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
+    <div className='bg-white-border border-[2px] border-gray-200 shadow-lg rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
       <div className='flex justify-start w-[700px] mb-4'>
         <h1 className='text-lg font-light'>
           {' '}
