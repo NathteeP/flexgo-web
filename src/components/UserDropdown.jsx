@@ -35,7 +35,6 @@ const UserDropdown = () => {
 
     try {
       const response = await promise;
-      console.log('Logout Successful', response.data);
       navigate('/');
     } catch (error) {
       console.error('Logout Failed', error);

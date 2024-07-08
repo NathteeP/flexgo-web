@@ -85,23 +85,42 @@ export const changePassword = createAsyncThunk(
     }
   }
 );
-export const fetchAllUserAccom = createAsyncThunk("user/fetchAccomList", async(body,thunkAPI) => {
-  try {
-    const {data} = await accomApi.getAllAccomByUserId(body)
-    return data
-  } catch(err) {
-    return thunkAPI.rejectWithValue(err)
+export const fetchAllUserAccom = createAsyncThunk(
+  'user/fetchAccomList',
+  async (body, thunkAPI) => {
+    try {
+      const { data } = await accomApi.getAllAccomByUserId(body);
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
   }
-})
+);
 
-export const fetchAllRoomByAccomId = createAsyncThunk("user/fetchUserAccomRoom", async(body,thunkAPI) => {
-  try {
-    const {data} = await accomApi.getRoomListByAccomId(body)
-    return data
-  }catch(err) {
-    return thunkAPI.rejectWithValue(err.message)
+export const fetchAllRoomByAccomId = createAsyncThunk(
+  'user/fetchUserAccomRoom',
+  async (body, thunkAPI) => {
+    try {
+      const { data } = await accomApi.getRoomListByAccomId(body);
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
   }
-})
+);
+
+// เพิ่ม update user profile
+export const updateUserProfile = createAsyncThunk(
+  'user/updateUserProfile',
+  async (data, thunkAPI) => {
+    try {
+      const response = await userApi.editAuthUser(data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 const initialState = {
   authUser: null,
@@ -109,12 +128,12 @@ const initialState = {
   error: null,
   otpRefCode: null,
   userEmail: null,
-  accomsList : [],
-  roomsList : [],
-  isLoadingAccom : false,
-  isLoadingRoomList : false,
-  rating : {},
-  hostTime : 0
+  accomsList: [],
+  roomsList: [],
+  isLoadingAccom: false,
+  isLoadingRoomList: false,
+  rating: {},
+  hostTime: 0,
 };
 
 const userSlice = createSlice({
@@ -199,32 +218,46 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
       // --- fetch All of user accom ---
-      .addCase(fetchAllUserAccom.pending, (state,action) => {
+      .addCase(fetchAllUserAccom.pending, (state, action) => {
         state.isLoadingAccom = true;
-        state.error = false
-      }) 
-      .addCase(fetchAllUserAccom.fulfilled, (state,action) => {
-        state.isLoadingAccom = false;
-        state.accomsList = action.payload.accom
-        state.rating = action.payload.rating
-        state.hostTime = action.payload.hostTime
+        state.error = false;
       })
-      .addCase(fetchAllUserAccom.rejected, (state,action) => {
+      .addCase(fetchAllUserAccom.fulfilled, (state, action) => {
         state.isLoadingAccom = false;
-        state.error = action.payload
+        state.accomsList = action.payload.accom;
+        state.rating = action.payload.rating;
+        state.hostTime = action.payload.hostTime;
+      })
+      .addCase(fetchAllUserAccom.rejected, (state, action) => {
+        state.isLoadingAccom = false;
+        state.error = action.payload;
       })
       // --- fetch All room of accom ID ---
-      .addCase(fetchAllRoomByAccomId.pending, (state,action) => {
+      .addCase(fetchAllRoomByAccomId.pending, (state, action) => {
         state.isLoadingRoomList = true;
-        state.error = false
+        state.error = false;
       })
-      .addCase(fetchAllRoomByAccomId.fulfilled, (state,action) => {
+      .addCase(fetchAllRoomByAccomId.fulfilled, (state, action) => {
         state.isLoadingRoomList = false;
-        state.roomsList = action.payload.room
-      }).addCase(fetchAllRoomByAccomId.rejected, (state,action) => {
-        state.isLoadingRoomList = false;
-        state.error = action.payload
+        state.roomsList = action.payload.room;
       })
+      .addCase(fetchAllRoomByAccomId.rejected, (state, action) => {
+        state.isLoadingRoomList = false;
+        state.error = action.payload;
+      })
+      // เพิ่ม update user profile
+      .addCase(updateUserProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.authUser = { ...state.authUser, ...action.payload };
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
