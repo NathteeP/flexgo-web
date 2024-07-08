@@ -10,11 +10,12 @@ const GuestDropdown = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className='absolute top-full mt-2 w-[200px] p-2 bg-white border rounded shadow-lg z-50'>
+    <div className='absolute top-full mt-2 w-[200px] p-2 bg-white border rounded shadow-lg z-50 text-fg-text-blue'>
       <div className='flex justify-between items-center mb-2'>
         <span>Adults</span>
         <div className='flex items-center'>
           <button
+            className='rounded-full bg-fg-primary-03 w-6 hover:bg-fg-primary-01/50 active:bg-fg-primary-01 transition-all duration-300'
             type='button'
             onClick={() =>
               dispatch(
@@ -30,6 +31,7 @@ const GuestDropdown = () => {
           <span className='mx-2'>{capacity.adults}</span>
           <button
             type='button'
+            className='rounded-full bg-fg-primary-03 w-6 hover:bg-fg-primary-01/50 active:bg-fg-primary-01 transition-all duration-300'
             onClick={() =>
               dispatch(
                 setGuest({
@@ -47,6 +49,7 @@ const GuestDropdown = () => {
         <span>Children</span>
         <div className='flex items-center'>
           <button
+            className='rounded-full bg-fg-primary-03 w-6 hover:bg-fg-primary-01/50 active:bg-fg-primary-01 transition-all duration-300'
             type='button'
             onClick={() =>
               dispatch(
@@ -61,6 +64,7 @@ const GuestDropdown = () => {
           </button>
           <span className='mx-2'>{capacity.children}</span>
           <button
+            className='rounded-full bg-fg-primary-03 w-6 hover:bg-fg-primary-01/50 active:bg-fg-primary-01 transition-all duration-300'
             type='button'
             onClick={() =>
               dispatch(
