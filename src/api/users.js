@@ -10,6 +10,8 @@ userApi.edit = (user_id, data) => axios.patch(`/user/${user_id}`, data); // แ�
 
 // ดึงข้อมูล users ทั้งหมด
 userApi.getAllUsers = () => axios.get('/user/all');
+userApi.editAuthUser = (data) => axios.patch('/user/me', data);
+userApi.edit = (data) => axios.patch('/user/:user_id', data);
 
 // ส่วนของ forgotPassword
 userApi.requestOtp = (data) => axios.post('/user/request-otp', data);
