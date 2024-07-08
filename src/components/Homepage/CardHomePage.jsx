@@ -105,7 +105,7 @@ const CardHomePage = ({
             <h3>Distance: {distance} km.</h3>
           </div>
           <div>
-            <h1 className='text-4xl font-thin'>$ {price}</h1>
+            <h1 className='text-4xl font-thin'>THB {price}</h1>
           </div>
         </div>
         <div className='flex justify-end w-[90%] mt-10 absolute bottom-8'>
