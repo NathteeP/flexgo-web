@@ -11,7 +11,7 @@ const Input = React.forwardRef(
       onChange,
       name,
       inputName,
-      className = ' mb-2 block bg-[#F3F4F6] rounded-lg w-[350px] h-[32px] px-2 text-gray-500 text-[13px]',
+      className = '  block bg-[#F3F4F6] rounded-lg w-[350px] h-[32px] px-2 text-gray-500 text-[13px]',
       divClassName,
       disabled,
       placeholder,
@@ -37,7 +37,11 @@ const Input = React.forwardRef(
           placeholder={placeholder}
           ref={ref}
         />
-        {error ? <small className='text-red-500'>{error}</small> : null}
+        {error ? (
+          <small className='text-red-500 text-[12px] block leading-none mt-2'>
+            {error}
+          </small>
+        ) : null}
       </div>
     );
   }

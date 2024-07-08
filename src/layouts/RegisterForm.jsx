@@ -57,7 +57,7 @@ const RegisterForm = () => {
 
           <form
             onSubmit={handleSubmit(onSubmit, onError)}
-            className='flex flex-col items-center justify-center'
+            className='flex flex-col items-center justify-center w-[350px]'
           >
             <Input
               htmlFor='username'
