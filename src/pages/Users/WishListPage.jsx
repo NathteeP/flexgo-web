@@ -1,6 +1,11 @@
 import React from 'react';
 import WishListCard from '../../components/WishListCard';
 import { Breadcrumbs, Link } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAuthUser } from '../../store/slices/user-slice';
 
 const WishListPage = () => {
   const productData = Array(6).fill({
@@ -11,6 +16,20 @@ const WishListPage = () => {
     imageUrl:
       'https://i.pinimg.com/originals/06/2b/75/062b75b3c882ce0ba9644cb0143a9f18.jpg',
   });
+
+  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+  const dispatch = useDispatch()
+  const [displayingWishList, setDisplayingWishList] = useState([])
+
+  useEffect(() => {
+    dispatch(fetchAuthUser())
+  },[])
+
+  useEffect(() => {
+      setDisplayingWishList(allWishList)
+  }, [allWishList])
+
+
   return (
     <div className='p-8 bg-white min-h-screen mx-6'>
       <Breadcrumbs aria-label='breadcrumb'>
@@ -26,8 +45,8 @@ const WishListPage = () => {
           My Wishlist{' '}
         </h1>
         <div className='lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
-          {productData.map((product, index) => (
-            <WishListCard key={index} {...product} />
+          {displayingWishList?.map((product) => (
+            <WishListCard key={product} {...product?.accom} />
           ))}
         </div>
       </div>

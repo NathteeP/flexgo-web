@@ -26,6 +26,14 @@ const AccommodationSearchListPage = () => {
   const dispatch = useDispatch();
   const { desiredLocation, date } = useSelector((state) => state.info);
   const { accomsList } = useSelector((state) => state.accoms);
+  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+
+  //================WISHLIST LOGIC================================
+
+  const cloneAccomsList = accomsList.map(el => {
+    return {...el, isOnUserWishList: Boolean(allWishList?.find(wlEl => wlEl.accomId === el.id))}
+  })
+
 
   const navigate = useNavigate('/');
   const onClickNavigate = (to) => navigate(to);
@@ -58,7 +66,7 @@ const AccommodationSearchListPage = () => {
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
         <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[850px] h-[250px]'>
-          {accomsList.map((product, index) => (
+          {cloneAccomsList.map((product, index) => (
             <ProductCard
               key={index}
               id={product.id}
@@ -67,6 +75,7 @@ const AccommodationSearchListPage = () => {
               distance={product.distance}
               rating={product.reviews.overAllReview}
               imageUrl={product.accomPhoto[0].imagePath}
+              isOnUserWishList={product.isOnUserWishList}
             />
           ))}
         </div>
