@@ -11,9 +11,18 @@ import { reservationReducer } from './slices/reservation-slice';
 import { paymentReducer } from './slices/payment-slice';
 import { roomReducer } from './slices/room-accom-slice';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
 import { usersReducer } from './slices/users-slice';
 import hostFormReducer from './slices/hostForm-slice';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
 
 const reservationPersistConfig = {
   key: 'reservation',
@@ -36,6 +45,11 @@ const store = configureStore({
     room: roomReducer,
     hostForm: hostFormReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  })
 });
 
 export const persistor = persistStore(store);
