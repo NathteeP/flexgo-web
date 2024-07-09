@@ -18,7 +18,7 @@ const UserDropdown = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(authUser, 'ตรงนี้ๆ');
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);

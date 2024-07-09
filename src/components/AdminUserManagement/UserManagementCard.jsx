@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHostAndAccom } from '../../store/slices/host-accom-slice';
 import Button from '../Button';
+import ReviewBy from './ReviewBy';
 
 const HostProfile = {
   name: 'Aerichan U.',
@@ -33,6 +34,7 @@ const UserManagementCard = () => {
   const { user_id } = useParams();
   const dispatch = useDispatch();
   const { accomList, user, featureReview } = useSelector((state) => state.host);
+  const { authUser } = useSelector((state) => state.user);
 
   const [isActive, setIsActive] = useState(true);
 
@@ -67,9 +69,34 @@ const UserManagementCard = () => {
               <div className='px-10 py-4'>
                 <div className='flex flex-col items-center'>
                   <div className='text-3xl'>{user.fullName}</div>
-                  <div className='font-light'>Host ID: {user.id}</div>
+                  <div className='font-light'>User ID: {user.id}</div>
                 </div>
                 <div className='mt-4'>
+                  <div className='flex justify-between'>
+                    <div>Email:</div>
+                    <div>asdas{user.email}</div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <div>Phone Number:</div>
+                    <div>asdas{user.phoneNumber}</div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <div>Date of birth:</div>
+                    <div>asdas{user.dateOfBirth}</div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <div>Nationality:</div>
+                    <div>asdas{user.nationality}</div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <div>Gender:</div>
+                    <div>asdas{user.gender}</div>
+                  </div>
+
+                  <br />
+
+                  <div className='my-2 h-[2px] bg-fg-text-black/25 rounded-full'></div>
+
                   <div className='flex justify-between'>
                     <h3>Rating</h3>
                     <div className='flex gap-2'>
@@ -83,11 +110,11 @@ const UserManagementCard = () => {
                   </div>
                   <div className='flex justify-between'>
                     <h3>Review</h3>
-                    <div>{user?.rating?.count}</div>
+                    <div>123{user?.rating?.count}</div>
                   </div>
                   <div className='flex justify-between'>
                     <h3>Years Hosting</h3>
-                    <div>{user.hostTime}</div>
+                    <div>123{user.hostTime}</div>
                   </div>
                 </div>
               </div>
@@ -102,19 +129,18 @@ const UserManagementCard = () => {
                   <div className='text-3xl pl-16 font-semibold'>
                     About {user.fullName}
                   </div>
-                  <div className='flex items-center gap-4'>
-                    <img src={world} alt='' className='pl-2' />
-                    <div>Speaks fluently : {HostProfile.language}</div>
-                  </div>
-                  <div className='flex items-center gap-4'>
+                  <div className='flex items-center gap-4'></div>
+                  <div className='flex items-center gap-4  mb-4'>
                     <img src={pin} alt='' className='pl-2' />
-                    <div>Lives in : {HostProfile.location}</div>
+                    <div className='h-full'>
+                      Lives in : {HostProfile.location}
+                    </div>
                   </div>
                 </div>
               </div>
               <div>
                 <div className='mt-4 whitespace-pre-line text-base'>
-                  {user.description}
+                  description asdasdas{user.description}
                 </div>
               </div>
             </div>
@@ -124,11 +150,16 @@ const UserManagementCard = () => {
         {/* Middle part */}
         <hr className='mt-10 mb-24 border-[1px]' />
         <div>
-          <TitlePage>{user.name} Reviews</TitlePage>
+          <TitlePage>Reviews by name{user.name}</TitlePage>
           <div className='relative'>
-            <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
-            <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
             <Review reviews={featureReview} />
+          </div>
+        </div>
+        <hr className='mt-10 mb-24 border-[1px]' />
+        <div>
+          <TitlePage>Reviews for name{user.name}</TitlePage>
+          <div className='relative'>
+            <ReviewBy reviews={featureReview} />
           </div>
         </div>
 

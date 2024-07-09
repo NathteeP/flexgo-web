@@ -18,9 +18,12 @@ export const userSchema = Joi.object({
       'string.email': 'Email must be a valid email',
     }),
   phone: Joi.string()
-    .pattern(/^[0-9]+$/)
+    .pattern(/^[0-9]{10}$/)
+    .required()
     .messages({
-      'string.pattern.base': 'Phone must contain only numbers',
+      'string.empty': 'Phone Number is required',
+      'any.required': 'Phone Number is required',
+      'string.pattern.base': 'Phone Number must be phone number format',
     }),
   birthday: Joi.date().messages({
     'date.base': 'Birthday must be a valid date',
@@ -32,7 +35,6 @@ export const userSchema = Joi.object({
   gender: Joi.string().valid('MALE', 'FEMALE', 'OTHER').messages({
     'any.only': 'Gender must be male, female, or prefer not to say',
   }),
-  address: Joi.string().messages({
-    'string.empty': 'Address is required',
-  }),
+  address: Joi.allow(),
+  description: Joi.allow(),
 });

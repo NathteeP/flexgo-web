@@ -2,14 +2,25 @@ import React, { useState } from 'react';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import wishListApi from '../api/wishlist';
+import { useEffect } from 'react';
 
-const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
+const ProductCard = ({ id, title, price, distance, rating, imageUrl, isOnUserWishList }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  useEffect(() => {
+    setIsFavorite(isOnUserWishList)
+  },[isOnUserWishList])
 
   const navigate = useNavigate();
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e) => {
+    e.stopPropagation()
     setIsFavorite(!isFavorite);
+    if (isFavorite) {
+      wishListApi.removeFromWishList(id)
+    } else {
+      wishListApi.addToWishList(id)
+    }
   };
 
   const onClickNavigate = (to) => navigate(to);

@@ -1,4 +1,3 @@
-// HostAddingNewAccomStep5.js
 import React from 'react';
 import * as Icons from '../Icons/AllIcons'; // Ensure this path is correct or adjust accordingly
 import { useSelector } from 'react-redux';
@@ -82,11 +81,6 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
-        <h2 className='text-xl font-semibold mb-4'>Place Type</h2>
-        <p>{formData.selectedPlace}</p>
-      </div>
-
-      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Address</h2>
         <p>{formData.address}</p>
         <p>
@@ -99,15 +93,13 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
         {room.roomList.map((room, index) => (
           <div key={index}>
             <p>
-              Room {index + 1}: {room.roomType} - {room.bedType}
+              <strong>Room {index + 1}:</strong> {room.roomType}
             </p>
+            <p>Bed Type: {room.bedType}</p>
+            <p>Bed Quantity: {room.bedQuantity}</p>
+            <p>Guests: {room.guests}</p>
           </div>
         ))}
-      </div>
-
-      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
-        <h2 className='text-xl font-semibold mb-4'>Number of Guests</h2>
-        <p>{formData.guests}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
@@ -156,11 +148,6 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>House Rules</h2>
         <p>{formData.houseRule}</p>
-      </div>
-
-      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
-        <h2 className='text-xl font-semibold mb-4'>Price per night</h2>
-        <p>{formData.price} ฿</p>
       </div>
 
       <div className='flex justify-between'>

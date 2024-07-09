@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import Avatar from './Avatar';
+import Avatar from '../Avatar';
 
-const Review = ({ direction = 'right', reviews = [] }) => {
+const ReviewBy = ({ direction = 'right', reviews = [] }) => {
   const userReviews = [
     {
       name: 'Oiled',
@@ -165,4 +164,4 @@ const Review = ({ direction = 'right', reviews = [] }) => {
   );
 };
 
-export default Review;
+export default ReviewBy;

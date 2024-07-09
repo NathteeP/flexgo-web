@@ -3,6 +3,8 @@ import Button from '../Button';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import wishListApi from '../../api/wishlist';
 
 const CardHomePage = ({
   photo,
@@ -14,9 +16,26 @@ const CardHomePage = ({
   distance,
   reviews,
   id,
+  isOnUserWishList,
 }) => {
   const navigate = useNavigate();
   const onClickNavigate = () => navigate(`/accommodationDetail/${id}`);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    setIsFavorite(isOnUserWishList)
+  },[isOnUserWishList])
+
+
+  const toggleFavorite = (e) => {
+    e.stopPropagation()
+    setIsFavorite(!isFavorite);
+    if (isFavorite) {
+      wishListApi.removeFromWishList(id)
+    } else {
+      wishListApi.addToWishList(id)
+    }
+  };
 
   return (
     <div
@@ -24,6 +43,7 @@ const CardHomePage = ({
       id={id}
       className='flex h-[450px] px-10 py-4 gap-8 relative cursor-pointer'
     >
+
       <div className='w-[50%] grid grid-rows-3 grid-cols-8 gap-2'>
         <div className='col-span-2 bg-red-300 rounded-tl-[40px] overflow-hidden'>
           <img
@@ -31,7 +51,30 @@ const CardHomePage = ({
             src={photo[0].imagePath}
           />
         </div>
-        <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px] overflow-hidden'>
+        <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px] overflow-hidden relative'>
+
+        <div className='absolute top-8 right-8 mb-7 ml-0.5 z-50'>
+        <button
+          onClick={toggleFavorite}
+          className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg hover:bg-opacity-30'
+        >
+          <div></div>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill={isFavorite ? 'red' : 'white'}
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            className='w-12 h-12'
+          >
+            <path
+              d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'
+              stroke='none'
+              fill={isFavorite ? 'red' : 'white'}
+            />
+          </svg>
+        </button>
+      </div>
+
           <img
             className='object-cover w-full h-full'
             src={photo[1].imagePath}
