@@ -8,14 +8,13 @@ const data = [
   { name: 'Others', value: 200, fill: '#A8C5DA' },
 ];
 
-const renderColorfulLegendText = (value, entry) => {
+const renderColorfulLegendText = (value) => {
   return (
     <span
       style={{
         color: '#596579',
         fontWeight: 300,
         padding: '10px',
-
         marginBottom: '8px',
       }}
     >
@@ -26,11 +25,7 @@ const renderColorfulLegendText = (value, entry) => {
 
 const DonutChart = () => {
   return (
-    <ResponsiveContainer
-      width='100%'
-      height='100%'
-      className='pr-20 translate-y-4 '
-    >
+    <ResponsiveContainer width='100%' height={300}>
       <PieChart>
         <Legend
           iconType='circle'
@@ -39,14 +34,13 @@ const DonutChart = () => {
           align='right'
           iconSize={10}
           formatter={renderColorfulLegendText}
-          className=''
         />
         <Pie
           data={data}
           cx='50%'
           cy='50%'
-          innerRadius={40}
-          outerRadius={80}
+          innerRadius='40%'
+          outerRadius='60%'
           fill='#8884d8'
           paddingAngle={2}
           dataKey='value'
@@ -55,7 +49,6 @@ const DonutChart = () => {
       </PieChart>
     </ResponsiveContainer>
   );
-  v;
 };
 
 export default DonutChart;

@@ -150,7 +150,7 @@ const AccountPage = () => {
           name='firstName'
           {...register('firstName')}
           error={errors.firstName?.message}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none '
         />
       </div>
 
@@ -162,7 +162,7 @@ const AccountPage = () => {
           name='lastName'
           {...register('lastName')}
           error={errors.lastName?.message}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
         />
       </div>
 
@@ -176,7 +176,7 @@ const AccountPage = () => {
           disabled={true}
           {...register('email')}
           error={errors.email?.message}
-          className='block bg-gray-400 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/30 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
         />
       </div>
 
@@ -189,7 +189,7 @@ const AccountPage = () => {
           name='phone'
           {...register('phone')}
           error={errors.phone?.message}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
         />
       </div>
 
@@ -204,7 +204,7 @@ const AccountPage = () => {
           type='date'
           id='birthday'
           {...register('birthday')}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
         />
       </div>
 
@@ -219,7 +219,7 @@ const AccountPage = () => {
           id='nationality'
           name='nationality'
           {...register('nationality')}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
         >
           <option value='' disabled>
             Select your nationality
@@ -248,7 +248,7 @@ const AccountPage = () => {
 
       <div className='mb-6'>
         <label
-          className='text-[12px] font-semibold text-gray-600 mb-2 block'
+          className='text-[12px] font-semibold text-gray-600 mb-2 block transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           htmlFor='gender'
         >
           Gender
@@ -257,7 +257,7 @@ const AccountPage = () => {
           id='gender'
           name='gender'
           {...register('gender')}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
         >
           <option value='' disabled>
             Select your gender
@@ -269,14 +269,30 @@ const AccountPage = () => {
       </div>
 
       <div className='mb-6'>
-        <Input
-          htmlFor='address'
-          inputName='Address'
+        <label htmlFor='address' className='text-[12px] font-semibold'>
+          Address
+        </label>
+        <textarea
           id='address'
           name='address'
           {...register('address')}
-          error={errors.address?.message}
-          className='block bg-gray-100 rounded-lg w-full h-[40px] px-4 text-gray-600 text-lg'
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[150px] px-4 text-gray-600 text-lg items-start text-start'
+          rows='5'
+          error={errors.description?.message}
+        />
+      </div>
+
+      <div className='mb-6'>
+        <label htmlFor='description' className='text-[12px] font-semibold'>
+          Description
+        </label>
+        <textarea
+          id='description'
+          name='description'
+          {...register('description')}
+          className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[150px] px-4 text-gray-600 text-lg items-start text-start'
+          rows='5'
+          error={errors.description?.message}
         />
       </div>
 
