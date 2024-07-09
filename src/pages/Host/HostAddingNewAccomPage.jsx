@@ -3,9 +3,26 @@ import HostAddingAccommodationStep1 from '../../components/HostAddingNewAccom/Ad
 import HostAddingAccommodationStep2 from '../../components/HostAddingNewAccom/AddingNewAccomStep2';
 import HostAddingAccommodationStep3 from '../../components/HostAddingNewAccom/AddingNewAccomStep3';
 import HostAddingAccommodationStep4 from '../../components/HostAddingNewAccom/AddingNewAccomStep4';
-
+import AddingNewAccomStep5 from '../../components/HostAddingNewAccom/AddingNewAccomStep5';
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    selectedType: '',
+    // selectedPlace: '',
+    country: '',
+    address: '',
+    district: '',
+    province: '',
+    roomTypes: [''],
+    bedTypes: ['Single'],
+    guests: 4,
+    amenities: [],
+    photos: [],
+    name: '',
+    description: '',
+    houseRule: '',
+    price: '',
+  });
 
   const topOfPageRef = useRef(null);
 
@@ -64,6 +81,15 @@ const HostAddingNewAccomPage = () => {
           )}
           {step === 4 && (
             <HostAddingAccommodationStep4
+              formData={formData}
+              setFormData={setFormData}
+              handleSubmit={handleSubmit}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
+          )}
+          {step === 5 && (
+            <AddingNewAccomStep5
               formData={formData}
               setFormData={setFormData}
               handleSubmit={handleSubmit}

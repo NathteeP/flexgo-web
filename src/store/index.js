@@ -19,8 +19,6 @@ const reservationPersistConfig = {
   key: 'reservation',
   storage: storage,
 };
-  storage: storage,
-};
 
 const store = configureStore({
   reducer: {

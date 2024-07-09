@@ -1,4 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  setHostFormData,
+  setRoomFormData,
+} from '../../store/slices/hostForm-slice';
 
 const AddingNewAccomStep4 = ({
   formData,
@@ -14,6 +20,9 @@ const AddingNewAccomStep4 = ({
       [name]: value,
     }));
   };
+
+  const { accom, room } = useSelector((state) => state.hostForm);
+  const dispatch = useDispatch();
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -36,12 +45,14 @@ const AddingNewAccomStep4 = ({
         <input
           type='text'
           name='name'
-          value={formData.name}
-          onChange={handleChange}
+          value={accom.name}
+          onChange={(e) =>
+            dispatch(setHostFormData({ type: 'name', data: e.target.value }))
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           placeholder='Enter your house title...'
         />
-        <p className='text-right text-gray-600'>{formData.name.length}/50</p>
+        <p className='text-right text-gray-600'>{accom.name.length}/50</p>
       </div>
 
       <div className='mt-12'>
@@ -53,14 +64,18 @@ const AddingNewAccomStep4 = ({
         </div>
         <textarea
           name='description'
-          value={formData.description}
-          onChange={handleChange}
+          value={accom.description}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({ type: 'description', data: e.target.value })
+            )
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           rows='4'
           placeholder='You will have a great time at this comfortable place to stay'
         />
         <p className='text-right text-gray-600'>
-          {formData.description.length}/500
+          {accom.description.length}/500
         </p>
       </div>
 
@@ -76,15 +91,17 @@ const AddingNewAccomStep4 = ({
         </div>
         <textarea
           name='houseRule'
-          value={formData.houseRule}
-          onChange={handleChange}
+          value={accom.houseRule}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({ type: 'houseRule', data: e.target.value })
+            )
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           rows='4'
           placeholder={`Check-in after 14:00 \nCheck-out before 12:00 pm \nPet is prohibited in bedroom and shared area`}
         />
-        <p className='text-right text-gray-600'>
-          {formData.houseRule.length}/500
-        </p>
+        <p className='text-right text-gray-600'>{accom.houseRule.length}/500</p>
       </div>
 
       <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
