@@ -89,7 +89,7 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
           Where's your place located?
         </h2>
         <div className='relative'>
-          {/* <MapWrapper MapWithAutoComplete={true} /> */}
+          <MapWrapper MapWithAutoComplete={true} />
         </div>
       </div>
 

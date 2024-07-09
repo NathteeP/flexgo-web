@@ -42,7 +42,6 @@ export default function Map({ autoComplete }) {
       <GoogleMap
         zoom={11}
         center={coordinate}
-        options={options}
         mapContainerClassName='map-container'
         onLoad={onLoad}
       >

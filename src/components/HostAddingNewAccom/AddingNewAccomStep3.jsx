@@ -35,41 +35,41 @@ const HostAddingNewAccomStep3 = ({
 
   const dispatch = useDispatch();
   const { accom, room } = useSelector((state) => state.hostForm);
-  const handleAddRoomAndBedType = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: [
-        ...prevData.roomTypes,
-        { id: Date.now(), name: '', bedType: 'Single bed' },
-      ],
-    }));
-  };
+  // const handleAddRoomAndBedType = () => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     roomTypes: [
+  //       ...prevData.roomTypes,
+  //       { id: Date.now(), name: '', bedType: 'Single bed' },
+  //     ],
+  //   }));
+  // };
 
-  const handleRoomTypeChange = (index, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index].name = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
+  // const handleRoomTypeChange = (index, value) => {
+  //   const newRoomTypes = [...formData.roomTypes];
+  //   newRoomTypes[index].name = value;
+  //   setFormData({ ...formData, roomTypes: newRoomTypes });
+  // };
 
-  const handleBedTypeChange = (index, value) => {
-    const newBedTypes = [...formData.roomTypes];
-    newBedTypes[index].bedType = value;
-    setFormData({ ...formData, roomTypes: newBedTypes });
-  };
+  // const handleBedTypeChange = (index, value) => {
+  //   const newBedTypes = [...formData.roomTypes];
+  //   newBedTypes[index].bedType = value;
+  //   setFormData({ ...formData, roomTypes: newBedTypes });
+  // };
 
-  const handleRemoveRoom = (id) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: prevData.roomTypes.filter((room) => room.id !== id),
-    }));
-  };
+  // const handleRemoveRoom = (id) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     roomTypes: prevData.roomTypes.filter((room) => room.id !== id),
+  //   }));
+  // };
 
-  const handleGuestChange = (increment) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      guests: Math.max(1, prevData.guests + increment),
-    }));
-  };
+  // const handleGuestChange = (increment) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     guests: Math.max(1, prevData.guests + increment),
+  //   }));
+  // };
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -97,7 +97,7 @@ const HostAddingNewAccomStep3 = ({
         </div>
 
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
-          {room.roomTypes.map((item, index) => (
+          {room.roomList.map((item, index) => (
             <div
               key={index}
               className='flex flex-col items-center space-y-4 p-4'
@@ -109,7 +109,7 @@ const HostAddingNewAccomStep3 = ({
                   </label>
                   <input
                     type='text'
-                    value={item.name}
+                    value={item.roomType}
                     onChange={(e) =>
                       dispatch(
                         changeRoomType({
@@ -182,9 +182,11 @@ const HostAddingNewAccomStep3 = ({
           </h2>
         </div>
         <div className='flex items-center justify-center space-x-4'>
-          {room.roomTypes.map((item, index) => (
+          {room.roomList.map((item, index) => (
             <div key={index}>
-              <span className='text-[64px] font-medium px-8'>{item.name}</span>
+              <span className='text-[64px] font-medium px-8'>
+                {item.roomType}
+              </span>
               <button
                 onClick={() => dispatch(setRoomCapacity({ index, value: -1 }))}
                 className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'

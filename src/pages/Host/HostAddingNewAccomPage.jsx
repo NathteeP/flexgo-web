@@ -7,21 +7,7 @@ import AddingNewAccomStep5 from '../../components/HostAddingNewAccom/AddingNewAc
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    selectedType: '',
-    // selectedPlace: '',
-    country: '',
-    address: '',
-    district: '',
-    province: '',
-    roomTypes: [''],
-    bedTypes: ['Single'],
-    guests: 4,
-    amenities: [],
     photos: [],
-    name: '',
-    description: '',
-    houseRule: '',
-    price: '',
   });
 
   const topOfPageRef = useRef(null);

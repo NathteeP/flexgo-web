@@ -17,7 +17,7 @@ const initialState = {
     coordinate: defaultAddress.coordinate,
   },
   room: {
-    roomTypes: [{ name: 'Standard Room', bedTypes: 'Single', capacity: 4 }],
+    roomList: [{ roomType: 'Standard Room', bedTypes: 'Single', capacity: 4 }],
     amenities: [],
   },
   gMapAddress: defaultAddress.address,
@@ -37,44 +37,38 @@ const hostForm = createSlice({
       state.gMapAddress = action.payload;
     },
     setRoomFormData: (state, action) => {
-      if (action.payload.type === 'roomTypes') {
-        state.room.roomTypes[action.payload.index].name = action.payload.data;
-      }
-
       if (action.payload.type === 'bedTypes') {
-        state.room.roomTypes[action.payload.index].bedTypes =
-          action.payload.data;
+        const { index, data } = action.payload;
+        state.room.roomList[index].bedTypes = data;
       }
 
       if (action.payload.type === 'roomBed') {
-        state.room.roomTypes.push({
-          name: 'Standard Room',
+        state.room.roomList.push({
+          roomType: 'Standard Room',
           bedTypes: 'Single',
           capacity: 1,
         });
       }
 
       if (action.payload.type === 'remove') {
-        state.room.roomTypes.splice(action.payload.index, 1);
+        state.room.roomList.splice(action.payload.index, 1);
       }
 
       state.room[action.payload.type] = action.payload.data;
     },
     setRoomCapacity: (state, action) => {
-      if (action.payload.value === -1) {
-        if (state.room.roomTypes[action.payload.index].capacity === 1)
-          return state;
-      } else if (action.payload.value === 1) {
-        if (state.room.roomTypes[action.payload.index].capacity === 20)
-          return state;
+      const { index, value } = action.payload;
+      if (value === -1) {
+        if (state.room.roomList[index].capacity === 1) return state;
+      } else if (value === 1) {
+        if (state.room.roomList[index].capacity === 20) return state;
       }
-      state.room.roomTypes[action.payload.index].capacity +=
-        action.payload.value;
+      state.room.roomList[index].capacity += value;
     },
     addRoomAmenities: (state, action) => {
-      if (state.room.amenities.includes(action.payload)) {
+      if (state.room.amenities.some((item) => item.id === action.payload.id)) {
         const index = state.room.amenities.findIndex(
-          (item) => item === action.payload
+          (item) => item.id === action.payload.id
         );
         state.room.amenities.splice(index, 1);
         return state;
@@ -83,8 +77,8 @@ const hostForm = createSlice({
     },
     changeRoomType: (state, action) => {
       const { data, index } = action.payload;
-      if (state.room.roomTypes[index]) {
-        state.room.roomTypes[index].name = data;
+      if (state.room.roomList[index]) {
+        state.room.roomList[index].roomType = data;
       }
     },
   },

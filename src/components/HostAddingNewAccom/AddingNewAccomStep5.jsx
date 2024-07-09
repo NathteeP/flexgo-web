@@ -1,6 +1,7 @@
 // HostAddingNewAccomStep5.js
 import React from 'react';
 import * as Icons from '../Icons/AllIcons'; // Ensure this path is correct or adjust accordingly
+import { useSelector } from 'react-redux';
 
 const iconMapping = {
   FaWifiIcon: Icons.FaWifiIcon,
@@ -67,6 +68,8 @@ const iconMapping = {
 };
 
 const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
+  const { accom, room } = useSelector((state) => state.hostForm);
+
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
@@ -93,10 +96,10 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Rooms and Bed Types</h2>
-        {formData.roomTypes.map((room, index) => (
+        {room.roomList.map((room, index) => (
           <div key={index}>
             <p>
-              Room {index + 1}: {room.name} - {room.bedType}
+              Room {index + 1}: {room.roomType} - {room.bedType}
             </p>
           </div>
         ))}
@@ -110,15 +113,15 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Amenities</h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-          {formData.amenities.map((amenity, index) => {
-            const IconComponent = iconMapping[amenity];
+          {room.amenities.map((amenity, index) => {
+            const IconComponent = iconMapping[amenity.icon];
             return (
               <div
                 key={index}
                 className='flex items-center gap-2 p-2 border rounded-md'
               >
                 {IconComponent && <IconComponent className='text-2xl' />}
-                <span className='text-base'>{amenity}</span>
+                <span className='text-base'>{amenity.name}</span>
               </div>
             );
           })}
