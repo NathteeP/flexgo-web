@@ -37,6 +37,7 @@ const AccountPage = () => {
       nationality: '',
       gender: '',
       address: '',
+      description: '',
     },
   });
 
@@ -59,6 +60,7 @@ const AccountPage = () => {
       setValue('nationality', authUser.nationality);
       setValue('gender', authUser.gender);
       setValue('address', authUser.address);
+      setValue('description', authUser.description);
       setImagePreview(authUser.profileImage?.imagePath || defaultAvatar);
     }
   }, [authUser, setValue]);
@@ -82,7 +84,11 @@ const AccountPage = () => {
     });
 
     try {
-      await promise;
+      const result = await promise;
+      console.log(result);
+      if (profileImage && result.profileImage) {
+        setImagePreview(result.profileImage.imagePath);
+      }
     } catch (error) {
       console.error('Update failed', error);
     }
@@ -278,7 +284,7 @@ const AccountPage = () => {
           {...register('address')}
           className='block bg-[#3c2f1e]/10 rounded-lg w-full h-[150px] px-4 text-gray-600 text-lg items-start text-start'
           rows='5'
-          error={errors.description?.message}
+          error={errors.address?.message}
         />
       </div>
 
