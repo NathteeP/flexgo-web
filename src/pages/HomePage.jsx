@@ -100,6 +100,14 @@ const Homepage = () => {
 
   const onClickNavigate = (to) => navigate(to);
 
+  //===================WISHLIST LOGIC=======================
+  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+
+  const cloneAccomsList = accomsList.map(el => {
+      return {...el, isOnUserWishList: Boolean(allWishList?.find(wlEl => wlEl.accomId === el.id))}
+  })
+  
+
   return (
     <>
       {/* Hero Part */}
@@ -160,8 +168,8 @@ const Homepage = () => {
         <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
           <FilterBar />
         </div>
-        {accomsList?.length >= 1
-          ? accomsList?.map((item, index) => (
+        {cloneAccomsList?.length >= 1
+          ? cloneAccomsList?.map((item, index) => (
               <div
                 key={item.id}
                 className='w-[768px] transition transform hover:scale-[103%] md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer '
@@ -178,6 +186,7 @@ const Homepage = () => {
                   distance={item.distance}
                   reviews={item.reviews}
                   photo={item.accomPhoto}
+                  isOnUserWishList={item.isOnUserWishList}
                 />
               </div>
             ))

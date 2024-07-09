@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import wishListApi from '../api/wishlist';
+import { useNavigate } from 'react-router-dom';
 
-const WishListCard = ({ title, price, distance, rating, imageUrl }) => {
+const WishListCard = ({ name, starterPrice, distance, overAllReview, imagePath, id }) => {
   const [isFavorite, setIsFavorite] = useState(true);
+  const title = name
+  const price = starterPrice
+  const imageUrl = imagePath
+  const rating = overAllReview
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e) => {
+    e.stopPropagation()
     setIsFavorite(!isFavorite);
+    if (isFavorite) {
+      wishListApi.removeFromWishList(id)
+    } else {
+      wishListApi.addToWishList(id)
+    }
   };
 
+  const navigate = useNavigate()
+
   return (
-    <div className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'>
-      <img className='w-full' src={imageUrl} alt={title} />
+    <div className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'
+    role='button'
+    onClick={()=> navigate(`/accommodationDetail/${id}`)}
+    >
+      <img className='w-full h-48' src={imageUrl} alt={title} />
       <div className='absolute top-0 left-0 bg-black bg-opacity-30 mt-2 ml-2 px-1 py-1 rounded-lg'>
         <div className='font-light text-white text-sm'>{title}</div>
       </div>
       <div className='absolute bottom-0 right-0 bg-black bg-opacity-30 px-1 py-1 mb-8 mr-1 rounded-lg'>
-        <p className='font-light text-white text-sm'>{price}</p>
+        <p className='font-light text-white text-sm'>THB {price}</p>
       </div>
 
       <div className='absolute bottom-0 left-0 mb-7 ml-0.5'>
@@ -46,14 +63,14 @@ const WishListCard = ({ title, price, distance, rating, imageUrl }) => {
           <Stack spacing={1}>
             <Rating
               name='half-rating'
-              defaultValue={4.5}
-              precision={0.5}
+              defaultValue={rating}
+              precision={0.1}
               className='text-sm'
             />
           </Stack>
         </div>
         <span className='inline-block  px-2 py-1 text-sm font-medium text-gray-700'>
-          {distance}
+          {distance} km.
         </span>
       </div>
     </div>
