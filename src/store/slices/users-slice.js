@@ -3,12 +3,25 @@ import userApi from '../../api/users';
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
-  async (payload, thunkAPI) => {
+  async (
+    { page = 1, sortKey = 'createdAt', sortOrder = 'asc', searchTerm = '' },
+    thunkAPI
+  ) => {
     try {
-      const response = await userApi.getAllUsers();
-      return response.data.users;
+      const response = await userApi.getAllUsers(
+        page,
+        sortKey,
+        sortOrder,
+        searchTerm
+      );
+      console.log('Fetched users:', response.data);
+      return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      console.error(
+        'Error fetching users:',
+        error.response?.data || error.message
+      );
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   }
 );
@@ -19,6 +32,9 @@ const initialState = {
   error: null,
   currentPage: 1,
   totalPages: 1,
+  sortKey: 'createdAt',
+  sortOrder: 'asc',
+  searchTerm: '',
 };
 
 const usersSlice = createSlice({
@@ -28,6 +44,13 @@ const usersSlice = createSlice({
     setPage: (state, action) => {
       state.currentPage = action.payload;
     },
+    setSortConfig: (state, action) => {
+      state.sortKey = action.payload.key;
+      state.sortOrder = action.payload.direction;
+    },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -36,8 +59,9 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.users = action.payload;
-        state.totalPages = Math.ceil(action.payload.length / 10); // สมมุติว่าต้องการแสดง 10 รายการต่อหน้า
+        state.users = action.payload.users;
+        state.totalPages = action.payload.totalPages;
+        state.currentPage = action.payload.currentPage;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.isLoading = false;
@@ -46,6 +70,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { setPage } = usersSlice.actions;
+export const { setPage, setSortConfig, setSearchTerm } = usersSlice.actions;
 
 export const usersReducer = usersSlice.reducer;

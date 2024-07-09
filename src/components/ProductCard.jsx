@@ -18,18 +18,18 @@ const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
     <div
       id={id}
       role='button'
-      className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'
+      className='relative max-w-sm rounded-xl overflow-hidden shadow-lg my-2 transition-transform transform hover:scale-105'
       onClick={() => onClickNavigate(`/accommodationDetail/${id}`)}
     >
-      <img className='w-full  object-cover' src={imageUrl} alt={title} />
+      <img className='w-full h-48  object-cover' src={imageUrl} alt={title} />
       <div className='absolute top-0 left-0 bg-black bg-opacity-30 mt-2 ml-2 px-1 py-1 rounded-lg'>
         <div className='font-light text-white text-sm'>{title}</div>
       </div>
-      <div className='absolute bottom-0 right-0 bg-black bg-opacity-30 px-1 py-1 mb-8 mr-1 rounded-lg -translate-y-1'>
-        <p className='font-light text-white text-sm'>{price}</p>
+      <div className='absolute bottom-0 right-0 bg-black bg-opacity-30 px-1 py-1 mb-10 mr-1 rounded-lg -translate-y-1'>
+        <p className='font-medium text-white text-sm'>THB {price}</p>
       </div>
 
-      <div className='absolute bottom-0 left-0 mb-7 ml-0.5'>
+      <div className='absolute bottom-0 left-0 mb-9 ml-0.5'>
         <button
           onClick={toggleFavorite}
           className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg -translate-y-2'
@@ -51,8 +51,8 @@ const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
         </button>
       </div>
 
-      <div className='flex justify-between'>
-        <div className='ml-2 my-2 '>
+      <div className='flex justify-between items-center'>
+        <div className='ml-2 mt-2 '>
           <Stack spacing={1}>
             <Rating
               name='half-rating'
@@ -62,8 +62,8 @@ const ProductCard = ({ id, title, price, distance, rating, imageUrl }) => {
             />
           </Stack>
         </div>
-        <span className='inline-block  px-2 py-1 text-sm font-medium text-gray-700'>
-          {distance}
+        <span className='inline-block  px-2 py-1 mt-2 text-sm font-medium text-gray-700'>
+          {distance} km.
         </span>
       </div>
     </div>

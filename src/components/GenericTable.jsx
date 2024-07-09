@@ -15,13 +15,10 @@ const GenericTable = ({
   currentPage,
   totalPages,
   onPageChange,
+  sortKey,
+  sortOrder,
   loading,
 }) => {
-  const [sortConfig, setSortConfig] = useState({
-    key: 'createdAt',
-    direction: 'descending',
-  });
-
   const [showSkeleton, setShowSkeleton] = useState(true);
 
   useEffect(() => {
@@ -34,32 +31,25 @@ const GenericTable = ({
   }, [loading]);
 
   const handleSort = (key) => {
-    let direction = 'ascending';
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === 'ascending'
-    ) {
-      direction = 'descending';
+    let direction = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      direction = 'desc';
     }
-    setSortConfig({ key, direction });
     onSort(key, direction);
   };
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig) return data;
+    if (!sortKey) return data;
     return [...data].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key])
-        return sortConfig.direction === 'ascending' ? -1 : 1;
-      if (a[sortConfig.key] > b[sortConfig.key])
-        return sortConfig.direction === 'ascending' ? 1 : -1;
+      if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
+      if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [data, sortConfig]);
+  }, [data, sortKey, sortOrder]);
 
   const renderArrow = (columnKey) => {
-    if (!sortConfig || sortConfig.key !== columnKey) return null;
-    return sortConfig.direction === 'ascending' ? '↑' : '↓';
+    if (sortKey !== columnKey) return null;
+    return sortOrder === 'asc' ? '↑' : '↓';
   };
 
   return (
@@ -186,6 +176,8 @@ GenericTable.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  sortKey: PropTypes.string.isRequired,
+  sortOrder: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
