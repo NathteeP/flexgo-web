@@ -81,7 +81,6 @@ const BookingHistoryPage = () => {
   },[])
     
   const authUser = useSelector((state) => state.user.authUser)
-  console.log(authUser)
   
   return (
   <div className='p-4'>

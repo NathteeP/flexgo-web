@@ -60,7 +60,7 @@ export default function CheckOutSuccessPage() {
   );
 
   useEffect(() => {
-    dispatch(fetchRoomAndAccomByRoomId(reservationData.roomId));
+    if (reservationData.roomId) dispatch(fetchRoomAndAccomByRoomId(reservationData.roomId));
   }, [reservationData.roomId]);
 
   const roomAccom = useSelector((state) => state.room.roomData);
