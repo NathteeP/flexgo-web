@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchUsers,
@@ -28,17 +28,44 @@ const UserManagement = () => {
     searchTerm,
   } = useSelector((state) => state.users);
   const { isUserManagementOpen } = useSelector((state) => state.modal);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+
+  // Debounce function
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  // หน่วงเวลาตอน search และ sort
+  const debouncedSetSearchTerm = useCallback(
+    debounce((term) => {
+      setDebouncedSearchTerm(term);
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
-    dispatch(fetchUsers({ page: currentPage, sortKey, sortOrder, searchTerm }));
-  }, [dispatch, currentPage, sortKey, sortOrder, searchTerm]);
+    dispatch(
+      fetchUsers({
+        page: currentPage,
+        sortKey,
+        sortOrder,
+        searchTerm: debouncedSearchTerm,
+      })
+    );
+  }, [dispatch, currentPage, sortKey, sortOrder, debouncedSearchTerm]);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
     dispatch(setSearchTerm(term));
-    dispatch(
-      fetchUsers({ page: currentPage, sortKey, sortOrder, searchTerm: term })
-    );
+    debouncedSetSearchTerm(term);
   };
 
   const handleRowClick = (user) => {
@@ -51,19 +78,14 @@ const UserManagement = () => {
       direction = 'desc';
     }
     dispatch(setSortConfig({ key, direction }));
-    dispatch(
-      fetchUsers({
-        page: currentPage,
-        sortKey: key,
-        sortOrder: direction,
-        searchTerm,
-      })
-    );
+    debouncedSetSearchTerm(searchTerm); // เรียก debounce สำหรับการ sort ด้วย
   };
 
   const handlePageChange = (page) => {
     dispatch(setPage(page));
-    dispatch(fetchUsers({ page, sortKey, sortOrder, searchTerm }));
+    dispatch(
+      fetchUsers({ page, sortKey, sortOrder, searchTerm: debouncedSearchTerm })
+    );
   };
 
   const columns = [
