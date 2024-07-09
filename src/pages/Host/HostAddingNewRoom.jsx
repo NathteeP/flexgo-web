@@ -1,9 +1,12 @@
+// HostAddingNewRoom.js
 import React, { useState, useRef } from 'react';
 import HostAddingNewRoomStep1 from '../../components/HostAddingNewRoom/AddingNewRoomStep1';
+import HostAddingNewRoomPreview from '../../components/HostAddingNewRoom/HostAddingNewRoomPreview';
 
 const HostAddingNewRoom = () => {
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    roomTypes: [{ id: Date.now(), name: '', bedType: 'Single bed' }], // Initialize with one room
+    roomTypes: [{ id: Date.now(), name: '', bedType: 'Single bed' }],
     bedTypes: ['Single'],
     guests: 4,
     photos: [],
@@ -11,6 +14,16 @@ const HostAddingNewRoom = () => {
   });
 
   const topOfPageRef = useRef(null);
+
+  const nextStep = () => {
+    setStep((prev) => prev + 1);
+    scrollToTop();
+  };
+
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+    scrollToTop();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,10 +42,20 @@ const HostAddingNewRoom = () => {
       <div className='bg-white p-8 rounded shadow-md w-full'>
         <form onSubmit={handleSubmit}>
           <div ref={topOfPageRef} />
-          <HostAddingNewRoomStep1
-            formData={formData}
-            setFormData={setFormData}
-          />
+          {step === 1 && (
+            <HostAddingNewRoomStep1
+              formData={formData}
+              setFormData={setFormData}
+              nextStep={nextStep}
+            />
+          )}
+          {step === 2 && (
+            <HostAddingNewRoomPreview
+              formData={formData}
+              prevStep={prevStep}
+              handleSubmit={handleSubmit}
+            />
+          )}
         </form>
       </div>
     </div>

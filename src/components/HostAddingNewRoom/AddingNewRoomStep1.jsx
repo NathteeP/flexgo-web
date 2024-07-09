@@ -1,12 +1,7 @@
 import React from 'react';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
 
-const HostAddingNewRoomStep1 = ({
-  formData,
-  setFormData,
-  nextStep,
-  prevStep,
-}) => {
+const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
   const bedTypes = [
     'Single bed',
     'Semi double-bed',
@@ -194,10 +189,11 @@ const HostAddingNewRoomStep1 = ({
 
       <div className='flex justify-end mt-8'>
         <button
-          type='submit'
+          type='button'
+          onClick={nextStep}
           className='px-6 py-2 bg-fg-primary-01 hover:bg-amber-600 text-white font-medium rounded-md shadow-lg'
         >
-          Confirm and Publish
+          Preview
         </button>
       </div>
     </div>
