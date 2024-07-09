@@ -16,6 +16,8 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const { userLocation, date } = useSelector((state) => state.info);
 
+  const {authUser} = useSelector(state => state.user)
+
   const navigate = useNavigate();
   const fadeInCarouselRef = useRef(null);
   const fadeInCardRefs = useRef([]);

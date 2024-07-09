@@ -124,7 +124,7 @@ export const updateUserProfile = createAsyncThunk(
 
 const initialState = {
   authUser: null,
-  isLoading: false,
+  isLoading: true,
   error: null,
   otpRefCode: null,
   userEmail: null,
@@ -132,7 +132,7 @@ const initialState = {
   roomsList: [],
   isLoadingAccom: false,
   isLoadingRoomList: false,
-  rating: {},
+  rating: null,
   hostTime: 0,
 };
 

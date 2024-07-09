@@ -12,6 +12,7 @@ import HostProfilePage from '../pages/Users/HostProfilePage';
 import BookingHistoryPage from '../pages/Users/BookingHistoryPage';
 
 // host's part
+import HostProtectedRoute from './HostProtectedRoute';
 import HostHomepage from '../pages/Host/HostHomepage';
 import HostDashboardAccom1 from '../pages/Host/HostDashboardAccom';
 
@@ -65,7 +66,7 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: '/host',
-    element: <HostContainer />,
+    element:<HostProtectedRoute><HostContainer /></HostProtectedRoute>,
     children: [
       { path: '/host', element: <HostHomepage /> },
       { path: '/host/Dashboard/accom', element: <HostDashboardAccom /> },

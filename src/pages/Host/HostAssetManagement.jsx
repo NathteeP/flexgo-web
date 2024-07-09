@@ -15,6 +15,7 @@ import {
   closeAdminRemoveRoom,
   openAdminRemoveRoom,
 } from '../../store/slices/modal-slice';
+import { useNavigate } from 'react-router-dom';
 
 const roomData = [
   {
@@ -66,6 +67,7 @@ const HostAssetManagement = () => {
   );
   const dispatch = useDispatch();
   const { isAdminRemoveRoomOpen } = useSelector((state) => state.modal);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchAllRoomByAccomId(accomsList[0]?.id));
@@ -88,7 +90,11 @@ const HostAssetManagement = () => {
         <div className='w-full md:w-2/3'>
           <div className='bg-white rounded-lg p-4 mb-4'>
             <div className='flex justify-start gap-4 mb-4'>
-              <AccomSelector accoms={accomsList} />
+              {accomsList.length >= 1 ? (
+                <AccomSelector accoms={accomsList} />
+              ) : (
+                <p className='text-transparent'>spacer</p>
+              )}
               <div className='w-1/2 h-10'>
                 <button
                   className='w-full h-12 border border-gray-200 flex rounded-xl items-center justify-center animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black'
@@ -198,7 +204,8 @@ const HostAssetManagement = () => {
                 <span className='text-yellow-500'>&#9733;</span>
                 <span>{rating?.count} reviews</span>
                 <span className='text-gray-600'>
-                  {rating.overAllReview} rating
+                  {isNaN(rating?.overAllReview) ? rating?.overAllReview : null}{' '}
+                  rating
                 </span>
               </div>
               <p className='text-gray-600'>Years Hosting: {hostTime}</p>

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUserDesiredLocation } from '../store/slices/searchInfo-slice';
 import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
+import PlaceAutoComplete from '../google-maps/PlaceAutoComplete';
 
 const SearchBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,7 +54,7 @@ const SearchBar = () => {
               type='text'
               name='location'
               placeholder='Bangkok, Thailand | Within 1 Km.'
-              className='flex-grow h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2 '
+              className='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2' // เพิ่ม padding ขวา
             />
           </div>
         </div>

@@ -3,6 +3,11 @@ import * as Icons from '../Icons/AllIcons'; // เอาทุกอันใช
 import Button from '../Button';
 import CustomModal from '../Modal';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  addRoomAmenities,
+  setRoomFormData,
+} from '../../store/slices/hostForm-slice';
 
 const iconMapping = {
   FaWifiIcon: Icons.FaWifiIcon,
@@ -68,19 +73,11 @@ const iconMapping = {
   PiDiscoBallDuotoneIcon: Icons.PiDiscoBallDuotoneIcon,
 };
 
-const AmenitiesSelector = ({ formData, setFormData }) => {
+const AmenitiesSelector = () => {
   const [filterText, setFilterText] = useState('');
   const { amenities } = useSelector((state) => state.amenities);
-
-  const handleSelect = (name) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      amenities: prevData.amenities.includes(name)
-        ? prevData.amenities.filter((item) => item !== name)
-        : [...prevData.amenities, name],
-    }));
-  };
-
+  const { room } = useSelector((state) => state.hostForm);
+  const dispatch = useDispatch();
   const filteredAmenities = amenities.filter((amenity) =>
     amenity.name.toLowerCase().includes(filterText.toLowerCase())
   );
@@ -101,9 +98,9 @@ const AmenitiesSelector = ({ formData, setFormData }) => {
           return (
             <button
               key={index}
-              onClick={() => handleSelect(amenity.name)}
+              onClick={() => dispatch(addRoomAmenities(amenity.id))}
               className={`flex items-center gap-4 p-2 border rounded-md ${
-                formData.amenities.includes(amenity.name)
+                room.amenities.includes(amenity.id)
                   ? 'bg-fg-secondary-02 text-white'
                   : ''
               }`}

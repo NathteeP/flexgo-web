@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const UploadPhotos = ({ formData, setFormData }) => {
+  const { accom } = useSelector((state) => state.hostForm);
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setFormData((prevData) => ({
@@ -15,7 +17,6 @@ const UploadPhotos = ({ formData, setFormData }) => {
       return { ...prevData, photos: newPhotos };
     });
   };
-
   return (
     <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
       <h2 className='text-xl font-semibold mb-4'>Upload Photos</h2>
