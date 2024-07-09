@@ -178,7 +178,7 @@ const HostAddingNewAccomStep3 = ({
                   />
                 </div>
                 <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Price</label>
+                  <label className='mb-2 text-center'>Price / night</label>
                   <input
                     type='number'
                     value={item.price}
