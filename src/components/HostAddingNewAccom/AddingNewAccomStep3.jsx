@@ -1,7 +1,7 @@
 import React from 'react';
 import AmenitiesSelector from '../HostAddingNewAccom/AmenitiesSelector';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
-import UploadRoomPhotos from '../HostAddingNewAccom/HostUploadRoomPics';
+// import UploadRoomPhotos from '../HostAddingNewAccom/HostUploadRoomPics';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {

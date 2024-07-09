@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const UploadRoomPhotos = ({ roomIndex, formData, setFormData }) => {
+  const [previews, setPreviews] = useState([]);
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+
+    setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+
     setFormData((prevData) => {
       const newRoomTypes = [...prevData.roomTypes];
       if (!newRoomTypes[roomIndex].photos) {
@@ -16,7 +22,8 @@ const UploadRoomPhotos = ({ roomIndex, formData, setFormData }) => {
     });
   };
 
-  const removePhoto = (roomIndex, index) => {
+  const removePhoto = (index) => {
+    setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
     setFormData((prevData) => {
       const newRoomTypes = [...prevData.roomTypes];
       newRoomTypes[roomIndex].photos = newRoomTypes[roomIndex].photos.filter(
@@ -38,18 +45,18 @@ const UploadRoomPhotos = ({ roomIndex, formData, setFormData }) => {
         className='mb-2'
       />
       <div className='flex flex-wrap'>
-        {formData.roomTypes[roomIndex].photos?.map((photo, index) => (
+        {previews.map((src, index) => (
           <div key={index} className='relative m-2'>
             <div className='flex justify-center items-center'>
               <img
-                src={URL.createObjectURL(photo)}
-                alt={`Uploaded ${index}`}
+                src={src}
+                alt={`Preview ${index}`}
                 className='w-32 h-32 object-cover'
               />
             </div>
             <button
               type='button'
-              onClick={() => removePhoto(roomIndex, index)}
+              onClick={() => removePhoto(index)}
               className='absolute top-0 right-0 bg-red-500 text-white rounded-full p-1'
             >
               &times;
