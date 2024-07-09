@@ -175,7 +175,7 @@ export default function CheckOutForm({ clientSecret }) {
               name='customerName'
               {...register('customerName')}
               error={errors.customerName?.message}
-              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
               placeholder='Enter your Full Name'
               disabled={useCurrentUserProfile}
             />
@@ -186,7 +186,7 @@ export default function CheckOutForm({ clientSecret }) {
               name='customerEmail'
               {...register('customerEmail')}
               error={errors.customerEmail?.message}
-              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
               variant='outlined'
               placeholder='Enter your Email'
               disabled={useCurrentUserProfile}
@@ -197,7 +197,7 @@ export default function CheckOutForm({ clientSecret }) {
               name='confirmEmail'
               {...register('confirmEmail')}
               error={errors.confirmEmail?.message}
-              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
               placeholder='Retype your Email'
               disabled={useCurrentUserProfile}
             />
@@ -208,7 +208,7 @@ export default function CheckOutForm({ clientSecret }) {
               name='customerPhone'
               {...register('customerPhone')}
               error={errors.customerPhone?.message}
-              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='mb-4 block bg-white border border-gray-300 rounded-lg w-full h-12 px-3 text-gray-700 text-lg transition-all duration-500 hover:scale-[103%] active:scale-90 focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
               placeholder='Enter your Phone Number'
               disabled={useCurrentUserProfile}
             />
@@ -251,7 +251,7 @@ export default function CheckOutForm({ clientSecret }) {
         />
         <div className='flex justify-end'>
           <CustomButton
-            className='w-44 shadow-lg text-white hover:text-fg-text-black'
+            className='w-44 shadow-lg text-white hover:bg-fg-secondary-01 hover:text-fg-text-black transition-all duration-500 hover:scale-[103%] active:scale-90'
             type='submit'
           >
             {' '}
