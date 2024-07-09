@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   PaymentElement,
@@ -44,7 +44,6 @@ export default function CheckOutForm({ clientSecret }) {
     (state) => state.payment.transactionData
   );
 
-  //================REACT HOOK FORM======================
   const {
     register,
     handleSubmit,
@@ -54,7 +53,7 @@ export default function CheckOutForm({ clientSecret }) {
   } = useForm({
     resolver: joiResolver(reservationSchema),
   });
-  //=================USE CURRENT PROFILE LOGIC==============
+
   const usingExistedProfileData = () => {
     setValue('customerName', authUser.fullName);
     setValue('customerEmail', authUser.email);
@@ -63,15 +62,16 @@ export default function CheckOutForm({ clientSecret }) {
     else dispatch(setUsingCurrentUserProfile(false));
   };
 
-  if (!authUser) dispatch(setUsingCurrentUserProfile(false));
-  else usingExistedProfileData();
+  useEffect(() => {
+    if (!authUser) dispatch(setUsingCurrentUserProfile(false));
+    else usingExistedProfileData();
+  }, [authUser, dispatch]);
 
   const handleChangeRadio = (event) => {
-    const value = event.target.value === 'true'; //convert string to boolean
+    const value = event.target.value === 'true';
     dispatch(setUsingCurrentUserProfile(value));
   };
 
-  //===================STRIPE OPTION=========================
   const options = {
     business: { name: 'FLEXGO' },
     fields: {
@@ -82,14 +82,13 @@ export default function CheckOutForm({ clientSecret }) {
       },
     },
   };
-  //====================SUBMIT FORM=========================
+
   const handleCheckOut = async (data) => {
     if (!stripe || !elements) {
       console.error('Stripe.js has not yet loaded.');
       return;
     }
     try {
-      //ปั้นข้อมูล
       const reservationAddingData = {
         checkInDate,
         checkOutDate,
@@ -136,13 +135,12 @@ export default function CheckOutForm({ clientSecret }) {
       console.log(err);
     }
   };
-  //===============COUNTRY COMPONENT======================
+
   const handleCountryChange = (country) => {
     setValue('customerCountry', country.label);
     clearErrors('customerCountry');
   };
 
-  //====================RENDERING===============================
   return (
     <div className='p-8 border-gray-900 shadow rounded'>
       <form onSubmit={handleSubmit(handleCheckOut)}>

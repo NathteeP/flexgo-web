@@ -119,21 +119,18 @@ const UserManagement = () => {
             className='flex border-[1px] mb-2 bg-[#F3F4F6] rounded-xl w-[350px] h-[32px] px-2 text-gray-500 text-[13px] mr-8 hover:border-[2px] hover:border-fg-secondary-02 hover:scale-105 transition duration-500 focus:border-[1px] focus:border-fg-secondary-02 focus:outline-none'
           />
         </div>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <GenericTable
-            columns={columns}
-            data={users}
-            onRowClick={handleRowClick}
-            onSort={handleSort}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
-        )}
+        <GenericTable
+          columns={columns}
+          data={users}
+          onRowClick={handleRowClick}
+          onSort={handleSort}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          loading={isLoading}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+        />
         {renderModal(
           isUserManagementOpen,
           closeUserManagement,
