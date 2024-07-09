@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Skeleton } from '@mui/material';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -14,11 +15,23 @@ const GenericTable = ({
   currentPage,
   totalPages,
   onPageChange,
+  loading,
 }) => {
   const [sortConfig, setSortConfig] = useState({
     key: 'createdAt',
     direction: 'descending',
   });
+
+  const [showSkeleton, setShowSkeleton] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => setShowSkeleton(false), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSkeleton(true);
+    }
+  }, [loading]);
 
   const handleSort = (key) => {
     let direction = 'ascending';
@@ -64,45 +77,68 @@ const GenericTable = ({
             </div>
           ))}
         </div>
-        {sortedData.map((item, index) => (
-          <div
-            key={index}
-            className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-            onClick={() => onRowClick(item)}
-          >
-            {columns.map((col) => (
+        {showSkeleton
+          ? Array.from(new Array(10)).map((_, index) => (
               <div
-                key={col.key}
-                className={`h-[60px] flex items-center justify-center ${col.key === 'email' ? 'break-all whitespace-normal' : ''}`}
+                key={index}
+                className='  text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
               >
-                {col.key === 'isActive' ? (
-                  <span
-                    className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${item[col.key] ? 'bg-green-200' : 'bg-red-200'}`}
+                <div className='flex justify-center opacity-70'>
+                  <Skeleton width='95%' height={60} />
+                </div>
+              </div>
+            ))
+          : sortedData.map((item, index) => (
+              <div
+                key={index}
+                className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
+                onClick={() => onRowClick(item)}
+              >
+                {columns.map((col) => (
+                  <div
+                    key={col.key}
+                    className={`h-[60px] flex items-center justify-center ${
+                      col.key === 'email' ? 'break-all whitespace-normal' : ''
+                    }`}
                   >
-                    {item[col.key] ? 'Active' : 'Inactive'}
-                  </span>
-                ) : col.key === 'role' ? (
-                  <span
-                    className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${item[col.key] === 'ADMIN' ? 'bg-blue-200' : 'bg-fg-primary-03'}`}
-                  >
-                    {item[col.key] || 'N/A'}
-                  </span>
-                ) : col.key === 'createdAt' ? (
-                  formatDate(item[col.key])
-                ) : (
-                  item[col.key] || 'N/A'
-                )}
+                    {col.key === 'isActive' ? (
+                      <span
+                        className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
+                          item[col.key] ? 'bg-green-200' : 'bg-red-200'
+                        }`}
+                      >
+                        {item[col.key] ? 'Active' : 'Inactive'}
+                      </span>
+                    ) : col.key === 'role' ? (
+                      <span
+                        className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
+                          item[col.key] === 'ADMIN'
+                            ? 'bg-blue-200'
+                            : 'bg-fg-primary-03'
+                        }`}
+                      >
+                        {item[col.key] || 'N/A'}
+                      </span>
+                    ) : col.key === 'createdAt' ? (
+                      formatDate(item[col.key])
+                    ) : (
+                      item[col.key] || 'N/A'
+                    )}
+                  </div>
+                ))}
               </div>
             ))}
-          </div>
-        ))}
 
         <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] sticky bottom-0'>
           <div className='flex justify-center items-center mt-4 col-span-8 -translate-y-3'>
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${
+                currentPage === 1
+                  ? 'cursor-not-allowed opacity-50'
+                  : 'cursor-pointer'
+              }`}
             >
               Previous
             </button>
@@ -111,7 +147,9 @@ const GenericTable = ({
                 <button
                   key={index + 1}
                   onClick={() => onPageChange(index + 1)}
-                  className={`px-2 py-1 hover:scale-[120%] ${currentPage === index + 1 ? 'text-bold' : 'cursor-pointer'}`}
+                  className={`px-2 py-1 hover:scale-[120%] ${
+                    currentPage === index + 1 ? 'text-bold' : 'cursor-pointer'
+                  }`}
                 >
                   {index + 1}
                 </button>
@@ -120,7 +158,11 @@ const GenericTable = ({
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+              className={`px-4 py-2 rounded-lg hover:scale-[120%] active:scale-75 transition-all duration-300 hover:font-extrabold ${
+                currentPage === totalPages
+                  ? 'cursor-not-allowed opacity-50'
+                  : 'cursor-pointer'
+              }`}
             >
               Next
             </button>
@@ -144,6 +186,7 @@ GenericTable.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default GenericTable;

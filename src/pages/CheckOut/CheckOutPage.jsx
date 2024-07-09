@@ -1,67 +1,85 @@
-import React, { useEffect } from 'react';
-import {
-  Breadcrumbs,
-  Link,
-} from '@mui/material';
-
+import React, { useEffect, useState } from 'react';
+import { Breadcrumbs, Link, Skeleton } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from '../../config/stripe';
 import CheckOutForm from '../../components/CheckOutPage/CheckOutForm';
 import BookingSummary from '../../components/CheckOutPage/BookingSummary';
-import { fetchClientSecret, setTransactionData } from '../../store/slices/payment-slice';
+import {
+  fetchClientSecret,
+  setTransactionData,
+} from '../../store/slices/payment-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRoomAndAccomByRoomId } from '../../store/slices/room-accom-slice';
 import dayjs from 'dayjs';
-import { fetchFeeData, setReservationData } from '../../store/slices/reservation-slice';
+import {
+  fetchFeeData,
+  setReservationData,
+} from '../../store/slices/reservation-slice';
 
 const CheckOutPage = () => {
+  const dispatch = useDispatch();
+  const clientSecret = useSelector((state) => state.payment.clientSecret);
+  const isLoading = useSelector((state) => state.payment.isLoading);
 
-const dispatch = useDispatch();
-const clientSecret = useSelector((state) => state.payment.clientSecret);
-const isLoading = useSelector((state) => state.payment.isLoading);
+  const reservationData = useSelector(
+    (state) => state.reservation.reservationData
+  );
+  const { checkInDate, checkOutDate, roomId, customerAmount } = reservationData;
 
-// data from click booking button >>
-const reservationData = useSelector((state) => state.reservation.reservationData)
-const {checkInDate, checkOutDate, roomId, customerAmount} = reservationData
-useEffect(() => {
-//fetching room + accom data 
-  dispatch(fetchRoomAndAccomByRoomId(roomId))
-//fetching fee data
-  dispatch(fetchFeeData(import.meta.env.VITE_FEE_ID))
-}, [])
-const roomAccom = useSelector((state) => state.room.roomData)
+  const [loading, setLoading] = useState(true);
 
-//calculating price
-const bookingDays = dayjs(checkOutDate).diff(checkInDate, 'days')
-const {clientFee, hostFee} = useSelector((state) => state.reservation.feeData)
-const {netPrice} = useSelector((state) => state.payment.transactionData)
-const pricePerDay = roomAccom.price
-const VAT = 7
+  useEffect(() => {
+    dispatch(fetchRoomAndAccomByRoomId(roomId));
+    dispatch(fetchFeeData(import.meta.env.VITE_FEE_ID));
 
-const roomPrice = pricePerDay * bookingDays
-const serviceFee = roomPrice * clientFee * (1+(VAT/100))
-const totalPayment = (roomPrice + serviceFee).toFixed(2)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
 
-useEffect(() => {
-dispatch(setTransactionData({
-  netPrice: +totalPayment,
-  serviceFee: +serviceFee.toFixed(2)
-}))
-},[totalPayment])
+    return () => clearTimeout(timer);
+  }, [dispatch, roomId]);
 
-useEffect(() => {
-  dispatch(setReservationData({
-    ...reservationData, bookingDays
-  }))
-},[bookingDays])
+  const roomAccom = useSelector((state) => state.room.roomData);
+  const bookingDays = dayjs(checkOutDate).diff(checkInDate, 'days');
+  const { clientFee, hostFee } = useSelector(
+    (state) => state.reservation.feeData
+  );
+  const { netPrice } = useSelector((state) => state.payment.transactionData);
+  const pricePerDay = roomAccom.price;
+  const VAT = 7;
 
+  const roomPrice = pricePerDay * bookingDays;
+  const serviceFee = roomPrice * clientFee * (1 + VAT / 100);
+  const totalPayment = (roomPrice + serviceFee).toFixed(2);
+
+  useEffect(() => {
+    dispatch(
+      setTransactionData({
+        netPrice: +totalPayment,
+        serviceFee: +serviceFee.toFixed(2),
+      })
+    );
+  }, [dispatch, totalPayment]);
+
+  useEffect(() => {
+    dispatch(
+      setReservationData({
+        ...reservationData,
+        bookingDays,
+      })
+    );
+  }, [dispatch, bookingDays]);
 
   const BreadcrumbNavigation = () => (
     <Breadcrumbs aria-label='breadcrumb'>
       <Link underline='hover' color='inherit' href='/'>
         Home
       </Link>
-      <Link underline='hover' color='inherit' href={`/accommodationDetail/${roomAccom.accomId}`}>
+      <Link
+        underline='hover'
+        color='inherit'
+        href={`/accommodationDetail/${roomAccom.accomId}`}
+      >
         {roomAccom.accom?.name}
       </Link>
       <Link underline='hover' color='inherit' href='#' aria-current='page'>
@@ -71,52 +89,106 @@ useEffect(() => {
   );
 
   const dataToStripe = {
-    amount: +(netPrice * 100).toFixed() ,
-    //stripe are unable to send mail to customer in test account
-    // receipt_email: 'client@mail.com',
-    description: "testing"
-  }
-  
+    amount: +(netPrice * 100).toFixed(),
+    description: 'testing',
+  };
+
   useEffect(() => {
-    
     if (!isNaN(netPrice)) {
       dispatch(fetchClientSecret(dataToStripe));
     }
-}, [netPrice])
+  }, [dispatch, netPrice]);
 
   const stripeFormAppearance = {
     theme: 'stripe',
-    // variables: {
-    //   colorPrimary: '#0570de',
-    //   colorBackground: '#ffffff',
-    //   colorText: '#30313d',
-    //   colorDanger: '#df1b41',
-    //   fontFamily: 'Ideal Sans, system-ui, sans-serif',
-    //   spacingUnit: '2px',
-    //   borderRadius: '4px',
-    // },
-    // rules: {
-    //   '.Label': {
-    //     color: '#30313d',
-    //   },
-    // },
-  }
-  
+  };
+
   const options = {
     clientSecret,
-    appearance: stripeFormAppearance
-  }
+    appearance: stripeFormAppearance,
+  };
 
   return (
-    <div className='p-8  min-h-screen mx-16'>
+    <div className='p-8 min-h-screen mx-16'>
       <BreadcrumbNavigation />
       <div className='grid grid-cols-2 gap-8 mt-8'>
-      {/* {isLoading && null} */}
-      {clientSecret && (
-        <Elements stripe={stripePromise} options={options}>
-          <CheckOutForm clientSecret={clientSecret} />
-        </Elements>
-      )}
+        {loading ? (
+          <div className='p-8 border-gray-900 shadow rounded'>
+            <Skeleton variant='text' width={250} height={30} className='mb-4' />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={40}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={200}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={40}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={60}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={150}
+              className='mb-4'
+            />
+            <Skeleton
+              variant='rectangular'
+              width='100%'
+              height={40}
+              className='mb-4'
+            />
+          </div>
+        ) : (
+          clientSecret && (
+            <Elements stripe={stripePromise} options={options}>
+              <CheckOutForm clientSecret={clientSecret} />
+            </Elements>
+          )
+        )}
         <div>
           <BookingSummary />
         </div>
