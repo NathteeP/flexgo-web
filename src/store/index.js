@@ -12,10 +12,13 @@ import { paymentReducer } from './slices/payment-slice';
 import { roomReducer } from './slices/room-accom-slice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import { usersReducer } from './slices/users-slice';
 import hostFormReducer from './slices/hostForm-slice';
 
 const reservationPersistConfig = {
   key: 'reservation',
+  storage: storage,
+};
   storage: storage,
 };
 
@@ -23,6 +26,7 @@ const store = configureStore({
   reducer: {
     modal: modalReducer,
     user: userReducer,
+    users: usersReducer,
     accoms: accomsReducer,
     accom: accomDetailReducer,
     rooms: roomsReducer,

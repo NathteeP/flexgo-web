@@ -9,7 +9,7 @@ import CheckOutPage from '../pages/CheckOut/CheckOutPage';
 import WishListPage from '../pages/Users/WishListPage';
 import AccountPage from '../pages/Users/AccountPage';
 import HostProfilePage from '../pages/Users/HostProfilePage';
-import BookingPage from '../pages/Users/BookingPage';
+import BookingHistoryPage from '../pages/Users/BookingHistoryPage';
 import BookingReservation from '../pages/Users/BookingReservation';
 
 // host's part
@@ -56,7 +56,7 @@ const AppRouter = createBrowserRouter([
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
-      { path: '/booking', element: <BookingPage /> },
+      { path: '/history', element: <BookingHistoryPage/> },
       { path: '/booking/reservationID', element: <BookingReservation /> },
       { path: '/checkout', element: <CheckOutContainer />, children:[
         { path: 'processing', element: <CheckOutProcessingPage />},

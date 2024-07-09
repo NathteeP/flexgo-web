@@ -4,20 +4,15 @@ const AddingNewAccomStep4 = ({
   formData,
   setFormData,
   prevStep,
+  nextStep,
   handleSubmit,
 }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (
-      (name === 'houseTitle' && value.length <= 50) ||
-      (name !== 'houseTitle' && value.length <= 500) ||
-      (name === 'price' && /^[0-9]*$/.test(value))
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -40,7 +35,7 @@ const AddingNewAccomStep4 = ({
         </div>
         <input
           type='text'
-          name='houseTitle'
+          name='name'
           value={formData.name}
           onChange={handleChange}
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
@@ -57,7 +52,7 @@ const AddingNewAccomStep4 = ({
           </p>
         </div>
         <textarea
-          name='accommodationDescription'
+          name='description'
           value={formData.description}
           onChange={handleChange}
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
@@ -116,10 +111,11 @@ const AddingNewAccomStep4 = ({
           Previous
         </button>
         <button
-          type='submit'
+          type='button'
+          onClick={nextStep}
           className='px-6 py-2 bg-fg-primary-01 hover:bg-amber-600 text-white font-medium rounded-md shadow-lg'
         >
-          Confirm and Publish
+          Preview
         </button>
       </div>
     </div>

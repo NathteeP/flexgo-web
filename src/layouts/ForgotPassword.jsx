@@ -151,7 +151,7 @@ const ForgotPassword = () => {
                 error={errors.email?.message}
               />
               <Button
-                className='h-[31px] w-[90px] text-white text-[11px]'
+                className='h-[31px] w-full text-white text-[11px] mt-4 transition-all transform hover:bg-fg-primary-02 active:scale-90 hover:border-fg-primary-01 hover:border-[2px] focus:outline-none focus:border-[1px] focus:border-fg-primary-01 hover:scale-105 focus-within:bg-fg-primary-02/20'
                 type='submit'
               >
                 GET OTP

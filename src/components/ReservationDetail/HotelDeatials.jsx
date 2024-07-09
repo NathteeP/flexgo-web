@@ -42,11 +42,11 @@ const HotelDetails = ({
           </div>
           <div className='w-[50%] flex flex-col justify-end text-end'>
             <p className='text-gray-500'>PRICE</p>
-            <p className='text-black'>${price}</p>
+            <p className='text-black'>THB {price}</p>
             <p className='text-gray-500'>Service Fee/Tax</p>
-            <p className='text-black'>${tax}</p>
+            <p className='text-black'>THB {tax}</p>
             <p className='font-bold text-gray-800 mt-2'>Total Price</p>
-            <p className='text-xl font-bold text-gray-800'>${totalPrice}</p>
+            <p className='text-xl font-bold text-gray-800'>THB {totalPrice}</p>
           </div>
         </div>
         <div className='flex justify-end'>

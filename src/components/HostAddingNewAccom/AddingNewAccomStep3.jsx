@@ -199,7 +199,7 @@ const HostAddingNewAccomStep3 = ({
             text-center'
         >
           <h2 className='text-xl font-medium p-2'>
-            Let show the guest how fasinating your place is
+            Let's show the guest how fasinating your place is
           </h2>
           <p className='text-gray-500 p-2'>
             You can add more photos after you publish your album.

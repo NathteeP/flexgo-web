@@ -71,7 +71,7 @@ const UserDropdown = () => {
             </div>
             <div className=' border-b pb-2'>
               <Link
-                to='/booking'
+                to='/history'
                 className='flex px-4 py-3 text-base text-fg-text-black  transition duration-300 hover:bg-fg-primary-01/50  items-center rounded-xl'
               >
                 Booking History

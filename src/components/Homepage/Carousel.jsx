@@ -82,32 +82,29 @@ const Carousel = ({ accoms }) => {
             onClick={() => onClickNavigate(`/accommodationDetail/${item.id}`)}
             className='flex items-center '
           >
-            <div className='w-[430px] h-[653px] border-white border-[2px] rounded-[32px] relative flex justify-center items-center cursor-pointer '>
-              <div className=' transition transform hover:-translate-y-2'>
+            <div className='w-[430px] h-[653px] border-white border-[2px] rounded-[32px] relative flex justify-center items-center cursor-pointer  '>
+              <div className=' transition transform hover:-translate-y-2 relative z-30 pointer-events-none'>
                 <img
                   src={item?.accomPhoto[0]?.imagePath}
                   alt={item?.name}
-                  className='w-[390px] h-[613px] object-cover grayscale-[40%] hover:grayscale-0   '
+                  className='w-[390px] h-[613px] object-cover grayscale-[40%] hover:grayscale-0 rounded-[20px] pointer-events-auto'
                 />
+                <div className='h-full pointer-events-auto'>
+                  <div className='w-full h-[120px] rounded-[20px] bg-gradient-to-t from-black/80 absolute z-40 bottom-0 transition-all duration-300'></div>
+                </div>
                 <div className='px-8 py-5 absolute bottom-0 flex justify-between w-full items-center'>
-                  <h3 className='text-lg text-white'>{item?.name}</h3>
-                  <p className='text-sm text-white'>{item?.distance}</p>
+                  <h3 className='text-lg text-white relative z-50'>
+                    {item?.name}
+                  </h3>
+                  <p className='text-sm text-white relative z-50'>
+                    {item?.distance}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <style jsx='true'>{`
-        .example::-webkit-scrollbar {
-          display: none;
-        }
-
-        .example {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 };

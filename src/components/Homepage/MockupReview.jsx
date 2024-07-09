@@ -1,44 +1,49 @@
 import React, { useEffect, useRef } from 'react';
-import Avatar from '../assets/images/test/avatar.png';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import Avatar from '../Avatar';
 
-const Review = ({ direction = 'right' }) => {
+const MockupReview = ({ direction = 'right' }) => {
   const userReviews = [
     {
       name: 'Oiled',
-      avatar: Avatar,
+      avatar:
+        'https://img.freepik.com/free-photo/expressive-asian-girl-posing-indoor_344912-797.jpg?w=2000&t=st=1720411145~exp=1720411745~hmac=d7bfb1369b2be22dc9db56fb7a830ac9160da89d77ddeefcd004f04eda646612',
       star: 4.5,
       comment:
-        'I like animal I like animal I like animal I like animal I like animal I like animal I like animal I like animal I like animal I like animal I like animal ',
+        'The booking process was seamless and the accommodation exceeded my expectations. Highly recommended for a comfortable stay.',
     },
     {
       name: 'Champ',
-      avatar: Avatar,
+      avatar:
+        'https://img.freepik.com/premium-photo/portrait-serious-young-asian-man_774935-2692.jpg?w=2000',
       star: 4.0,
       comment:
-        'I like feel fans I like feel fans I like feel fans I like feel fans I like feel fans I like feel fans I like feel fans I like feel fans I like feel fans ',
+        'Great user interface and easy to navigate. The booking confirmation was quick, and the place was as described. Will use this app again.',
     },
     {
       name: 'IT',
-      avatar: Avatar,
+      avatar:
+        'https://img.freepik.com/premium-photo/portrait-smiling-asian-guy-white-background_951116-916.jpg?w=1480',
       star: 5.0,
       comment:
-        'I like git merge I like git merge I like git merge I like git merge I like git merge I like git merge I like git merge I like git merge I like git merge ',
+        'Excellent app for booking accommodations. The customer service was very responsive, and the place we stayed at was fantastic.',
     },
     {
       name: 'BM',
-      avatar: Avatar,
+      avatar:
+        'https://img.freepik.com/premium-photo/wow-face-happy-asian-man-head-shot_39688-861.jpg?w=2000',
       star: 4.5,
       comment:
-        'I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets I like sweets ',
+        'The app made it easy to find and book a great place to stay. The descriptions and photos were accurate, and I had a pleasant experience overall.',
     },
     {
       name: 'Pluemza',
-      avatar: Avatar,
+      avatar:
+        'https://img.freepik.com/premium-photo/man-model-white-background_974624-65.jpg?w=1480',
       star: 0.5,
       comment:
-        'I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว I like ชายสี่หมี่เกี๊ยว ',
+        'I had a poor experience with the booking process. The place was not as described, and the customer support was unhelpful.',
     },
   ];
 
@@ -123,7 +128,7 @@ const Review = ({ direction = 'right' }) => {
             <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
               <div className='flex mb-6'>
                 <div>
-                  <img src={review.avatar || Avatar} alt='' />
+                  <Avatar src={review.avatar} size={60} />
                 </div>
                 <div>
                   <div>
@@ -153,4 +158,4 @@ const Review = ({ direction = 'right' }) => {
   );
 };
 
-export default Review;
+export default MockupReview;

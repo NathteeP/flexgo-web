@@ -1,9 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  // important: '#root',
   theme: {
     extend: {
+      flexGrow: {
+        DEFAULT: '1',
+      },
+      flexShrink: {
+        DEFAULT: '0',
+      },
+      animation: {
+        fade: 'fadeIn 1s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'translateY(-20px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      transitionDelay: {
+        2000: '2000ms',
+        3000: '3000ms',
+        4000: '4000ms',
+      },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
