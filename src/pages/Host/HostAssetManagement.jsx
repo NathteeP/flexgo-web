@@ -204,7 +204,7 @@ const HostAssetManagement = () => {
                 <span className='text-yellow-500'>&#9733;</span>
                 <span>{rating?.count} reviews</span>
                 <span className='text-gray-600'>
-                  {isNaN(rating.overAllReview) ? rating?.overAllReview : null}{' '}
+                  {isNaN(rating?.overAllReview) ? rating?.overAllReview : null}{' '}
                   rating
                 </span>
               </div>

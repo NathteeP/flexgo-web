@@ -13,6 +13,11 @@ const HostSidebar = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (location.pathname === '/host/AssetsManagement/NewAccomPage')
+      setFocused('/host/AssetsManagement');
+  }, [location]);
+
   return (
     <div className='md:flex flex-shrink-0 flex flex-col items-end w-64 lg:w-[320px] min-h-[calc(100vh-90px)] bg-fg-primary-02 text-right relative'>
       <img

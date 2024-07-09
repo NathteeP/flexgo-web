@@ -9,6 +9,7 @@ import { setUserDesiredLocation } from '../store/slices/searchInfo-slice';
 import { useDispatch } from 'react-redux';
 import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
+import PlaceAutoComplete from '../google-maps/PlaceAutoComplete';
 
 const SearchBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -43,18 +44,12 @@ const SearchBar = () => {
         className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'
         onSubmit={handleOnSubmit}
       >
-        <div className=' flex items-center justify-center w-full lg:flex-1'>
+        <div className=' flex items-center justify-center w-full lg:flex-1 border border-fg-grey rounded-lg overflow-hidden'>
           <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden'>
-            <div className='w-[50px] h-[48px] flex justify-center items-center bg-white'>
-              <HiMagnifyingGlass className='text-2xl text-fg-text-black' />
-            </div>
-            <Input
-              htmlFor='location'
-              id='location'
-              type='location'
-              name='location'
+            <PlaceAutoComplete
+              showGlass={true}
+              inputClass='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2'
               placeholder='Bangkok, Thailand | Within 1 Km.'
-              className='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2' // เพิ่ม padding ขวา
             />
           </div>
         </div>

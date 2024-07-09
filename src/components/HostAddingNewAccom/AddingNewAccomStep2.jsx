@@ -1,5 +1,8 @@
 import React from 'react';
-
+import MapWrapper from '../../google-maps/MapWrapper';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { setHostFormData } from '../../store/slices/hostForm-slice';
 const HostAddingNewAccomStep2 = ({
   formData,
   setFormData,
@@ -9,6 +12,9 @@ const HostAddingNewAccomStep2 = ({
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const dispatch = useDispatch();
+  const { accom } = useSelector((state) => state.hostForm);
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -33,8 +39,12 @@ const HostAddingNewAccomStep2 = ({
             <select
               name='country'
               id='country'
-              value={formData.country}
-              onChange={handleChange}
+              value={accom.country}
+              onChange={(e) =>
+                dispatch(
+                  setHostFormData({ type: 'country', data: e.target.value })
+                )
+              }
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             >
               <option value=' '>Select your Country / Region</option>
@@ -70,8 +80,12 @@ const HostAddingNewAccomStep2 = ({
               type='text'
               name='address'
               id='address'
-              value={formData.address}
-              onChange={handleChange}
+              value={accom.address}
+              onChange={(e) =>
+                dispatch(
+                  setHostFormData({ type: 'address', data: e.target.value })
+                )
+              }
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -84,8 +98,12 @@ const HostAddingNewAccomStep2 = ({
               type='text'
               name='district'
               id='district'
-              value={formData.district}
-              onChange={handleChange}
+              value={accom.district}
+              onChange={(e) =>
+                dispatch(
+                  setHostFormData({ type: 'district', data: e.target.value })
+                )
+              }
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -97,8 +115,12 @@ const HostAddingNewAccomStep2 = ({
               type='text'
               name='province'
               id='province'
-              value={formData.province}
-              onChange={handleChange}
+              value={accom.province}
+              onChange={(e) =>
+                dispatch(
+                  setHostFormData({ type: 'province', data: e.target.value })
+                )
+              }
               className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -115,17 +137,11 @@ const HostAddingNewAccomStep2 = ({
           Make it clear to guests where your place is located. We'll only share
           your address after they've made a reservation.
         </p>
-        <div className='relative'>
-          <div className='w-full h-64 bg-gray-200 rounded-md'>
-            <img
-              src='https://i.pinimg.com/originals/56/24/7c/56247c2b070daa5aa66afac1b66ff7f6.png'
-              alt='Map'
-              className='w-full h-full object-cover rounded-md'
-            />
-          </div>
-        </div>
       </div>
 
+      <div>
+        <MapWrapper />
+      </div>
       <div className='flex justify-between'>
         <button
           type='button'
