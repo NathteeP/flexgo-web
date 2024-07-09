@@ -35,7 +35,6 @@ const UserDropdown = () => {
 
     try {
       const response = await promise;
-      console.log('Logout Successful', response.data);
       navigate('/');
     } catch (error) {
       console.error('Logout Failed', error);
@@ -49,7 +48,7 @@ const UserDropdown = () => {
     };
   }, []);
   return (
-    <div className='relative inline-block text-left' ref={dropdownRef}>
+    <div className='relative inline-block text-left mr-12' ref={dropdownRef}>
       <div
         type='button'
         className='cursor-pointer flex justify-center items-center'
@@ -72,7 +71,7 @@ const UserDropdown = () => {
             </div>
             <div className=' border-b pb-2'>
               <Link
-                to='/booking'
+                to='/history'
                 className='flex px-4 py-3 text-base text-fg-text-black  transition duration-300 hover:bg-fg-primary-01/50  items-center rounded-xl'
               >
                 Booking History

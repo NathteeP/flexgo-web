@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHostFormData } from '../../store/slices/hostForm-slice';
+import MapWrapper from '../../google-maps/MapWrapper';
+import PlaceAutoComplete from '../../google-maps/PlaceAutoComplete';
 
 const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
-  const [selectedType, setSelectedType] = useState(
-    formData.selectedType || null
-  );
-  const [selectedPlace, setSelectedPlace] = useState(
-    formData.selectedPlace || null
-  );
-
+  const dispatch = useDispatch();
+  const { accom } = useSelector((state) => state.hostForm);
   const accommodationTypes = ['House', 'Hotel', 'Apartment', 'Guesthouse'];
   const placeTypes = [
     {
@@ -26,22 +25,6 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
     },
   ];
 
-  const handleTypeClick = (type) => {
-    setSelectedType((prevType) => {
-      const newType = prevType === type ? null : type;
-      setFormData((prev) => ({ ...prev, selectedType: newType }));
-      return newType;
-    });
-  };
-
-  const handlePlaceClick = (place) => {
-    setSelectedPlace((prevPlace) => {
-      const newPlace = prevPlace === place ? null : place;
-      setFormData((prev) => ({ ...prev, selectedPlace: newPlace }));
-      return newPlace;
-    });
-  };
-
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
@@ -55,9 +38,11 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
           {accommodationTypes.map((type, index) => (
             <button
               key={index}
-              onClick={() => handleTypeClick(type)}
+              onClick={() =>
+                dispatch(setHostFormData({ type: 'selectedType', data: type }))
+              }
               className={`px-4 py-2 mb-3 rounded-md  shadow-lg hover:bg-fg-grey ${
-                selectedType === type
+                accom.selectedType === type
                   ? 'bg-fg-secondary-02 text-white'
                   : 'bg-white text-gray-700'
               }`}
@@ -68,7 +53,7 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
         </div>
       </div>
 
-      <div className='mb-8'>
+      {/* <div className='mb-8'>
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full rounded-xl text-center py-6 pb-8 '>
           <h2 className='text-xl font-medium mb-4'>
             What type of place will guests have?
@@ -77,9 +62,16 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
             {placeTypes.map((place, index) => (
               <button
                 key={index}
-                onClick={() => handlePlaceClick(place.label)}
+                onClick={() =>
+                  dispatch(
+                    setHostFormData({
+                      type: 'selectedPlace',
+                      data: place.label,
+                    })
+                  )
+                }
                 className={`w-[70%] text-left px-4 py-4 rounded-md shadow-lg hover:bg-fg-grey ${
-                  selectedPlace === place.label
+                  accom.selectedPlace === place.label
                     ? 'bg-fg-secondary-02 text-white'
                     : 'bg-white text-gray-700'
                 }`}
@@ -90,30 +82,14 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className='mb-8'>
         <h2 className='text-xl font-medium mb-4'>
           Where's your place located?
         </h2>
         <div className='relative'>
-          <input
-            type='text'
-            name='address'
-            value={formData.address}
-            onChange={(e) =>
-              setFormData({ ...formData, address: e.target.value })
-            }
-            placeholder='Enter your address'
-            className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
-          />
-          <div className='w-full h-96 bg-gray-200 rounded-md'>
-            <img
-              src='https://i.pinimg.com/originals/56/24/7c/56247c2b070daa5aa66afac1b66ff7f6.png'
-              alt='Map'
-              className='w-full h-full object-cover rounded-md'
-            />
-          </div>
+          {/* <MapWrapper MapWithAutoComplete={true} /> */}
         </div>
       </div>
 

@@ -3,7 +3,10 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 
-export default function CountrySelect({ width }) {
+export default function CountrySelect({ width, onCountryChange }) {
+
+  const handleChange = (event, value) => onCountryChange(value)
+
   return (
     <Autocomplete
       id='country-select-demo'
@@ -11,6 +14,7 @@ export default function CountrySelect({ width }) {
       options={countries}
       autoHighlight
       getOptionLabel={(option) => option.label}
+      onChange={handleChange}
       renderOption={(props, option) => (
         <Box
           component='li'

@@ -8,21 +8,23 @@ import { IoCartOutline } from 'react-icons/io5';
 import CustomModal from '../components/Modal';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   openRegister,
   closeRegister,
   openSignIn,
   closeSignIn,
   closeForgotPassword,
-  openResetPassword,
+  openForgotPassword,
   closeResetPassword,
+  openResetPassword,
 } from '../store/slices/modal-slice';
-import UserDropdown from '../components/UserDropdown';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import UserDropdown from '../components/UserDropdown';
+import ToggleSwitch from '../components/ToggleSwitch';
 import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
   const location = useLocation();
@@ -47,15 +49,18 @@ const Header = () => {
   );
 
   return (
-    <div className='z-50 relative'>
+    <div className='z-50 relative pointer-events-none'>
       <div
-        className={`${isHomePage ? 'bg-gradient-to-b from-fg-black/50' : 'bg-fg-primary-01'} h-20 w-screen px-14 flex items-center justify-between`}
+        className={`${
+          isHomePage ? 'bg-gradient-to-b from-fg-black/50' : 'bg-fg-primary-01'
+        } h-20 w-screen px-14 flex items-center justify-between`}
       >
-        <div className='flex items-center'>
+
+        <div className='flex items-center pointer-events-auto'>
           <div role='button' onClick={() => navigate("/")}>
             <img src={logo} alt='Logo' />
           </div>
-          <div className='flex items-center'>
+          <div className='flex items-center pointer-events-auto'>
             <Input
               className='rounded-l-full w-[200px] h-[44px] ml-10 border-white/75 border-l-[1px] border-y-[1px] bg-fg-white/[0.2] pl-5 placeholder:text-fg-text-white placeholder:text-base focus:outline-none text-fg-white'
               placeholder='Searching Pin'
@@ -66,12 +71,19 @@ const Header = () => {
           </div>
         </div>
 
-        <div className='flex gap-3 items-center'>
-          <div className='cursor-pointer hover:bg-fg-primary-02 w-[40px] h-[40px] flex items-center justify-center rounded-full mr-8'>
-            <IoCartOutline className='text-fg-text-white text-[26px]' />
-          </div>
+        <div className='flex gap-3 items-center pointer-events-auto'>
+          {authUser && authUser?.role !== 'ADMIN' ? (
+            <div className='cursor-pointer w-[40px]  h-[40px] flex items-center justify-center rounded-full mr-8'>
+              <ToggleSwitch />
+            </div>
+          ) : (
+            ''
+          )}
+
           {authUser ? (
-            <UserDropdown />
+            <>
+              <UserDropdown />
+            </>
           ) : (
             <>
               <Button

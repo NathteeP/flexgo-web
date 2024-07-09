@@ -1,6 +1,14 @@
 import React from 'react';
 import AmenitiesSelector from '../HostAddingNewAccom/AmenitiesSelector';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  setRoomFormData,
+  setRoomCapacity,
+  changeRoomType,
+} from '../../store/slices/hostForm-slice';
+import { useState } from 'react';
 
 const HostAddingNewAccomStep3 = ({
   formData,
@@ -18,6 +26,15 @@ const HostAddingNewAccomStep3 = ({
     'Sofa bed',
   ];
 
+  const orderTable = {
+    0: 'First',
+    1: 'Second',
+    2: 'Third',
+    3: 'Fourth',
+  };
+
+  const dispatch = useDispatch();
+  const { accom, room } = useSelector((state) => state.hostForm);
   const handleAddRoomAndBedType = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -80,9 +97,9 @@ const HostAddingNewAccomStep3 = ({
         </div>
 
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
-          {formData.roomTypes.map((item, index) => (
+          {room.roomTypes.map((item, index) => (
             <div
-              key={item.id}
+              key={index}
               className='flex flex-col items-center space-y-4 p-4'
             >
               <div className='flex space-x-4 items-center'>
@@ -94,7 +111,12 @@ const HostAddingNewAccomStep3 = ({
                     type='text'
                     value={item.name}
                     onChange={(e) =>
-                      handleRoomTypeChange(index, e.target.value)
+                      dispatch(
+                        changeRoomType({
+                          data: e.target.value,
+                          index,
+                        })
+                      )
                     }
                     className='p-2 border border-gray-300 rounded'
                   />
@@ -103,7 +125,14 @@ const HostAddingNewAccomStep3 = ({
                   <label className='mb-2 text-center'>Bed Type</label>
                   <select
                     value={item.bedType}
-                    onChange={(e) => handleBedTypeChange(index, e.target.value)}
+                    onChange={(e) =>
+                      dispatch(
+                        setRoomFormData({
+                          type: 'bedTypes',
+                          data: e.target.value,
+                        })
+                      )
+                    }
                     className='p-2 border border-gray-300 rounded'
                   >
                     {bedTypes.map((type, idx) => (
@@ -116,7 +145,9 @@ const HostAddingNewAccomStep3 = ({
                 {index > 0 && (
                   <button
                     type='button'
-                    onClick={() => handleRemoveRoom(item.id)}
+                    onClick={() =>
+                      dispatch(setRoomFormData({ type: 'remove', index }))
+                    }
                     className=' bg-red-600 text-white rounded-full p-1 mt-8'
                   >
                     &times;
@@ -128,7 +159,7 @@ const HostAddingNewAccomStep3 = ({
           <div className='flex justify-center mt-4'>
             <button
               type='button'
-              onClick={handleAddRoomAndBedType}
+              onClick={(e) => dispatch(setRoomFormData({ type: 'roomBed' }))}
               className='px-4 py-2 mb-4 bg-fg-primary-01 bg-opacity-65 hover:bg-fg-primary-01 text-fg-text-black font-medium rounded-md'
             >
               Add More Room
@@ -151,21 +182,26 @@ const HostAddingNewAccomStep3 = ({
           </h2>
         </div>
         <div className='flex items-center justify-center space-x-4'>
-          <button
-            onClick={() => handleGuestChange(-1)}
-            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
-          >
-            -
-          </button>
-          <span className='text-[64px] font-medium px-8'>
-            {formData.guests}
-          </span>
-          <button
-            onClick={() => handleGuestChange(1)}
-            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
-          >
-            +
-          </button>
+          {room.roomTypes.map((item, index) => (
+            <div key={index}>
+              <span className='text-[64px] font-medium px-8'>{item.name}</span>
+              <button
+                onClick={() => dispatch(setRoomCapacity({ index, value: -1 }))}
+                className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+              >
+                -
+              </button>
+              <span className='text-[64px] font-medium px-8'>
+                {item.capacity}
+              </span>
+              <button
+                onClick={() => dispatch(setRoomCapacity({ index, value: 1 }))}
+                className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+              >
+                +
+              </button>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -186,7 +222,7 @@ const HostAddingNewAccomStep3 = ({
           </p>
         </div>
 
-        <AmenitiesSelector formData={formData} setFormData={setFormData} />
+        <AmenitiesSelector />
       </div>
 
       <div className='mb-8'>
@@ -199,7 +235,7 @@ const HostAddingNewAccomStep3 = ({
             text-center'
         >
           <h2 className='text-xl font-medium p-2'>
-            Let show the guest how fasinating your place is
+            Let's show the guest how fasinating your place is
           </h2>
           <p className='text-gray-500 p-2'>
             You can add more photos after you publish your album.

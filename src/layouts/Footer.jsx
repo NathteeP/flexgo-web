@@ -29,7 +29,7 @@ const Footer = () => {
             <Link to='/wishList'>
               <small>Wish List</small>
             </Link>
-            <Link to='/booking'>
+            <Link to='/history'>
               <small>Booking history</small>
             </Link>
           </div>

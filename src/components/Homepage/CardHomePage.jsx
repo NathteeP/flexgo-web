@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '../Button';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import { FaBullseye } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const CardHomePage = ({
@@ -23,16 +22,16 @@ const CardHomePage = ({
     <div
       onClick={onClickNavigate}
       id={id}
-      className='flex   h-[450px] px-10 py-4 gap-8 relative'
+      className='flex h-[450px] px-10 py-4 gap-8 relative cursor-pointer'
     >
       <div className='w-[50%] grid grid-rows-3 grid-cols-8 gap-2'>
-        <div className='col-span-2 bg-red-300 rounded-tl-[40px]'>
+        <div className='col-span-2 bg-red-300 rounded-tl-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
             src={photo[0].imagePath}
           />
         </div>
-        <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px]'>
+        <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
             src={photo[1].imagePath}
@@ -44,31 +43,31 @@ const CardHomePage = ({
             src={photo[2].imagePath}
           />
         </div>
-        <div className='row-span-1  bg-red-300 rounded-bl-[40px]'>
+        <div className='row-span-1 bg-red-300 rounded-bl-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
             src={photo[3].imagePath}
           />
         </div>
-        <div className='row-span-1 col-span-2  bg-red-300'>
+        <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
             src={photo[4].imagePath}
           />
         </div>
-        <div className='row-span-1 col-span-2  bg-red-300'>
+        <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
             src={photo[5].imagePath}
           />
         </div>
-        <div className='row-span-1 col-span-2  bg-red-300'>
+        <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
             src={photo[6].imagePath}
           />
         </div>
-        <div className='row-span-1 col-span-1  bg-red-300 rounded-br-[40px]'>
+        <div className='row-span-1 col-span-1 bg-red-300 rounded-br-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
             src={photo[7].imagePath}
@@ -89,10 +88,10 @@ const CardHomePage = ({
             {description}
           </h3>
         </div>
-        <div className='flex justify-between items-end w-[90%] '>
+        <div className='flex justify-between items-end w-[90%]'>
           <div className=''>
             <h3 className='flex items-center mt-10'>
-              Rating:{reviews?.overAllReview}
+              Rating: {reviews?.overAllReview}
               <Stack spacing={1}>
                 <Rating
                   name='half-rating-read'
@@ -106,12 +105,12 @@ const CardHomePage = ({
             <h3>Distance: {distance} km.</h3>
           </div>
           <div>
-            <h1 className='text-4xl font-thin '>$ {price}</h1>
+            <h1 className='text-4xl font-thin'>THB {price}</h1>
           </div>
         </div>
         <div className='flex justify-end w-[90%] mt-10 absolute bottom-8'>
           <Button
-            className='h-[48px]  hover:bg-fg-primary-02 w-[140px]'
+            className='h-[48px] hover:bg-fg-primary-02 w-[140px]'
             variant='contained'
           >
             Booking

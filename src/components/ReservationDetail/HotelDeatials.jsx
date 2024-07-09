@@ -2,7 +2,7 @@ import React from 'react';
 
 const HotelDetails = ({
   hotelName,
-  adults,
+  guests,
   roomType,
   nights,
   checkInDate,
@@ -24,7 +24,7 @@ const HotelDetails = ({
       <div className='ml-6 flex-1'>
         <div className='mt-4 flex items-center '>
           <div className='w-[50%] border-r-[2px] border-gray-300 px-2'>
-            <p className='text-gray-500'>{adults} adults</p>
+            <p className='text-gray-500'>{guests} guests</p>
             <p className='text-gray-500'>1x {roomType}</p>
             <p className='text-gray-500'>{nights} night</p>
             <div className='mt-2 flex border-[2px] border-fg-grey/50 p-2 rounded-xl w-[73%]'>
@@ -42,11 +42,11 @@ const HotelDetails = ({
           </div>
           <div className='w-[50%] flex flex-col justify-end text-end'>
             <p className='text-gray-500'>PRICE</p>
-            <p className='text-black'>${price}</p>
-            <p className='text-gray-500'>10% Tax</p>
-            <p className='text-black'>${tax}</p>
+            <p className='text-black'>THB {price}</p>
+            <p className='text-gray-500'>Service Fee/Tax</p>
+            <p className='text-black'>THB {tax}</p>
             <p className='font-bold text-gray-800 mt-2'>Total Price</p>
-            <p className='text-xl font-bold text-gray-800'>${totalPrice}</p>
+            <p className='text-xl font-bold text-gray-800'>THB {totalPrice}</p>
           </div>
         </div>
         <div className='flex justify-end'>

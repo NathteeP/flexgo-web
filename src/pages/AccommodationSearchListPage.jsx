@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
+import SearchBar from '../components/SearchBar';
 
 dayjs.extend(weekday);
 
@@ -52,41 +53,11 @@ const AccommodationSearchListPage = () => {
       </Breadcrumbs>
 
       <div className='flex justify-between items-center my-8'>
-        <TextField
-          label='Location'
-          defaultValue='Bangkok, Thailand | Within 1Km.'
-          variant='outlined'
-          className='mr-4'
-          fullWidth
-        />
-        <TextField
-          label='Date'
-          defaultValue={
-            dayjs(date.from).format('DD MMMM') +
-            ' to ' +
-            dayjs(date.to).format('DD MMMM')
-          }
-          variant='outlined'
-          className='mr-4'
-          fullWidth
-        />
-        <TextField
-          label='Guests'
-          defaultValue='2 adults, 0 children, 1 room'
-          variant='outlined'
-          className='mr-4'
-          fullWidth
-        />
-        <CustomButton
-          variant='contained'
-          className='w-52 hover:bg-fg-secondary-02'
-        >
-          Filter
-        </CustomButton>
+        <SearchBar />
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[850px] h-[250px]'>
           {accomsList.map((product, index) => (
             <ProductCard
               key={index}

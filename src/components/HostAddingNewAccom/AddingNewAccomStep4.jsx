@@ -1,24 +1,28 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  setHostFormData,
+  setRoomFormData,
+} from '../../store/slices/hostForm-slice';
 
 const AddingNewAccomStep4 = ({
   formData,
   setFormData,
   prevStep,
+  nextStep,
   handleSubmit,
 }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (
-      (name === 'houseTitle' && value.length <= 50) ||
-      (name !== 'houseTitle' && value.length <= 500) ||
-      (name === 'price' && /^[0-9]*$/.test(value))
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const { accom, room } = useSelector((state) => state.hostForm);
+  const dispatch = useDispatch();
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -40,13 +44,15 @@ const AddingNewAccomStep4 = ({
         </div>
         <input
           type='text'
-          name='houseTitle'
-          value={formData.name}
-          onChange={handleChange}
+          name='name'
+          value={accom.name}
+          onChange={(e) =>
+            dispatch(setHostFormData({ type: 'name', data: e.target.value }))
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           placeholder='Enter your house title...'
         />
-        <p className='text-right text-gray-600'>{formData.name.length}/50</p>
+        <p className='text-right text-gray-600'>{accom.name.length}/50</p>
       </div>
 
       <div className='mt-12'>
@@ -57,15 +63,19 @@ const AddingNewAccomStep4 = ({
           </p>
         </div>
         <textarea
-          name='accommodationDescription'
-          value={formData.description}
-          onChange={handleChange}
+          name='description'
+          value={accom.description}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({ type: 'description', data: e.target.value })
+            )
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           rows='4'
           placeholder='You will have a great time at this comfortable place to stay'
         />
         <p className='text-right text-gray-600'>
-          {formData.description.length}/500
+          {accom.description.length}/500
         </p>
       </div>
 
@@ -81,15 +91,17 @@ const AddingNewAccomStep4 = ({
         </div>
         <textarea
           name='houseRule'
-          value={formData.houseRule}
-          onChange={handleChange}
+          value={accom.houseRule}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({ type: 'houseRule', data: e.target.value })
+            )
+          }
           className='w-full p-4 border border-gray-300 rounded-xl mb-2'
           rows='4'
           placeholder={`Check-in after 14:00 \nCheck-out before 12:00 pm \nPet is prohibited in bedroom and shared area`}
         />
-        <p className='text-right text-gray-600'>
-          {formData.houseRule.length}/500
-        </p>
+        <p className='text-right text-gray-600'>{accom.houseRule.length}/500</p>
       </div>
 
       <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
@@ -116,10 +128,11 @@ const AddingNewAccomStep4 = ({
           Previous
         </button>
         <button
-          type='submit'
+          type='button'
+          onClick={nextStep}
           className='px-6 py-2 bg-fg-primary-01 hover:bg-amber-600 text-white font-medium rounded-md shadow-lg'
         >
-          Confirm and Publish
+          Preview
         </button>
       </div>
     </div>
