@@ -10,7 +10,6 @@ import WishListPage from '../pages/Users/WishListPage';
 import AccountPage from '../pages/Users/AccountPage';
 import HostProfilePage from '../pages/Users/HostProfilePage';
 import BookingHistoryPage from '../pages/Users/BookingHistoryPage';
-import BookingReservation from '../pages/Users/BookingReservation';
 
 // host's part
 import HostHomepage from '../pages/Host/HostHomepage';
@@ -56,7 +55,7 @@ const AppRouter = createBrowserRouter([
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/history', element: <BookingHistoryPage/> },
-      { path: '/booking/reservationID', element: <BookingReservation /> },
+      { path: '/history/:reservationId', element: <CheckOutSuccessPage /> },
       { path: '/checkout', element: <CheckOutContainer />, children:[
         { path: 'processing', element: <CheckOutProcessingPage />},
         { path: '', element: <CheckOutPage />},
