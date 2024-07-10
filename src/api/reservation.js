@@ -9,5 +9,14 @@ reservationApi.confirmPayment = data => axios.patch('/reservation/payment-succes
 reservationApi.delete = reservationId => axios.delete(`/reservation/${reservationId}`)
 reservationApi.approve = reservationId => axios.get(`/reservation/${reservationId}/approve`)
 reservationApi.editReservation = (reservationId, data) => axios.patch(`/reservation/${reservationId}`, data)
+reservationApi.getAllReservationByHostId = (userId, page, sortKey, sortOrder, searchTerm) => 
+    axios.get(`/reservation/all/${userId}`, {
+        params: {
+            page,
+            sortKey,
+            sortOrder,
+            searchTerm
+        }
+    })
 
 export default reservationApi

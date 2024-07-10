@@ -1,134 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import { useDispatch, useSelector } from 'react-redux';
-// import { openNoti, closeNoti } from '../../store/slices/modal-slice';
 import CustomModal from '../../components/Modal';
 import CardModal from '../../components/HostNotification/CardModal';
 import Input from '../../components/Input';
+import { closeHostConfirmAddNewAccom, openHostConfirmAddNewAccom } from '../../store/slices/modal-slice';
+import GenericTable from '../../components/GenericTable';
+import { fetchReservationByHostId, setPage, setSortConfig, setSearchTerm } from '../../store/slices/host-accom-slice';
+import dayjs from 'dayjs';
 
-const detailMockup = [
-  {
-    id: 3012345,
-    customer: 'Wendy',
-    guests: '2 adults, 1 child',
-    accommodations: 'Ascott Embassy Sathorn',
-    roomType: 'Single Bed room',
-    checkIn: '15.10.2024',
-    checkOut: '18.10.2024',
-    payment: 'Approved',
-  },
-  {
-    id: 3012346,
-    customer: 'John',
-    guests: '1 adult',
-    accommodations: 'Mandarin Oriental',
-    roomType: 'Double Bed room',
-    checkIn: '10.11.2024',
-    checkOut: '15.11.2024',
-    payment: 'Pending',
-  },
-  {
-    id: 3012347,
-    customer: 'Alice',
-    guests: '2 adults',
-    accommodations: 'The Peninsula',
-    roomType: 'Suite',
-    checkIn: '01.12.2024',
-    checkOut: '05.12.2024',
-    payment: 'Approved',
-  },
-  {
-    id: 3012348,
-    customer: 'Michael',
-    guests: '3 adults, 2 children',
-    accommodations: 'Shangri-La Hotel',
-    roomType: 'Family Room',
-    checkIn: '20.10.2024',
-    checkOut: '25.10.2024',
-    payment: 'Pending',
-  },
-  {
-    id: 3012349,
-    customer: 'Sarah',
-    guests: '2 adults',
-    accommodations: 'Anantara Siam',
-    roomType: 'Single Bed room',
-    checkIn: '12.11.2024',
-    checkOut: '17.11.2024',
-    payment: 'Approved',
-  },
-  {
-    id: 3012350,
-    customer: 'David',
-    guests: '1 adult',
-    accommodations: 'Banyan Tree',
-    roomType: 'Double Bed room',
-    checkIn: '05.12.2024',
-    checkOut: '10.12.2024',
-    payment: 'Pending',
-  },
-  {
-    id: 3012351,
-    customer: 'Emma',
-    guests: '2 adults, 1 child',
-    accommodations: 'Siam Kempinski Hotel',
-    roomType: 'Suite',
-    checkIn: '15.10.2024',
-    checkOut: '20.10.2024',
-    payment: 'Approved',
-  },
-  {
-    id: 3012352,
-    customer: 'James',
-    guests: '1 adult',
-    accommodations: 'St. Regis',
-    roomType: 'Single Bed room',
-    checkIn: '10.11.2024',
-    checkOut: '13.11.2024',
-    payment: 'Pending',
-  },
-  {
-    id: 3012353,
-    customer: 'Olivia',
-    guests: '2 adults, 2 children',
-    accommodations: 'Conrad Bangkok',
-    roomType: 'Family Room',
-    checkIn: '01.12.2024',
-    checkOut: '06.12.2024',
-    payment: 'Approved',
-  },
-  {
-    id: 3012354,
-    customer: 'Liam',
-    guests: '3 adults',
-    accommodations: 'JW Marriott',
-    roomType: 'Suite',
-    checkIn: '20.10.2024',
-    checkOut: '25.10.2024',
-    payment: 'Pending',
-  },
-];
 
 function HostNotification() {
   const dispatch = useDispatch();
-  const { isNotiOpen } = useSelector((state) => state.modal);
-  const [searchTerm, setSearchTerm] = useState('');
+  const { isHostConfirmAddNewAccom } = useSelector((state) => state.modal);
+  const authUser = useSelector((state) => state.user.authUser)
+  const { reservationData, isLoading } = useSelector((state) => state.host)
+  const {currentPage, totalPages, sortKey, sortOrder, searchTerm} = reservationData
+  const [selectedReservation, setSelectedReservation] = useState(null)
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const reservation = reservationData.reservation || []
+
+  useEffect(() => {
+    if (authUser) dispatch(fetchReservationByHostId({
+      userId: authUser.id,
+      page: currentPage,
+      sortKey,
+      sortOrder,
+      searchTerm: debouncedSearchTerm
+  }))
+  },[authUser, currentPage, sortKey, sortOrder, debouncedSearchTerm, dispatch])
+
+    // Debounce function
+    const debounce = (func, delay) => {
+      let timeoutId;
+      return (...args) => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+          func(...args);
+        }, delay);
+      };
+    };
+
+    const debouncedSetSearchTerm = useCallback(
+      debounce((term) => {
+        setDebouncedSearchTerm(term);
+      }, 1000),
+      []
+    );
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    const term = e.target.value;
+    dispatch(setSearchTerm(term));
+    debouncedSetSearchTerm(term);
   };
 
-  const filteredDetails = detailMockup.filter(
-    (detail) =>
-      detail.id.toString().includes(searchTerm) ||
-      detail.customer.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const data = reservation.map(el => {
+    return {
+      ...el, 
+      checkInDate: dayjs(el.checkInDate).format('DD/MM/YYYY'),
+      checkOutDate: dayjs(el.checkOutDate).format('DD/MM/YYYY'),
+    }
+  })
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
       {children}
     </CustomModal>
   );
+
+  const handleRowClick = (reservation) => {
+    setSelectedReservation(reservation);
+    dispatch(openHostConfirmAddNewAccom());
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      direction = 'desc';
+    }
+    dispatch(setSortConfig({ key, direction }));
+    debouncedSetSearchTerm(searchTerm); // 
+  };
+
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
+    dispatch(fetchReservationByHostId({
+      userId: authUser.id,
+      page,
+      sortKey,
+      sortOrder,
+      searchTerm: debouncedSearchTerm
+    }));
+  };
+
+  const columns = [
+    {key: 'id', label: 'Booking ID'},
+    {key: 'customerName', label: 'Customer'},
+    {key: 'customerAmount', label: 'Guests'},
+    {key: 'accomName', label: 'Accommodations'},
+    {key: 'roomType', label: 'Room Type'},
+    {key: 'checkInDate', label: 'Check-In'},
+    {key: 'checkOutDate', label: 'Check-Out'},
+    {key: 'status', label: 'Status'},
+  ]
 
   return (
     <>
@@ -144,59 +120,23 @@ function HostNotification() {
             className='flex border-[1px] mb-2 bg-[#F3F4F6] rounded-xl w-[350px] h-[32px] px-2 text-gray-500 text-[13px] mr-8 hover:border-[2px] hover:border-fg-secondary-02 hover:scale-105 transition duration-500 focus:border-[1px] focus:border-fg-secondary-02 focus:outline-none'
           />
         </div>
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
-          <div>BookingID</div>
-          <div>Customer</div>
-          <div>Guests</div>
-          <div>Accommodations</div>
-          <div>Room Type</div>
-          <div>Check-In</div>
-          <div>Check-Out</div>
-          <div>Status</div>
-        </div>
+        <GenericTable
+        columns={columns}
+        data={data}
+        onRowClick={handleRowClick}
+        onSort={handleSort}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        loading={isLoading}
+        sortKey={sortKey}
+        sortOrder={sortOrder}
+        />
 
-        {filteredDetails.map((detail, index) => (
-          <div
-            key={index}
-            className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-            onClick={() => {
-              dispatch(openNoti());
-            }}
-          >
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.id}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.customer}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.guests}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.accommodations}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.roomType}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.checkIn}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {detail.checkOut}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              <span
-                className={`px-2 py-1 rounded-lg text-[12px] ${detail.payment === 'Approved' ? 'bg-green-200' : 'bg-red-300'}`}
-              >
-                {detail.payment}
-              </span>
-            </div>
-          </div>
-        ))}
+        {renderModal(isHostConfirmAddNewAccom, 
+          closeHostConfirmAddNewAccom, 
+          <CardModal reservation={selectedReservation} />)}
 
-        {/* {renderModal(isNotiOpen, closeNoti, <CardModal />)} */}
-
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'></div>
       </div>
     </>
   );

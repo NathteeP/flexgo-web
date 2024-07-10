@@ -149,8 +149,6 @@ export const {
   closeUserManagement,
   openAccomManagement,
   closeAccomManagement,
-  openNoti,
-  closeNoti,
   openHostNotiByAdmin,
   closeHostNotiByAdmin,
   openAdminRemoveRoom,

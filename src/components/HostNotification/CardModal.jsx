@@ -16,7 +16,7 @@ const bookingDetails = {
   img: 'path',
 };
 
-const CardModal = () => {
+const CardModal = ({reservation}) => {
   return (
     <div className='bg-fg-secondary-01 lg:w-[1000px] h-[300px] flex py-5 px-8 text-fg-text-black'>
       <div className='w-[30%] h-full'>
