@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import FilterBar from '../FilterBar';
 import Rating from '@mui/material/Rating';
@@ -32,6 +32,8 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
 const AdminAccomManagementCard = () => {
+  const [isActive, setIsActive] = useState(false);
+
   const randomImage = images[Math.floor(Math.random() * images.length)];
 
   // Declare parameter for each accommodation
@@ -75,11 +77,22 @@ const AdminAccomManagementCard = () => {
   return (
     <>
       <div className='w-full lg:w-[1400px] h-[80vh] overflow-y-auto p-8 text-fg-text-black relative'>
-        <div className='flex justify-end my-2'>
+        <div className='flex  justify-end gap-4'>
+          <Button className='bg-white hover:bg-green-200 hover:text-white ring-[1px] ring-green-300 text-green-500 hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90'>
+            Approve Accom
+          </Button>
           <Button className='bg-white ring-[1px] ring-red-300 text-red-500 hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90'>
             Remove Accom
           </Button>
+
+          <Button
+            className={`bg-white ring-[1px] ${isActive ? 'ring-red-300 text-red-500' : 'ring-green-300 text-green-500 bg-green-50'} hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90`}
+            onClick={() => setIsActive(!isActive)}
+          >
+            {isActive ? 'Deactivate Accom' : 'Activate Accom'}
+          </Button>
         </div>
+
         <div className='my-6'></div>
 
         {/* ภาพปก */}
