@@ -94,7 +94,9 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
             </p>
             <p>Bed Type: {room.bedType}</p>
             <p>Bed Quantity: {room.bedQuantity}</p>
-            <p>Guests: {room.guests}</p>
+            <p>Bedroom: {room.bedroom}</p>
+            <p>Bathroom: {room.bathroom}</p>
+            <p>Size: {room.size} sqm.</p>
           </div>
         ))}
       </div>
@@ -145,6 +147,11 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>House Rules</h2>
         <p>{formData.houseRule}</p>
+      </div>
+
+      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
+        <h2 className='text-xl font-semibold mb-4'>Price per Night</h2>
+        <p>{formData.price}</p>
       </div>
 
       <div className='flex justify-between'>

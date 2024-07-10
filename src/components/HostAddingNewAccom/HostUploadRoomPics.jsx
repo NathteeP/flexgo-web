@@ -34,10 +34,8 @@ const UploadRoomPhotos = ({ roomIndex, formData, setFormData }) => {
   };
 
   return (
-    <div className='p-4 bg-white border border-gray-300 rounded-2xl mb-4'>
-      <h3 className='text-lg font-semibold mb-2'>
-        Upload Photos for Room {roomIndex + 1}
-      </h3>
+    <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
+      <h3 className='text-xl font-semibold mb-4'>Upload Photos for Room</h3>
       <input
         type='file'
         multiple
@@ -51,7 +49,7 @@ const UploadRoomPhotos = ({ roomIndex, formData, setFormData }) => {
               <img
                 src={src}
                 alt={`Preview ${index}`}
-                className='w-32 h-32 object-cover'
+                className='w-56 h-56 object-cover'
               />
             </div>
             <button

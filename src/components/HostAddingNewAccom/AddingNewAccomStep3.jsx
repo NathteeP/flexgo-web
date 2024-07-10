@@ -1,7 +1,7 @@
 import React from 'react';
 import AmenitiesSelector from '../HostAddingNewAccom/AmenitiesSelector';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
-// import UploadRoomPhotos from '../HostAddingNewAccom/HostUploadRoomPics';
+import UploadRoomPhotos from '../HostAddingNewAccom/HostUploadRoomPics';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
@@ -86,6 +86,20 @@ const HostAddingNewAccomStep3 = ({
     setFormData({ ...formData, roomTypes: newRoomTypes });
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (
+      (name === 'houseTitle' && value.length <= 50) ||
+      (name !== 'houseTitle' && value.length <= 500) ||
+      (name === 'price' && /^[0-9]*$/.test(value))
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
@@ -109,7 +123,7 @@ const HostAddingNewAccomStep3 = ({
               key={index}
               className='flex flex-col items-center space-y-4 p-4'
             >
-              <div className='flex space-x-2 items-center'>
+              <div className='flex flex-wrap space-x-4 items-center'>
                 <div className='flex flex-col'>
                   <label className='mb-2 text-center'>
                     Room type (create your own name)
@@ -125,8 +139,8 @@ const HostAddingNewAccomStep3 = ({
                         })
                       )
                     }
-                    className='p-2 border border-gray-300 rounded'
-                    style={{ width: '270px' }}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '320px' }}
                   />
                 </div>
                 <div className='flex flex-col'>
@@ -141,8 +155,8 @@ const HostAddingNewAccomStep3 = ({
                         })
                       )
                     }
-                    className='p-2 border border-gray-300 rounded'
-                    style={{ width: '170px' }}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '200px' }}
                   >
                     {bedTypes.map((type, idx) => (
                       <option key={idx} value={type}>
@@ -160,60 +174,79 @@ const HostAddingNewAccomStep3 = ({
                     onChange={(e) =>
                       handleRoomChange(index, 'bedQuantity', e.target.value)
                     }
-                    className='p-2 border border-gray-300 rounded'
-                    style={{ width: '100px' }}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
                   />
                 </div>
+              </div>
+              <div className='flex flex-wrap space-x-4 items-center'>
                 <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Guests</label>
+                  <label className='mb-2 text-center'>Bedroom</label>
                   <input
                     type='number'
-                    value={item.guests}
+                    value={item.bedroom}
                     min='1'
                     onChange={(e) =>
                       handleRoomChange(index, 'guests', e.target.value)
                     }
-                    className='p-2 border border-gray-300 rounded'
-                    style={{ width: '100px' }}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
                   />
                 </div>
                 <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Price / night</label>
+                  <label className='mb-2 text-center'>Bathroom</label>
                   <input
                     type='number'
-                    value={item.price}
+                    value={item.bathroom}
                     min='0'
                     onChange={(e) =>
                       handleRoomChange(index, 'price', e.target.value)
                     }
-                    className='p-2 border border-gray-300 rounded'
-                    style={{ width: '100px' }}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
                   />
                 </div>
-                {index > 0 && (
-                  <button
-                    type='button'
-                    onClick={() =>
-                      dispatch(setRoomFormData({ type: 'remove', index }))
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Room Size (sqm.)</label>
+                  <input
+                    type='number'
+                    value={item.size}
+                    min='0'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'price', e.target.value)
                     }
-                    className=' bg-red-600 text-white rounded-full p-1 mt-8'
-                  >
-                    &times;
-                  </button>
-                )}
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '150px' }}
+                  />
+                </div>
               </div>
-              {/* <UploadRoomPhotos formData={formData} setFormData={setFormData} /> */}
             </div>
           ))}
-          <div className='flex justify-center mt-4'>
-            <button
-              type='button'
-              onClick={(e) => dispatch(setRoomFormData({ type: 'roomBed' }))}
-              className='px-4 py-2 mb-4 bg-fg-primary-01 bg-opacity-65 hover:bg-fg-primary-01 text-fg-text-black font-medium rounded-md'
-            >
-              Add More Room
-            </button>
-          </div>
+        </div>
+      </div>
+
+      <div className='mb-8'>
+        <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
+          <h2 className='text-xl font-medium p-4'>
+            How many guests fit comfortably in your place?
+          </h2>
+        </div>
+        <div className='flex items-center justify-center space-x-4'>
+          <button
+            onClick={() => handleGuestChange(-1)}
+            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+          >
+            -
+          </button>
+          <span className='text-[64px] font-medium px-8'>
+            {formData.guests}
+          </span>
+          <button
+            onClick={() => handleGuestChange(1)}
+            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+          >
+            +
+          </button>
         </div>
       </div>
 
@@ -240,9 +273,25 @@ const HostAddingNewAccomStep3 = ({
           </p>
         </div>
         <UploadPhotos formData={formData} setFormData={setFormData} />
+        <UploadRoomPhotos />
       </div>
 
-      <div className='flex justify-between'>
+      <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
+        <h2 className='text-2xl font-semibold'>Now, set your room price</h2>
+        <p className='text-gray-600'>You can change it anytime.</p>
+        <div className='flex justify-center items-center mt-4'>
+          <input
+            type='number'
+            name='price'
+            value={formData.price}
+            onChange={handleChange}
+            className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border-[2px] focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+            placeholder='0 ฿'
+          />
+        </div>
+      </div>
+
+      <div className='flex justify-between mt-8'>
         <button
           type='button'
           onClick={prevStep}

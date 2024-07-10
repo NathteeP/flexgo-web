@@ -19,7 +19,9 @@ const UploadPhotos = ({ formData, setFormData }) => {
   };
   return (
     <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
-      <h2 className='text-xl font-semibold mb-4'>Upload Photos</h2>
+      <h2 className='text-xl font-semibold mb-4'>
+        Upload Photos for Acommodation
+      </h2>
       <input
         type='file'
         multiple

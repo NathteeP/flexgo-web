@@ -1,5 +1,6 @@
 import React from 'react';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
+import HostUploadRoomPic from '../HostAddingNewAccom/HostUploadRoomPics';
 
 const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
   const bedTypes = [
@@ -83,10 +84,10 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
               key={item.id}
               className='flex flex-col items-center space-y-4 p-4'
             >
-              <div className='flex space-x-4 items-center'>
+              <div className='flex flex-wrap space-x-4 items-center'>
                 <div className='flex flex-col'>
                   <label className='mb-2 text-center'>
-                    Adding room type (create your own name)
+                    Room type (create your own name)
                   </label>
                   <input
                     type='text'
@@ -94,7 +95,8 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                     onChange={(e) =>
                       handleRoomTypeChange(index, e.target.value)
                     }
-                    className='p-2 border border-gray-300 rounded'
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '320px' }}
                   />
                 </div>
                 <div className='flex flex-col'>
@@ -102,7 +104,8 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                   <select
                     value={item.bedType}
                     onChange={(e) => handleBedTypeChange(index, e.target.value)}
-                    className='p-2 border border-gray-300 rounded'
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '200px' }}
                   >
                     {bedTypes.map((type, idx) => (
                       <option key={idx} value={type}>
@@ -111,27 +114,63 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                     ))}
                   </select>
                 </div>
-                {index > 0 && (
-                  <button
-                    type='button'
-                    onClick={() => handleRemoveRoom(item.id)}
-                    className='bg-red-600 text-white rounded-full p-1 mt-8'
-                  >
-                    &times;
-                  </button>
-                )}
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Bed Quantity</label>
+                  <input
+                    type='number'
+                    value={item.bedQuantity}
+                    min='1'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'bedQuantity', e.target.value)
+                    }
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
+                  />
+                </div>
+              </div>
+              <div className='flex flex-wrap space-x-4 items-center'>
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Bedroom</label>
+                  <input
+                    type='number'
+                    value={item.bedroom}
+                    min='1'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'bedroom', e.target.value)
+                    }
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
+                  />
+                </div>
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Bathroom</label>
+                  <input
+                    type='number'
+                    value={item.bathroom}
+                    min='1'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'bathroom', e.target.value)
+                    }
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
+                  />
+                </div>
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Room Size (sqm.)</label>
+                  <input
+                    type='number'
+                    value={item.roomSize}
+                    min='1'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'roomSize', e.target.value)
+                    }
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '150px' }}
+                  />
+                </div>
               </div>
             </div>
           ))}
-          <div className='flex justify-center mt-4'>
-            <button
-              type='button'
-              onClick={handleAddRoomAndBedType}
-              className='px-4 py-2 mb-4 bg-fg-primary-01 bg-opacity-65 hover:bg-fg-primary-01 text-fg-text-black font-medium rounded-md'
-            >
-              Add More Room
-            </button>
-          </div>
         </div>
       </div>
 
@@ -173,7 +212,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
       </div>
 
       <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
-        <h2 className='text-2xl font-semibold'>Now, set your price</h2>
+        <h2 className='text-2xl font-semibold'>Now, set your room price</h2>
         <p className='text-gray-600'>You can change it anytime.</p>
         <div className='flex justify-center items-center mt-4'>
           <input
@@ -181,7 +220,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
             name='price'
             value={formData.price}
             onChange={handleChange}
-            className='text-3xl p-4 font-bold text-center w-[70%] border-[1px]'
+            className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border-[2px] focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             placeholder='0 ฿'
           />
         </div>
