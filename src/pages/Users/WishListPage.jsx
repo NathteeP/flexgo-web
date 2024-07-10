@@ -44,11 +44,10 @@ const WishListPage = () => {
           My Wishlist{' '}
         </h1>
         <div className='lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
-          {displayingWishList?.length > 0 ? (
-            displayingWishList?.map((product) => (
-              <WishListCard key={product} {...product?.accom} />
-            ))
-          ) : (
+
+          {displayingWishList?.length > 0 ?
+          displayingWishList?.map((product) => (
+            <WishListCard key={product.id} {...product?.accom} />)) : (
             <h2>There is no accom on your wishlist yet..</h2>
           )}
         </div>

@@ -103,6 +103,7 @@ const Homepage = () => {
   const onClickNavigate = (to) => navigate(to);
 
   //===================WISHLIST LOGIC=======================
+  
   const allWishList = useSelector((state) => state.user.authUser?.wishList);
 
   const cloneAccomsList = accomsList.map((el) => {
@@ -113,6 +114,15 @@ const Homepage = () => {
       ),
     };
   });
+
+  //===================REDIRECT IF ADMIN======================
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.role === 'ADMIN') {
+        navigate('/admin');
+      }
+    }
+  }, [authUser, navigate]);
 
   return (
     <>

@@ -86,19 +86,19 @@ const AppRouter = createBrowserRouter([
     ],
   },
   {
-    path: '/',
+    path: '/admin',
     element: <AdminContainer />,
     children: [
-      { path: '/Admin', element: <AdminHomepage /> },
-      { path: '/Admin/AccomManagement', element: <AccommodationManagement /> },
-      { path: '/Admin/UserManagement', element: <UserManagement /> },
-      { path: '/Admin/HostProfile', element: <AdminHostProfile /> },
+      { path: '', element: <AdminHomepage /> },
+      { path: 'accomManagement', element: <AccommodationManagement /> },
+      { path: 'userManagement', element: <UserManagement /> },
+      { path: 'hostProfile', element: <AdminHostProfile /> },
       {
-        path: '/Admin/Edit/HostDetail',
+        path: 'edit/HostDetail',
         element: <AdminEditHostDetail />,
       },
       {
-        path: '/Admin/Edit/User',
+        path: 'edit/User',
         element: <AdminEditUserProfile />,
       },
     ],

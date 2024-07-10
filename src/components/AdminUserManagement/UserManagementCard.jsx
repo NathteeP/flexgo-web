@@ -3,48 +3,50 @@ import TitlePage from '../../layouts/TitlePage';
 import ProfileBox from '../../components/ProfileBox';
 import star from '../../assets/images/star/star.png';
 import pin from '../../assets/images/HostProfile/pin.png';
-import world from '../../assets/images/HostProfile/world.png';
 import Review from '../../components/Review';
 import ProductCard from '../../components/ProductCard';
-import { useNavigate, Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchHostAndAccom } from '../../store/slices/host-accom-slice';
+import { useDispatch } from 'react-redux';
+import { fetchUsers } from '../../store/slices/users-slice';
+import { updateUserStatus } from '../../store/slices/user-slice';
+import { toast } from 'sonner';
 import Button from '../Button';
 import ReviewBy from './ReviewBy';
 
-const HostProfile = {
-  name: 'Aerichan U.',
-  id: '123123123',
-  rating: '4.8',
-  review: '301',
-  hosting: '3',
-  language: 'English and Thai',
-  location: 'Bangkok, Thailand',
-  profileDetail: `I'm Aerichan, your host, and I've been living in this vibrant city for over a decade. I love sharing my cozy space with travelers from around the world. Our house is located in a serene neighborhood, just a stone's throw away from all the bustling attractions.
-
-  You'll have access to a comfortable room with modern amenities, and I'll be here to provide you with local tips and hidden gems. Whether you're here for business or leisure, my home is the perfect retreat.
-  
-  Come experience the warmth of Thai hospitality and make your stay in Bangkok truly unforgettable. 
-  
-  Looking forward to hosting you soon!`,
-};
-
-const UserManagementCard = () => {
-  const { user_id } = useParams();
+const UserManagementCard = ({ user }) => {
   const dispatch = useDispatch();
-  const { accomList, user, featureReview } = useSelector((state) => state.host);
-  const { authUser } = useSelector((state) => state.user);
+  const [isActive, setIsActive] = useState(user.isActive);
+  const defaultAvatar =
+    'https://t3.ftcdn.net/jpg/05/70/71/06/360_F_570710660_Jana1ujcJyQTiT2rIzvfmyXzXamVcby8.jpg';
+  const avatar =
+    user.userPhoto?.length > 0 && user.userPhoto[0].imagePath
+      ? user.userPhoto[0].imagePath
+      : defaultAvatar;
 
-  const [isActive, setIsActive] = useState(true);
+  const toggleUserStatus = async () => {
+    const newStatus = !isActive;
+    const promise = dispatch(
+      updateUserStatus({ userId: user.id, isActive: newStatus })
+    ).unwrap();
+    toast.promise(promise, {
+      loading: 'Updating status...',
+      success: 'Status updated successfully!',
+      error: 'Failed to update status.',
+    });
 
-  useEffect(() => {
-    dispatch(fetchHostAndAccom(user_id));
-  }, [dispatch, user_id]);
-
-  const toggleUserStatus = () => {
-    setIsActive(!isActive);
-    // Add your API call to update the user status here
+    try {
+      await promise;
+      setIsActive(newStatus);
+      dispatch(
+        fetchUsers({
+          page: 1,
+          sortKey: 'createdAt',
+          sortOrder: 'asc',
+          searchTerm: '',
+        })
+      ); // Refresh user list after status update
+    } catch (error) {
+      console.error('Update failed', error);
+    }
   };
 
   return (
@@ -65,7 +67,7 @@ const UserManagementCard = () => {
         {/* Left Part */}
         <div className='border-[2px] border-fg-grey/50 rounded-[40px] pt-14 pb-2 px-10 flex flex-col lg:flex-row gap-8'>
           <div>
-            <ProfileBox src={user.photo}>
+            <ProfileBox src={avatar}>
               <div className='px-10 py-4'>
                 <div className='flex flex-col items-center'>
                   <div className='text-3xl'>{user.fullName}</div>
@@ -74,23 +76,23 @@ const UserManagementCard = () => {
                 <div className='mt-4'>
                   <div className='flex justify-between'>
                     <div>Email:</div>
-                    <div>asdas{user.email}</div>
+                    <div>{user.email}</div>
                   </div>
                   <div className='flex justify-between'>
                     <div>Phone Number:</div>
-                    <div>asdas{user.phoneNumber}</div>
+                    <div>{user.phoneNumber}</div>
                   </div>
                   <div className='flex justify-between'>
                     <div>Date of birth:</div>
-                    <div>asdas{user.dateOfBirth}</div>
+                    <div>{user.birthDate || 'N/A'}</div>
                   </div>
                   <div className='flex justify-between'>
                     <div>Nationality:</div>
-                    <div>asdas{user.nationality}</div>
+                    <div>{user.nationality || 'N/A'}</div>
                   </div>
                   <div className='flex justify-between'>
                     <div>Gender:</div>
-                    <div>asdas{user.gender}</div>
+                    <div>{user.gender || 'N/A'}</div>
                   </div>
 
                   <br />
@@ -100,7 +102,7 @@ const UserManagementCard = () => {
                   <div className='flex justify-between'>
                     <h3>Rating</h3>
                     <div className='flex gap-2'>
-                      <div>{+user?.rating?.overAll}</div>
+                      <div>{user.rating?.overAll || 'N/A'}</div>
                       <img
                         src={star}
                         alt=''
@@ -110,11 +112,11 @@ const UserManagementCard = () => {
                   </div>
                   <div className='flex justify-between'>
                     <h3>Review</h3>
-                    <div>123{user?.rating?.count}</div>
+                    <div>{user.rating?.count || 'N/A'}</div>
                   </div>
                   <div className='flex justify-between'>
                     <h3>Years Hosting</h3>
-                    <div>123{user.hostTime}</div>
+                    <div>{user.hostTime || 'N/A'}</div>
                   </div>
                 </div>
               </div>
@@ -133,14 +135,14 @@ const UserManagementCard = () => {
                   <div className='flex items-center gap-4  mb-4'>
                     <img src={pin} alt='' className='pl-2' />
                     <div className='h-full'>
-                      Lives in : {HostProfile.location}
+                      Lives in : {user.address || 'N/A'}
                     </div>
                   </div>
                 </div>
               </div>
               <div>
                 <div className='mt-4 whitespace-pre-line text-base'>
-                  description asdasdas{user.description}
+                  {user.description || 'No description available'}
                 </div>
               </div>
             </div>
@@ -150,16 +152,16 @@ const UserManagementCard = () => {
         {/* Middle part */}
         <hr className='mt-10 mb-24 border-[1px]' />
         <div>
-          <TitlePage>Reviews by name{user.name}</TitlePage>
+          <TitlePage>Reviews by {user.fullName}</TitlePage>
           <div className='relative'>
-            <Review reviews={featureReview} />
+            <Review reviews={user.featureReview} />
           </div>
         </div>
         <hr className='mt-10 mb-24 border-[1px]' />
         <div>
-          <TitlePage>Reviews for name{user.name}</TitlePage>
+          <TitlePage>Reviews for {user.fullName}</TitlePage>
           <div className='relative'>
-            <ReviewBy reviews={featureReview} />
+            <ReviewBy reviews={user.featureReview} />
           </div>
         </div>
 
@@ -168,7 +170,7 @@ const UserManagementCard = () => {
         <TitlePage>{user.fullName} Listings</TitlePage>
         <div className='flex w-[100%] overflow-auto my-20'>
           <div className='flex flex-wrap gap-10 justify-center'>
-            {accomList?.map((product, index) => (
+            {user.accomList?.map((product, index) => (
               <ProductCard
                 key={index}
                 id={product.id}

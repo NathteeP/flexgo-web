@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAuthUser } from '../../store/slices/user-slice';
+import reservationApi from '../../api/reservation';
 
 const user = {
   profilePicture:
@@ -72,15 +73,32 @@ export const pastBooking = (allReservationData) => {
   return pastTrip
 }
 
+//============================CHANGE RESERVATION STATUS TO CHECKIN===============================
+
+const checkIfUserCheckedIn = (bookingHistory, dispatch) => {
+  let isStatusEdited = false
+  bookingHistory.forEach(el => {
+    if (dayjs().isAfter(dayjs(el.checkInDate))) {
+      reservationApi.editReservation(
+        el.id,
+        {status: "CHECKIN"}
+      )
+      isStatusEdited = true
+    }
+  })
+  if (isStatusEdited) dispatch(fetchAuthUser())
+}
+
 const BookingHistoryPage = () => {
 
   const dispatch = useDispatch()
+  const authUser = useSelector((state) => state.user.authUser)
+  const bookingHistory = authUser?.bookingHistory || []
 
   useEffect(() => {
-    dispatch(fetchAuthUser())
+    checkIfUserCheckedIn(bookingHistory, dispatch)
   },[])
     
-  const authUser = useSelector((state) => state.user.authUser)
   
   return (
   <div className='p-4'>

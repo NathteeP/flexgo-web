@@ -62,6 +62,9 @@ const initialState = {
     reducers: {
         setTransactionData(state, action) {
           state.transactionData = action.payload
+        },
+        setCheckOutLoading(state, action) {
+          state.isLoading = true
         }
     },
     extraReducers: (builder) => {
@@ -98,7 +101,10 @@ const initialState = {
         });
     },
   });
-  export const { setTransactionData } = paymentSlice.actions;
+  export const { 
+    setTransactionData,
+    setCheckOutLoading,
+   } = paymentSlice.actions;
   export const paymentReducer = paymentSlice.reducer;
 
 
