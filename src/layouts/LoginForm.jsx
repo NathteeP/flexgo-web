@@ -32,7 +32,6 @@ const LoginForm = () => {
 
   const { isForgotPasswordOpen } = useSelector((state) => state.modal);
 
-
   const handleLogin = async (data) => {
     try {
       const promise = dispatch(loginUser(data)).unwrap();
@@ -110,13 +109,13 @@ const LoginForm = () => {
                 <FaGoogle />
                 Sign In with Google
               </Button>
-              <Button
+              {/* <Button
                 className='w-full h-[34px] bg-fg-secondary-01  focus:bg-fg-secondary-02 hover:bg-fg-secondary-02 flex items-center gap-4  text-sm'
                 variant='contained'
               >
                 <FaFacebookF />
                 Sign In with Facebook
-              </Button>
+              </Button> */}
 
               <div className='flex flex-col  gap-4 translate-y-10'>
                 <Button
