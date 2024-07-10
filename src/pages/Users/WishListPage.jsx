@@ -17,18 +17,17 @@ const WishListPage = () => {
       'https://i.pinimg.com/originals/06/2b/75/062b75b3c882ce0ba9644cb0143a9f18.jpg',
   });
 
-  const allWishList = useSelector((state) => state.user.authUser?.wishList)
-  const dispatch = useDispatch()
-  const [displayingWishList, setDisplayingWishList] = useState([])
+  const allWishList = useSelector((state) => state.user.authUser?.wishList);
+  const dispatch = useDispatch();
+  const [displayingWishList, setDisplayingWishList] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchAuthUser())
-  },[])
+    dispatch(fetchAuthUser());
+  }, []);
 
   useEffect(() => {
-      setDisplayingWishList(allWishList)
-  }, [allWishList])
-
+    setDisplayingWishList(allWishList);
+  }, [allWishList]);
 
   return (
     <div className='p-8 bg-white min-h-screen mx-6'>
@@ -45,11 +44,13 @@ const WishListPage = () => {
           My Wishlist{' '}
         </h1>
         <div className='lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
-          {displayingWishList.length > 0 ?
-          displayingWishList?.map((product) => (
-            <WishListCard key={product} {...product?.accom} />)) :
+          {displayingWishList?.length > 0 ? (
+            displayingWishList?.map((product) => (
+              <WishListCard key={product} {...product?.accom} />
+            ))
+          ) : (
             <h2>There is no accom on your wishlist yet..</h2>
-          }
+          )}
         </div>
       </div>
     </div>
