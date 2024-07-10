@@ -122,6 +122,20 @@ export const updateUserProfile = createAsyncThunk(
   }
 );
 
+// edit user status
+export const updateUserStatus = createAsyncThunk(
+  'user/updateUserStatus',
+  async ({ userId, isActive }, thunkAPI) => {
+    try {
+      const response = await userApi.updateUserStatus(userId, { isActive });
+      console(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   authUser: null,
   isLoading: true,
@@ -255,6 +269,25 @@ const userSlice = createSlice({
         state.authUser = { ...state.authUser, ...action.payload };
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      //เพิ่ม update user status
+      .addCase(updateUserStatus.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // Update users array with new status
+        const index = state.users.findIndex(
+          (user) => user.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.users[index] = action.payload;
+        }
+      })
+      .addCase(updateUserStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

@@ -28,6 +28,7 @@ const UserManagement = () => {
     searchTerm,
   } = useSelector((state) => state.users);
   const { isUserManagementOpen } = useSelector((state) => state.modal);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
 
   // Debounce function
@@ -69,6 +70,7 @@ const UserManagement = () => {
   };
 
   const handleRowClick = (user) => {
+    setSelectedUser(user);
     dispatch(openUserManagement());
   };
 
@@ -134,7 +136,7 @@ const UserManagement = () => {
         {renderModal(
           isUserManagementOpen,
           closeUserManagement,
-          <UserManagementCard />
+          <UserManagementCard user={selectedUser} />
         )}
       </div>
     </>
