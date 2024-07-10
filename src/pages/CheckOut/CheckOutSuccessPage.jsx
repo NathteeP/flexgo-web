@@ -12,6 +12,8 @@ import { fetchRoomAndAccomByRoomId } from '../../store/slices/room-accom-slice';
 import dayjs from 'dayjs';
 import monthsConstant from '../../constant/months';
 import reservationApi from '../../api/reservation';
+import { numberToDecimalString } from '../../utils/numberToString';
+import { useLocation } from 'react-router-dom';
 
 const userInfo = {
   name: 'Katarina Bluu',
@@ -53,7 +55,7 @@ export default function CheckOutSuccessPage() {
     return () => {
       dispatch(resetReservationSlice());
     };
-  }, []);
+  }, [dispatch]);
 
   const reservationData = useSelector(
     (state) => state.reservation.reservationData
@@ -71,7 +73,7 @@ export default function CheckOutSuccessPage() {
   );
   const transaction = reservationData?.transaction;
   const basePrice = transaction
-    ? transaction.netPrice - transaction.serviceFee
+    ? +(transaction.netPrice - transaction.serviceFee).toFixed(2)
     : 0;
 
   //==========================RESERVATION APPROVE LOGIC========================================
@@ -84,7 +86,10 @@ export default function CheckOutSuccessPage() {
     }
   };
 
-  if (accom) handleReservationApproval(reservationId);
+  const location = useLocation()
+  const { pathname } = location
+  // will not approve reservation if access this page in bookinghistory
+  if (accom && pathname.includes("reservation")) handleReservationApproval(reservationId);
 
   return (
     <div className=' flex flex-col items-center justify-center p-4 mx-16'>
@@ -112,9 +117,9 @@ export default function CheckOutSuccessPage() {
             nights={bookingDays}
             checkInDate={dateStringToObj(reservationData.checkInDate)}
             checkOutDate={dateStringToObj(reservationData.checkOutDate)}
-            price={basePrice}
-            tax={transaction?.serviceFee}
-            totalPrice={transaction?.netPrice}
+            price={numberToDecimalString(basePrice)}
+            tax={numberToDecimalString(transaction?.serviceFee)}
+            totalPrice={numberToDecimalString(transaction?.netPrice)}
             imageSrc={roomAccom.roomPhoto}
           />
         </div>

@@ -31,8 +31,14 @@ const UploadPhotos = ({ formData, setFormData, forAccom }) => {
   };
   return (
     <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
+<<<<<<< HEAD
       <h2 className='text-xl font-semibold mb-4'>Upload Photos</h2>
       <p>{forAccom ? 'Accom' : 'Room'}</p>
+=======
+      <h2 className='text-xl font-semibold mb-4'>
+        Upload Photos for Acommodation
+      </h2>
+>>>>>>> 8effb8327d79423ba3cfb74e625f1fa348c2daee
       <input
         type='file'
         onChange={handleFileChange}

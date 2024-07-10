@@ -20,7 +20,10 @@ userApi.getAllUsers = (page, sortKey, sortOrder, searchTerm) =>
   });
 
 userApi.editAuthUser = (data) => axios.patch('/user/me', data);
-userApi.edit = (data) => axios.patch('/user/:user_id', data);
+
+// เพิ่ม update status user
+userApi.updateUserStatus = (user_id, data) =>
+  axios.patch(`/user/${user_id}/status`, data);
 
 // ส่วนของ forgotPassword
 userApi.requestOtp = (data) => axios.post('/user/request-otp', data);

@@ -45,7 +45,7 @@ const HostAddingNewAccomStep2 = ({
                   setHostFormData({ type: 'country', data: e.target.value })
                 )
               }
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-4 py-2 mb-4 rounded-md border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             >
               <option value=' '>Select your Country / Region</option>
               <option value='Thailand - TH'>Thailand - THA 🇹🇭</option>
@@ -86,7 +86,7 @@ const HostAddingNewAccomStep2 = ({
                   setHostFormData({ type: 'address', data: e.target.value })
                 )
               }
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-4 py-2 mb-4 rounded-md border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             />
           </div>
 
@@ -104,7 +104,7 @@ const HostAddingNewAccomStep2 = ({
                   setHostFormData({ type: 'district', data: e.target.value })
                 )
               }
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-4 py-2 mb-4 rounded-md border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             />
           </div>
           <div>
@@ -121,7 +121,7 @@ const HostAddingNewAccomStep2 = ({
                   setHostFormData({ type: 'province', data: e.target.value })
                 )
               }
-              className='w-full px-4 py-2 mb-4 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-4 py-2 mb-4 rounded-md border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             />
           </div>
         </div>
