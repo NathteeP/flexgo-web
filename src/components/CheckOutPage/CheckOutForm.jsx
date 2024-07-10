@@ -19,7 +19,7 @@ import SelectCountry from '../../components/Country';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { reservationSchema } from '../../validators/validate-reservation';
-import { confirmPayment } from '../../store/slices/payment-slice';
+import { confirmPayment, setCheckOutLoading } from '../../store/slices/payment-slice';
 import reservationApi from '../../api/reservation';
 import {
   setReservationId,
@@ -89,6 +89,7 @@ export default function CheckOutForm({ clientSecret }) {
       return;
     }
     try {
+      dispatch(setCheckOutLoading())
       const reservationAddingData = {
         checkInDate,
         checkOutDate,

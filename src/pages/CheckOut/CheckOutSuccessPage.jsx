@@ -12,6 +12,7 @@ import { fetchRoomAndAccomByRoomId } from '../../store/slices/room-accom-slice';
 import dayjs from 'dayjs';
 import monthsConstant from '../../constant/months';
 import reservationApi from '../../api/reservation';
+import { numberToDecimalString } from '../../utils/numberToString';
 
 const userInfo = {
   name: 'Katarina Bluu',
@@ -71,7 +72,7 @@ export default function CheckOutSuccessPage() {
   );
   const transaction = reservationData?.transaction;
   const basePrice = transaction
-    ? transaction.netPrice - transaction.serviceFee
+    ? +(transaction.netPrice - transaction.serviceFee).toFixed(2)
     : 0;
 
   //==========================RESERVATION APPROVE LOGIC========================================
@@ -112,9 +113,9 @@ export default function CheckOutSuccessPage() {
             nights={bookingDays}
             checkInDate={dateStringToObj(reservationData.checkInDate)}
             checkOutDate={dateStringToObj(reservationData.checkOutDate)}
-            price={basePrice}
-            tax={transaction?.serviceFee}
-            totalPrice={transaction?.netPrice}
+            price={numberToDecimalString(basePrice)}
+            tax={numberToDecimalString(transaction?.serviceFee)}
+            totalPrice={numberToDecimalString(transaction?.netPrice)}
             imageSrc={roomAccom.roomPhoto}
           />
         </div>
