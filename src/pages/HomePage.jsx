@@ -108,6 +108,15 @@ const Homepage = () => {
   const cloneAccomsList = accomsList.map(el => {
       return {...el, isOnUserWishList: Boolean(allWishList?.find(wlEl => wlEl.accomId === el.id))}
   })
+
+  //===================REDIRECT IF ADMIN======================
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.role === 'ADMIN') {
+        navigate('/admin');
+      }
+    }
+  }, [authUser, navigate]);
   
 
   return (
