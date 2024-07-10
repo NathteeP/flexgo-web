@@ -128,7 +128,7 @@ export const updateUserStatus = createAsyncThunk(
   async ({ userId, isActive }, thunkAPI) => {
     try {
       const response = await userApi.updateUserStatus(userId, { isActive });
-      console(response.data);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -279,13 +279,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUserStatus.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Update users array with new status
-        const index = state.users.findIndex(
-          (user) => user.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.users[index] = action.payload;
-        }
+        state.user = action.payload;
       })
       .addCase(updateUserStatus.rejected, (state, action) => {
         state.isLoading = false;
