@@ -30,7 +30,7 @@ const AdminContainer = () => {
     }
   }, [authUser, navigate, loading]);
 
-  if (loading) {
+  if (loading || !authUser || authUser.role !== 'ADMIN') {
     return <CheckoutSpinner />
   }
 
