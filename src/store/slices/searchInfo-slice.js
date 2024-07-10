@@ -14,7 +14,11 @@ const initialState = {
     },
   },
   desiredLocation: {
-    coordinate: {},
+    coordinate: {
+      lat: 13.7706167,
+      lng: 100.5408732,
+    },
+    address: '',
   },
   date: {
     checkInDate: dayjs().tz('Asia/Bangkok').toString(),
@@ -60,6 +64,9 @@ const searchInfo = createSlice({
     setUserDesiredLocation: (state, action) => {
       state.desiredLocation.coordinate = action.payload;
     },
+    setDesiredAddress: (state, action) => {
+      state.desiredLocation.address = action.payload;
+    },
   },
 });
 
@@ -72,4 +79,5 @@ export const {
   setGuest,
   onSubmitFilterAccom,
   setUserDesiredLocation,
+  setDesiredAddress,
 } = searchInfo.actions;

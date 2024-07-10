@@ -1,20 +1,14 @@
-// import {
-//   APIProvider,
-//   Map,
-//   Pin,
-//   AdvancedMarker,
-//   useAdvancedMarkerRef,
-//   MapControl,
-// } from '@vis.gl/react-google-maps';
-// import { useState } from 'react';
-// import MapHandler from './MapHandler';
 import { useJsApiLoader } from '@react-google-maps/api';
 import Map from './Map';
 import { libraries } from '../constant/google-map';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-
-const MapWrapper = ({ MapWithAutoComplete }) => {
+import MapWithMarker from './MapWithMarker';
+import MapWithNearbyPlace from './MapWithNearbyPlace';
+const MapWrapper = ({
+  MapWithAutoComplete,
+  mapWithMarker,
+  marker,
+  mapWithNearbyPlace,
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     libraries: libraries,
@@ -22,7 +16,13 @@ const MapWrapper = ({ MapWithAutoComplete }) => {
 
   if (!isLoaded) return <div>Map is Loading...</div>;
 
-  if (MapWithAutoComplete) return <Map autoComplete={true} />;
+  if (MapWithAutoComplete) {
+    return <Map autoComplete={true} />;
+  } else if (mapWithMarker) {
+    return <MapWithMarker marker={marker} />;
+  } else if (mapWithNearbyPlace) {
+    return <MapWithNearbyPlace />;
+  }
   return <Map />;
 };
 

@@ -4,22 +4,34 @@ import { act } from 'react';
 
 const initialState = {
   accom: {
-    selectedType: '',
-    selectedPlace: '',
+    type: '',
     country: '',
     address: '',
     district: '',
     province: '',
-    photos: [],
     name: '',
     description: '',
-    houseRule: '',
+    houseRule: {
+      checkIn: '',
+      checkOut: '',
+      petsRule: '',
+      ageRule: '',
+      cancelPolicy: '',
+    },
     coordinate: defaultAddress.coordinate,
   },
+  accomPhotos: [],
   room: {
-    roomList: [{ roomType: 'Standard Room', bedTypes: 'Single', capacity: 4 }],
+    roomType: 'Standard Room',
+    beds: { type: 'Single bed', amount: 1 },
+    capacity: 4,
+    price: 0,
     amenities: [],
+    accomId: null,
+    bathRoom: 1,
+    bedRoom: 1,
   },
+  roomPhotos: [],
   gMapAddress: defaultAddress.address,
 };
 
@@ -31,6 +43,11 @@ const hostForm = createSlice({
       state.accom.coordinate = action.payload;
     },
     setHostFormData: (state, action) => {
+      if (action.payload.type === 'houseRule') {
+        const { topic, value } = action.payload;
+        state.accom.houseRule[topic] = value;
+        return state;
+      }
       state.accom[action.payload.type] = action.payload.data;
     },
     setGMapAddress: (state, action) => {
@@ -38,32 +55,33 @@ const hostForm = createSlice({
     },
     setRoomFormData: (state, action) => {
       if (action.payload.type === 'bedTypes') {
-        const { index, data } = action.payload;
-        state.room.roomList[index].bedTypes = data;
+        const { data } = action.payload;
+        state.room.beds.type = data;
       }
 
-      if (action.payload.type === 'roomBed') {
-        state.room.roomList.push({
-          roomType: 'Standard Room',
-          bedTypes: 'Single',
-          capacity: 1,
-        });
+      if (action.payload.type === 'capacity') {
+        const { data } = action.payload;
+        state.room.capacity = data;
       }
 
-      if (action.payload.type === 'remove') {
-        state.room.roomList.splice(action.payload.index, 1);
+      if (action.payload.type === 'bedAmount') {
+        const { data } = action.payload;
+        state.room.beds.amount = data;
       }
 
-      state.room[action.payload.type] = action.payload.data;
+      if (action.payload.type === 'price') {
+        const { value } = action.payload;
+        state.room.price = value;
+      }
     },
     setRoomCapacity: (state, action) => {
-      const { index, value } = action.payload;
+      const { value } = action.payload;
       if (value === -1) {
-        if (state.room.roomList[index].capacity === 1) return state;
+        if (state.room.capacity === 1) return state;
       } else if (value === 1) {
-        if (state.room.roomList[index].capacity === 20) return state;
+        if (state.room.capacity === 1) return state;
       }
-      state.room.roomList[index].capacity += value;
+      state.room.capacity += value;
     },
     addRoomAmenities: (state, action) => {
       if (state.room.amenities.some((item) => item.id === action.payload.id)) {
@@ -76,10 +94,8 @@ const hostForm = createSlice({
       state.room.amenities.push(action.payload);
     },
     changeRoomType: (state, action) => {
-      const { data, index } = action.payload;
-      if (state.room.roomList[index]) {
-        state.room.roomList[index].roomType = data;
-      }
+      const { data } = action.payload;
+      state.room.roomType = data;
     },
   },
 });

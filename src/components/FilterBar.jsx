@@ -11,6 +11,7 @@ import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
 import { fetchAvailRoomListByAccomId } from '../store/slices/rooms-slice';
 import { useParams } from 'react-router-dom';
+import PlaceAutoComplete from '../google-maps/PlaceAutoComplete';
 
 const FilterBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -58,16 +59,12 @@ const FilterBar = () => {
       >
         <div className=' flex items-center justify-center w-full lg:flex-1'>
           <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden'>
-            <div className='w-[50px] h-[48px] flex justify-center items-center bg-white'>
-              <HiMagnifyingGlass className='text-2xl text-fg-text-black' />
-            </div>
-            <Input
-              htmlFor='locationFilter'
-              id='locationFilter'
-              type='locationFilter'
-              name='locationFilter'
-              placeholder='Bangkok, Thailand | Within 1 Km.'
-              className='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2' // เพิ่ม padding ขวา
+            <PlaceAutoComplete
+              setPlace={(position) =>
+                dispatch(setUserDesiredLocation(position))
+              }
+              setAddress={(position) => dispatch(setDesiredAddress(position))}
+              showGlass={true}
             />
           </div>
         </div>

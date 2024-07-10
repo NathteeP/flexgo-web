@@ -39,10 +39,10 @@ const HostAddingAccommodationPage1 = ({ formData, setFormData, nextStep }) => {
             <button
               key={index}
               onClick={() =>
-                dispatch(setHostFormData({ type: 'selectedType', data: type }))
+                dispatch(setHostFormData({ type: 'type', data: type }))
               }
               className={`px-4 py-2 mb-3 rounded-md  shadow-lg hover:bg-fg-grey ${
-                accom.selectedType === type
+                accom.type === type
                   ? 'bg-fg-secondary-02 text-white'
                   : 'bg-white text-gray-700'
               }`}

@@ -11,7 +11,7 @@ import {
   setGMapAddress,
 } from '../store/slices/hostForm-slice';
 
-export default function Map({ autoComplete }) {
+export default function Map({ autoComplete, mapWithMarker, marker }) {
   const { accom, gMapAddress } = useSelector((state) => state.hostForm);
   const { coordinate } = accom;
   const dispatch = useDispatch();
