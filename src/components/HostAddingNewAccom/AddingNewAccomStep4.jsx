@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setHostFormData,
   setRoomFormData,
@@ -23,6 +22,23 @@ const AddingNewAccomStep4 = ({
 
   const { accom, room } = useSelector((state) => state.hostForm);
   const dispatch = useDispatch();
+
+  const cancelPolicy = {
+    FLEXIBLE:
+      'Guests can cancel up to 24 hours before check-in for a full refund, and you won’t be paid. If they cancel less than 24 hours before check-in and never check in, you’ll be paid for the first night. If they cancel after check-in, you’ll be paid for each night they stay, plus 1 additional night.',
+    MODERATE:
+      'Guests can cancel up to 5 days before check-in for a full refund, and you won’t be paid. If they cancel after that, you’ll be paid for each night they stay, plus 1 additional night and 50% for all unspent nights.',
+    STRICT:
+      'To receive a full refund, guests must cancel within 48 hours of booking, and the cancellation must occur at least 14 days before check-in. If they cancel between 7 and 14 days before check-in, you’ll be paid 50% for all nights. If they cancel after that, you’ll be paid 100% for all nights.',
+  };
+
+  const handleCancelPolicyChange = (e) => {
+    const { value } = e.target;
+    dispatch(setHostFormData({ type: 'cancelPolicyKey', data: value }));
+    dispatch(
+      setHostFormData({ type: 'cancelPolicy', data: cancelPolicy[value] })
+    );
+  };
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -49,7 +65,7 @@ const AddingNewAccomStep4 = ({
           onChange={(e) =>
             dispatch(setHostFormData({ type: 'name', data: e.target.value }))
           }
-          className='w-full p-4 border border-gray-300 rounded-xl mb-2'
+          className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           placeholder='Enter your accommodation title...'
         />
         <p className='text-right text-gray-600'>{accom.name.length}/50</p>
@@ -70,7 +86,7 @@ const AddingNewAccomStep4 = ({
               setHostFormData({ type: 'description', data: e.target.value })
             )
           }
-          className='w-full p-4 border border-gray-300 rounded-xl mb-2'
+          className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           rows='4'
           placeholder='You will have a great time at this comfortable place to stay'
         />
@@ -89,35 +105,84 @@ const AddingNewAccomStep4 = ({
             guest to be strict with the rules.
           </p>
         </div>
-        <textarea
-          name='houseRule'
-          value={accom.houseRule}
+        <input
+          type='text'
+          name='checkIn'
+          value={accom.checkIn}
+          onChange={(e) =>
+            dispatch(setHostFormData({ type: 'checkIn', data: e.target.value }))
+          }
+          className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+          placeholder='Check-in time'
+        />
+        <input
+          type='text'
+          name='checkOut'
+          value={accom.checkOut}
           onChange={(e) =>
             dispatch(
-              setHostFormData({ type: 'houseRule', data: e.target.value })
+              setHostFormData({ type: 'checkOut', data: e.target.value })
             )
           }
-          className='w-full p-4 border border-gray-300 rounded-xl mb-2'
-          rows='4'
-          placeholder={`Check-in after 14:00 \nCheck-out before 12:00 pm \nPet is prohibited in bedroom and shared area`}
+          className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+          placeholder='Check-out time'
         />
-        <p className='text-right text-gray-600'>{accom.houseRule.length}/500</p>
-      </div>
-
-      {/* <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
-        <h2 className='text-2xl font-semibold'>Now, set your price</h2>
-        <p className='text-gray-600'>You can change it anytime.</p>
-        <div className='flex justify-center items-center mt-4'>
-          <input
-            type='number'
-            name='price'
-            value={formData.price}
-            onChange={handleChange}
-            className='text-3xl p-4 font-bold text-center w-[70%] border-[1px]'
-            placeholder='0 ฿'
-          />
+        <textarea
+          name='petRules'
+          value={accom.petRules}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({ type: 'petRules', data: e.target.value })
+            )
+          }
+          className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+          rows='4'
+          placeholder='Pet rules'
+        />
+        <div>
+          <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-4 mt-8 rounded-xl text-center'>
+            <h2 className='text-xl font-semibold p-2'>Cancellation Policy</h2>
+            <p className='mb-4 text-gray-600 p-4'>
+              Select an appropriate cancellation policy for your accommodation
+              in order to inform your clients about the booking cancellation in
+              advance. <br />
+              <br />
+              <span className='font-bold'>FLEXIBLE</span> : Guests can cancel up
+              to 24 hours before check-in for a full refund, and you won’t be
+              paid. If they cancel less than 24 hours before check-in and never
+              check in, you’ll be paid for the first night. If they cancel after
+              check-in, you’ll be paid for each night they stay, plus 1
+              additional night.
+              <br />
+              <br />
+              <span className='font-bold'>MODERATE</span> : Guests can cancel up
+              to 5 days before check-in for a full refund, and you won’t be
+              paid. If they cancel after that, you’ll be paid for each night
+              they stay, plus 1 additional night and 50% for all unspent nights.
+              <br />
+              <br />
+              <span className='font-bold'>STRICT</span> : To receive a full
+              refund, guests must cancel within 48 hours of booking, and the
+              cancellation must occur at least 14 days before check-in. If they
+              cancel between 7 and 14 days before check-in, you’ll be paid 50%
+              for all nights. If they cancel after that, you’ll be paid 100% for
+              all nights.
+            </p>
+          </div>
+          <select
+            name='cancelPolicy'
+            value={accom.cancelPolicyKey}
+            onChange={handleCancelPolicyChange}
+            className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+          >
+            {Object.keys(cancelPolicy).map((key) => (
+              <option key={key} value={key}>
+                {key}
+              </option>
+            ))}
+          </select>
         </div>
-      </div> */}
+      </div>
 
       <div className='flex justify-between mt-8'>
         <button

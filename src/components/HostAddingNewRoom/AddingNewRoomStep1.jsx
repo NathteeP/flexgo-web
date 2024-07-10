@@ -84,7 +84,21 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
               key={item.id}
               className='flex flex-col items-center space-y-4 p-4'
             >
-              <div className='flex flex-wrap space-x-4 items-center'>
+              <div className='flex flex-wrap space-x-2 items-center'>
+                <div className='flex flex-col'>
+                  <label className='mb-2 text-center'>Room Number</label>
+                  <input
+                    type='text'
+                    value={item.roomnumber}
+                    min='1'
+                    onChange={(e) =>
+                      handleRoomChange(index, 'roomNumber', e.target.value)
+                    }
+                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                    style={{ width: '120px' }}
+                    placeholder='FG123'
+                  />
+                </div>
                 <div className='flex flex-col'>
                   <label className='mb-2 text-center'>
                     Room type (create your own name)
@@ -96,7 +110,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                       handleRoomTypeChange(index, e.target.value)
                     }
                     className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '320px' }}
+                    style={{ width: '280px' }}
                   />
                 </div>
                 <div className='flex flex-col'>
@@ -220,7 +234,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
             name='price'
             value={formData.price}
             onChange={handleChange}
-            className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border-[2px] focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+            className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             placeholder='0 ฿'
           />
         </div>
