@@ -89,7 +89,7 @@ const AmenitiesSelector = () => {
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
         placeholder='Search amenities...'
-        className='mb-4 p-2 border border-gray-300 rounded w-full'
+        className='mb-4 p-2 border-gray-300 rounded w-full border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
       />
 
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
