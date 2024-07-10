@@ -16,7 +16,7 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const { userLocation, date } = useSelector((state) => state.info);
 
-  const {authUser} = useSelector(state => state.user)
+  const { authUser } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const fadeInCarouselRef = useRef(null);
@@ -103,11 +103,17 @@ const Homepage = () => {
   const onClickNavigate = (to) => navigate(to);
 
   //===================WISHLIST LOGIC=======================
-  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+  
+  const allWishList = useSelector((state) => state.user.authUser?.wishList);
 
-  const cloneAccomsList = accomsList.map(el => {
-      return {...el, isOnUserWishList: Boolean(allWishList?.find(wlEl => wlEl.accomId === el.id))}
-  })
+  const cloneAccomsList = accomsList.map((el) => {
+    return {
+      ...el,
+      isOnUserWishList: Boolean(
+        allWishList?.find((wlEl) => wlEl.accomId === el.id)
+      ),
+    };
+  });
 
   //===================REDIRECT IF ADMIN======================
   useEffect(() => {
@@ -117,7 +123,6 @@ const Homepage = () => {
       }
     }
   }, [authUser, navigate]);
-  
 
   return (
     <>
@@ -129,9 +134,6 @@ const Homepage = () => {
         height='100%'
         className='w-[1000px] md:w-[1000px] lg:w-screen h-[1700px] -translate-y-[540px] absolute z-0'
       ></iframe>
-      <div className='absolute z-50 bottom-[-400px] w-full h-[320px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-      <div className='absolute z-50 bottom-[-400px] w-full h-[320px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-      <div className='absolute z-50 bottom-[-400px] w-full h-[320px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
 
       <div className='relative z-30 w-[700px] md:w-[700px] lg:w-[90%] h-[830px] mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none animate-fade delay-[4000ms]'>
         <div className='flex flex-col'>
@@ -159,6 +161,12 @@ const Homepage = () => {
       {/* Accom Recommendation Part */}
       <div className='relative z-50 mt-32' ref={fadeInCarouselRef}>
         <Carousel accoms={accomsList} />
+      </div>
+      <div className='relative'>
+        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+        <div className='absolute z-10 bottom-[300px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
       </div>
       <div className='flex justify-center flex-col items-center text-fg-text-black mt-12'>
         <h1 className='text-[38px] font-bold'>THIS IS OUR</h1>

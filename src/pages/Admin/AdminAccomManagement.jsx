@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import TitlePage from '../../layouts/TitlePage';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,6 +9,14 @@ import CustomModal from '../../components/Modal';
 // import CardModal from '../../components/HostNotification/CardModal';
 import Input from '../../components/Input';
 import AdminAccomManagementCard from '../../components/AdminAccomManagement/AdminAccomManagementCard';
+import GenericTable from '../../components/GenericTable';
+
+import {
+  fetchUsers,
+  setPage,
+  setSortConfig,
+  setSearchTerm,
+} from '../../store/slices/users-slice';
 
 const accommodationMockup = [
   {
@@ -105,27 +113,93 @@ const accommodationMockup = [
 
 function AccommodationManagement() {
   const dispatch = useDispatch();
-  const { isAccomManagementOpen } = useSelector((state) => state.modal);
-  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  const {
+    users,
+    isLoading,
+    currentPage,
+    totalPages,
+    sortKey,
+    sortOrder,
+    searchTerm,
+  } = useSelector((state) => state.users);
+  // ใส่ไปก่อน
+  const { isAccomManagementOpen } = useSelector((state) => state.modal);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+
+  // Debounce function
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
   };
 
-  const filteredAccommodations = accommodationMockup.filter(
-    (accom) =>
-      accom.id.toString().includes(searchTerm) ||
-      accom.userId.toString().includes(searchTerm) ||
-      accom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      accom.province.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      accom.district.toLowerCase().includes(searchTerm.toLowerCase())
+  // หน่วงเวลาตอน search และ sort
+  const debouncedSetSearchTerm = useCallback(
+    debounce((term) => {
+      setDebouncedSearchTerm(term);
+    }, 1000),
+    []
   );
+
+  useEffect(() => {
+    dispatch(
+      fetchUsers({
+        page: currentPage,
+        sortKey,
+        sortOrder,
+        searchTerm: debouncedSearchTerm,
+      })
+    );
+  }, [dispatch, currentPage, sortKey, sortOrder, debouncedSearchTerm]);
+
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    dispatch(setSearchTerm(term));
+    debouncedSetSearchTerm(term);
+  };
+
+  const handleRowClick = (user) => {
+    dispatch(openAccomManagement());
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      direction = 'desc';
+    }
+    dispatch(setSortConfig({ key, direction }));
+    debouncedSetSearchTerm(searchTerm); // เรียก debounce สำหรับการ sort ด้วย
+  };
+
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
+    dispatch(
+      fetchUsers({ page, sortKey, sortOrder, searchTerm: debouncedSearchTerm })
+    );
+  };
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
       {children}
     </CustomModal>
   );
+
+  const columns = [
+    { key: 'accomId', label: 'Accom ID' },
+    { key: 'id', label: 'User ID' },
+    { key: 'accomName', label: 'Accom Name' },
+    { key: 'accomProvince', label: 'Province' },
+    { key: 'accomDistrict', label: 'District' },
+    { key: 'createdAt', label: 'Created At' },
+    { key: 'status', label: 'Status' },
+  ];
 
   return (
     <>
@@ -141,61 +215,24 @@ function AccommodationManagement() {
             className='flex border-[1px] mb-2 bg-[#F3F4F6] rounded-xl w-[350px] h-[32px] px-2 text-gray-500 text-[13px] mr-8 hover:border-[2px] hover:border-fg-secondary-02 hover:scale-105 transition duration-500 focus:border-[1px] focus:border-fg-secondary-02 focus:outline-none'
           />
         </div>
-        <div className='grid grid-cols-7 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2'>
-          <div>Accom ID</div>
-          <div>User ID</div>
-          <div>Accom Name</div>
-          <div>Province</div>
-          <div>District</div>
-          <div>Created At</div>
-          <div>Status</div>
-        </div>
-
-        {filteredAccommodations.map((accom, index) => (
-          <div
-            key={index}
-            className='grid grid-cols-7 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-            onClick={() => {
-              dispatch(openAccomManagement());
-            }}
-          >
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.id}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.userId}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.name}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.province}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.district}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              {accom.created_at}
-            </div>
-            <div className='h-[60px] flex items-center justify-center'>
-              <span
-                className={`px-2 py-1 rounded-lg text-[12px] ${
-                  accom.status === 'ACTIVE' ? 'bg-green-200' : 'bg-red-200'
-                }`}
-              >
-                {accom.status}
-              </span>
-            </div>
-          </div>
-        ))}
+        <GenericTable
+          columns={columns}
+          data={users}
+          onRowClick={handleRowClick}
+          onSort={handleSort}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          loading={isLoading}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+        />
 
         {renderModal(
           isAccomManagementOpen,
           closeAccomManagement,
           <AdminAccomManagementCard />
         )}
-
-        <div className='grid grid-cols-7 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] mb-10'></div>
       </div>
     </>
   );
