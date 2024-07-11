@@ -39,6 +39,7 @@ import AdminEditUserProfile from '../pages/Admin/AdminEditUserProfile';
 import AdminContainer from '../layouts/AdminContainer';
 import UserManagement from '../pages/Admin/AdminUserManagement';
 import AccommodationManagement from '../pages/Admin/AdminAccomManagement';
+import CheckOutPurchaseHistory from '../pages/CheckOut/CheckOutPurchaseHistory';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -56,7 +57,7 @@ const AppRouter = createBrowserRouter([
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
       { path: '/history', element: <BookingHistoryPage /> },
-      { path: '/history/:reservationId', element: <CheckOutSuccessPage /> },
+      { path: '/history/:reservationId', element: <CheckOutPurchaseHistory /> },
       {
         path: '/checkout',
         element: <CheckOutContainer />,
