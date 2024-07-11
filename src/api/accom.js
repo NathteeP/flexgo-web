@@ -11,6 +11,21 @@ accomApi.getRoomListByAccomId = (accomId) =>
 accomApi.getAvailRoomListByAccomId = (accomId, data) =>
   axios.post(`accom/availrooms/${accomId}`, data);
 
-accomApi.getAllAccomByUserId = user_id => axios.get(`/accom/all/${user_id}`)
+// เพิ่มดึงข้อมูล accoms ทั้งหมด
+accomApi.getAllAccoms = (page, sortKey, sortOrder, searchTerm) =>
+  axios.get('/accom/all', {
+    params: {
+      page,
+      sortKey,
+      sortOrder,
+      searchTerm,
+    },
+  });
+
+// เพิ่ม Edit Status accom
+accomApi.updateAccomStatus = (accomId, status) =>
+  axios.patch(`/accom/edit/${accomId}`, { status });
+
+accomApi.getAllAccomByUserId = (user_id) => axios.get(`/accom/all/${user_id}`);
 
 export default accomApi;

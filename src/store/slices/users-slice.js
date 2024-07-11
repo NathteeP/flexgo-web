@@ -4,7 +4,7 @@ import userApi from '../../api/users';
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
   async (
-    { page = 1, sortKey = 'createdAt', sortOrder = 'asc', searchTerm = '' },
+    { page = 1, sortKey = 'createdAt', sortOrder = 'desc', searchTerm = '' },
     thunkAPI
   ) => {
     try {
@@ -33,7 +33,7 @@ const initialState = {
   currentPage: 1,
   totalPages: 1,
   sortKey: 'createdAt',
-  sortOrder: 'asc',
+  sortOrder: 'desc',
   searchTerm: '',
 };
 

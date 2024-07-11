@@ -9,7 +9,7 @@ const formatDate = (dateString) => {
 
 const GenericTable = ({
   columns,
-  data,
+  data = [],
   onRowClick,
   onSort,
   currentPage,
@@ -39,6 +39,7 @@ const GenericTable = ({
   };
 
   const sortedData = React.useMemo(() => {
+    if (!Array.isArray(data)) return [];
     if (!sortKey) return data;
     return [...data].sort((a, b) => {
       if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
