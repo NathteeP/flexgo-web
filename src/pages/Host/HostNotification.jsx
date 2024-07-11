@@ -61,6 +61,7 @@ function HostNotification() {
       ...el, 
       checkInDate: dayjs(el.checkInDate).format('DD/MM/YYYY'),
       checkOutDate: dayjs(el.checkOutDate).format('DD/MM/YYYY'),
+      bookingDays: dayjs(el.checkOutDate).diff(el.checkInDate, 'days')
     }
   })
 

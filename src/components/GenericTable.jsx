@@ -44,8 +44,12 @@ const GenericTable = ({
     return [...data].sort((a, b) => {
       let aValue = a[sortKey];
       let bValue = b[sortKey];
+
+      const dateKeys = [
+        'checkInDate', 'checkOutDate', 'createdAt'
+      ]
   
-      if (sortKey === 'checkInDate' || sortKey === 'checkOutDate') {
+      if (dateKeys.includes(sortKey)) {
         aValue = new Date(aValue);
         bValue = new Date(bValue);
       }
