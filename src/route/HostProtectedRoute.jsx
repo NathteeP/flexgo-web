@@ -14,6 +14,8 @@ const HostProtectedRoute = ({children}) => {
 
   if(!authUser && !isLoading) {
     return <Navigate to="/"/>
+  } else if (authUser && authUser.role === 'ADMIN') {
+    return <Navigate to="/admin" />
   }
 
   return <>{children}</>

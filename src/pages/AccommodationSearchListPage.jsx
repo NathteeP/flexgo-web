@@ -10,6 +10,7 @@ import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 import SearchBar from '../components/SearchBar';
+import MapWrapper from '../google-maps/MapWrapper';
 
 dayjs.extend(weekday);
 
@@ -24,16 +25,19 @@ const AccommodationSearchListPage = () => {
   });
 
   const dispatch = useDispatch();
-  const { desiredLocation, date } = useSelector((state) => state.info);
   const { accomsList } = useSelector((state) => state.accoms);
-  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+  const allWishList = useSelector((state) => state.user.authUser?.wishList);
 
   //================WISHLIST LOGIC================================
 
-  const cloneAccomsList = accomsList.map(el => {
-    return {...el, isOnUserWishList: Boolean(allWishList?.find(wlEl => wlEl.accomId === el.id))}
-  })
-
+  const cloneAccomsList = accomsList.map((el) => {
+    return {
+      ...el,
+      isOnUserWishList: Boolean(
+        allWishList?.find((wlEl) => wlEl.accomId === el.id)
+      ),
+    };
+  });
 
   const navigate = useNavigate('/');
   const onClickNavigate = (to) => navigate(to);
@@ -83,11 +87,7 @@ const AccommodationSearchListPage = () => {
         <div>
           <div className='sticky top-4 p-8 bg-white shadow rounded'>
             <h2 className='text-xl font-semibold mb-4'>Map</h2>
-            <img
-              src='https://i.pinimg.com/564x/0b/8a/78/0b8a788dfe83416efe517e3ef089dea9.jpg'
-              alt='Map'
-              className='w-full'
-            />
+            <MapWrapper mapWithMarker={true} />
           </div>
         </div>
       </div>

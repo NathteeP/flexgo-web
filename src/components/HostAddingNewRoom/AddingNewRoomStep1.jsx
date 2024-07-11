@@ -1,8 +1,18 @@
 import React from 'react';
 import UploadPhotos from '../HostAddingNewAccom/HostPhotoUploaded';
 import HostUploadRoomPic from '../HostAddingNewAccom/HostUploadRoomPics';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  changeRoomType,
+  setRoomCapacity,
+  setRoomFormData,
+} from '../../store/slices/hostForm-slice';
 
 const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
+  const { room } = useSelector((state) => state.hostForm);
+  const dispatch = useDispatch();
+
   const bedTypes = [
     'Single bed',
     'Semi double-bed',
@@ -79,112 +89,115 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
         </div>
 
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
-          {formData.roomTypes.map((item, index) => (
-            <div
-              key={item.id}
-              className='flex flex-col items-center space-y-4 p-4'
-            >
-              <div className='flex flex-wrap space-x-2 items-center'>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Room Number</label>
-                  <input
-                    type='text'
-                    value={item.roomnumber}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'roomNumber', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                    placeholder='FG123'
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>
-                    Room type (create your own name)
-                  </label>
-                  <input
-                    type='text'
-                    value={item.name}
-                    onChange={(e) =>
-                      handleRoomTypeChange(index, e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '280px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bed Type</label>
-                  <select
-                    value={item.bedType}
-                    onChange={(e) => handleBedTypeChange(index, e.target.value)}
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '200px' }}
-                  >
-                    {bedTypes.map((type, idx) => (
-                      <option key={idx} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bed Quantity</label>
-                  <input
-                    type='number'
-                    value={item.bedQuantity}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'bedQuantity', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
+          <div key={index} className='flex flex-col items-center space-y-4 p-4'>
+            <div className='flex flex-wrap space-x-2 items-center'>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Room Number</label>
+                <input
+                  type='text'
+                  value={room.roomnumber}
+                  min='1'
+                  onChange={(e) =>
+                    handleRoomChange(index, 'roomNumber', e.target.value)
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                  placeholder='FG123'
+                />
               </div>
-              <div className='flex flex-wrap space-x-4 items-center'>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bedroom</label>
-                  <input
-                    type='number'
-                    value={item.bedroom}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'bedroom', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bathroom</label>
-                  <input
-                    type='number'
-                    value={item.bathroom}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'bathroom', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Room Size (sqm.)</label>
-                  <input
-                    type='number'
-                    value={item.roomSize}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'roomSize', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '150px' }}
-                  />
-                </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>
+                  Room type (create your own name)
+                </label>
+                <input
+                  type='text'
+                  value={room.roomType}
+                  onChange={(e) =>
+                    dispatch(changeRoomType({ data: e.target.value, index }))
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '280px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bed Type</label>
+                <select
+                  value={room.beds?.type}
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedTypes',
+                        data: e.target.value,
+                        index,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '200px' }}
+                >
+                  {bedTypes.map((type, idx) => (
+                    <option key={idx} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bed Quantity</label>
+                <input
+                  type='number'
+                  value={room.beds.amount}
+                  min='1'
+                  onChange={(e) =>
+                    handleRoomChange(index, 'bedQuantity', e.target.value)
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
               </div>
             </div>
-          ))}
+            <div className='flex flex-wrap space-x-4 items-center'>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bedroom</label>
+                <input
+                  type='number'
+                  value={room.bedroom}
+                  min='1'
+                  onChange={(e) =>
+                    handleRoomChange(index, 'bedroom', e.target.value)
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bathroom</label>
+                <input
+                  type='number'
+                  value={room.bathroom}
+                  min='1'
+                  onChange={(e) =>
+                    handleRoomChange(index, 'bathroom', e.target.value)
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Room Size (sqm.)</label>
+                <input
+                  type='number'
+                  value={room.roomSize}
+                  min='1'
+                  onChange={(e) =>
+                    handleRoomChange(index, 'roomSize', e.target.value)
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '150px' }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -195,21 +208,23 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
           </h2>
         </div>
         <div className='flex items-center justify-center space-x-4'>
-          <button
-            onClick={() => handleGuestChange(-1)}
-            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
-          >
-            -
-          </button>
-          <span className='text-[64px] font-medium px-8'>
-            {formData.guests}
-          </span>
-          <button
-            onClick={() => handleGuestChange(1)}
-            className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
-          >
-            +
-          </button>
+          <div>
+            <button
+              onClick={() => dispatch(setRoomCapacity({ value: -1 }))}
+              className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+            >
+              -
+            </button>
+            <span className='text-[64px] font-medium px-8'>
+              {room.capacity}
+            </span>
+            <button
+              onClick={() => dispatch(setRoomCapacity({ value: 1 }))}
+              className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
 
@@ -232,7 +247,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
           <input
             type='number'
             name='price'
-            value={formData.price}
+            value={room.price}
             onChange={handleChange}
             className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             placeholder='0 ฿'

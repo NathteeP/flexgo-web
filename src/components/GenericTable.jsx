@@ -41,9 +41,22 @@ const GenericTable = ({
   const sortedData = React.useMemo(() => {
     if (!Array.isArray(data)) return [];
     if (!sortKey) return data;
+  
     return [...data].sort((a, b) => {
-      if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
-      if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
+      let aValue = a[sortKey];
+      let bValue = b[sortKey];
+
+      const dateKeys = [
+        'checkInDate', 'checkOutDate', 'createdAt'
+      ]
+  
+      if (dateKeys.includes(sortKey)) {
+        aValue = new Date(aValue);
+        bValue = new Date(bValue);
+      }
+  
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
       return 0;
     });
   }, [data, sortKey, sortOrder]);

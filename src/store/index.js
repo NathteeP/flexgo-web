@@ -13,6 +13,7 @@ import { roomReducer } from './slices/room-accom-slice';
 import storage from 'redux-persist/lib/storage';
 import { usersReducer } from './slices/users-slice';
 import hostFormReducer from './slices/hostForm-slice';
+import { reviewReducer } from './slices/review-slice';
 import {
   persistStore,
   persistReducer,
@@ -44,6 +45,7 @@ const store = configureStore({
     payment: paymentReducer,
     room: roomReducer,
     hostForm: hostFormReducer,
+    review: reviewReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: {

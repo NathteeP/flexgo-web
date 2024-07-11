@@ -24,7 +24,9 @@ const PlaceAutoComplete = ({
   const onPlaceChanged = async () => {
     if (!inputRef.current.value) return;
     const results = await getGeocode({ address: inputRef.current.value });
-    setAddress(results[0].formatted_address);
+    if (setAddress) {
+      setAddress(results[0].formatted_address);
+    }
     const { lat, lng } = await getLatLng(results[0]);
     setPlace({ lat, lng });
   };

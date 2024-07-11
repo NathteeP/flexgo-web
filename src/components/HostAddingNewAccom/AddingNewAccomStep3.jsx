@@ -27,78 +27,7 @@ const HostAddingNewAccomStep3 = ({
   ];
 
   const dispatch = useDispatch();
-  const { accom, room } = useSelector((state) => state.hostForm);
-
-  if (!formData.roomTypes) {
-    setFormData({
-      ...formData,
-      roomTypes: [],
-    });
-  }
-
-  const handleAddRoomAndBedType = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: [
-        ...prevData.roomTypes,
-        {
-          id: Date.now(),
-          name: '',
-          bedType: 'Single bed',
-          bedQuantity: 1,
-          guests: 1,
-          price: '',
-          photos: [],
-        },
-      ],
-    }));
-  };
-
-  const handleRoomTypeChange = (index, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index].name = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
-
-  const handleBedTypeChange = (index, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index].bedType = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
-
-  const handleRemoveRoom = (id) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: prevData.roomTypes.filter((room) => room.id !== id),
-    }));
-  };
-
-  const handleGuestChange = (increment) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      guests: Math.max(1, prevData.guests + increment),
-    }));
-  };
-
-  const handleRoomChange = (index, field, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index][field] = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (
-      (name === 'houseTitle' && value.length <= 50) ||
-      (name !== 'houseTitle' && value.length <= 500) ||
-      (name === 'price' && /^[0-9]*$/.test(value))
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
+  const { room } = useSelector((state) => state.hostForm);
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -118,124 +47,140 @@ const HostAddingNewAccomStep3 = ({
         </div>
 
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
-          {room.roomTypes.map((item, index) => (
-            <div
-              key={index}
-              className='flex flex-col items-center space-y-4 p-4'
-            >
-              <div className='flex flex-wrap space-x-2 items-center'>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Room Number</label>
-                  <input
-                    type='text'
-                    value={item.roomnumber}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'roomNumber', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                    placeholder='FG123'
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>
-                    Room type (create your own name)
-                  </label>
-                  <input
-                    type='text'
-                    value={item.name}
-                    onChange={(e) =>
-                      dispatch(
-                        changeRoomType({
-                          data: e.target.value,
-                          index,
-                        })
-                      )
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '280px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bed Type</label>
-                  <select
-                    value={item.bedType}
-                    onChange={(e) =>
-                      dispatch(
-                        setRoomFormData({
-                          type: 'bedTypes',
-                          data: e.target.value,
-                        })
-                      )
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '200px' }}
-                  >
-                    {bedTypes.map((type, idx) => (
-                      <option key={idx} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bed Quantity</label>
-                  <input
-                    type='number'
-                    value={item.bedQuantity}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'bedQuantity', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
+          <div className='flex flex-col items-center space-y-4 p-4'>
+            <div className='flex flex-wrap space-x-2 items-center'>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Room Number</label>
+                <input
+                  type='text'
+                  value={room.name}
+                  min='1'
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'name',
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                  placeholder='FG123'
+                />
               </div>
-              <div className='flex flex-wrap space-x-4 items-center'>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bedroom</label>
-                  <input
-                    type='number'
-                    value={item.bedroom}
-                    min='1'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'guests', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Bathroom</label>
-                  <input
-                    type='number'
-                    value={item.bathroom}
-                    min='0'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'price', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '120px' }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label className='mb-2 text-center'>Room Size (sqm.)</label>
-                  <input
-                    type='number'
-                    value={item.size}
-                    min='0'
-                    onChange={(e) =>
-                      handleRoomChange(index, 'price', e.target.value)
-                    }
-                    className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
-                    style={{ width: '150px' }}
-                  />
-                </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>
+                  Room type (create your own name)
+                </label>
+                <input
+                  type='text'
+                  value={room.roomType}
+                  onChange={(e) =>
+                    dispatch(
+                      changeRoomType({
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '280px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bed Type</label>
+                <select
+                  value={room.beds.type}
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedTypes',
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '200px' }}
+                >
+                  {bedTypes.map((type, idx) => (
+                    <option key={idx} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bed Quantity</label>
+                <input
+                  type='number'
+                  value={room.beds.amount}
+                  min='1'
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedAmount',
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
               </div>
             </div>
-          ))}
+            <div className='flex flex-wrap space-x-4 items-center'>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bedroom</label>
+                <input
+                  type='number'
+                  value={room.bedroom}
+                  min='1'
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedRoom',
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Bathroom</label>
+                <input
+                  type='number'
+                  value={room.bathroom}
+                  min='0'
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bathRoom',
+                        data: e.target.value,
+                      })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '120px' }}
+                />
+              </div>
+              <div className='flex flex-col'>
+                <label className='mb-2 text-center'>Room Size (sqm.)</label>
+                <input
+                  type='number'
+                  value={room.size}
+                  min='0'
+                  onChange={(e) =>
+                    dispatch(
+                      setRoomFormData({ type: 'size', value: e.target.value })
+                    )
+                  }
+                  className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+                  style={{ width: '150px' }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -247,16 +192,14 @@ const HostAddingNewAccomStep3 = ({
         </div>
         <div className='flex items-center justify-center space-x-4'>
           <button
-            onClick={() => handleGuestChange(-1)}
+            onClick={() => dispatch(setRoomCapacity({ value: -1 }))}
             className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
           >
             -
           </button>
-          <span className='text-[64px] font-medium px-8'>
-            {formData.guests}
-          </span>
+          <span className='text-[64px] font-medium px-8'>{room.capacity}</span>
           <button
-            onClick={() => handleGuestChange(1)}
+            onClick={() => dispatch(setRoomCapacity({ value: 1 }))}
             className='px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md'
           >
             +
@@ -287,7 +230,7 @@ const HostAddingNewAccomStep3 = ({
           </p>
         </div>
         <UploadPhotos formData={formData} setFormData={setFormData} />
-        <UploadRoomPhotos />
+        <UploadRoomPhotos formData={formData} setFormData={setFormData} />
       </div>
 
       <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
@@ -297,8 +240,12 @@ const HostAddingNewAccomStep3 = ({
           <input
             type='number'
             name='price'
-            value={formData.price}
-            onChange={handleChange}
+            value={room.price}
+            onChange={(e) =>
+              dispatch(
+                setRoomFormData({ type: 'price', value: e.target.value })
+              )
+            }
             className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             placeholder='0 ฿'
           />

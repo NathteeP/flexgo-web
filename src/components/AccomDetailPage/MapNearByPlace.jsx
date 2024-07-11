@@ -9,6 +9,7 @@ import {
 import map from '../../assets/images/test/MapMockup.png';
 import Button from '../Button';
 import CustomModal from '../Modal';
+import MapWrapper from '../../google-maps/MapWrapper';
 
 const nearbyPlaces = [
   { name: 'Fun Ball Family', distance: '30 m' },
@@ -68,11 +69,7 @@ const MapNearByPlace = ({ nearbyPlace }) => {
   return (
     <div>
       <div className='h-[400px] w-full '>
-        <img
-          src={map}
-          alt=''
-          className='w-full h-full object-cover rounded-[40px] px-2 mt-2'
-        />
+        <MapWrapper mapWithNearbyPlace={true} />
       </div>
       {/* สถานที่ใกล้เคียง nearbyplace */}
       <div className='flex justify-between w-full border-b-[1px] text-fg-text-black'>
