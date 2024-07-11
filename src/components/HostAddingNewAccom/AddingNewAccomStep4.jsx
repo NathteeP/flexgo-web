@@ -137,6 +137,22 @@ const AddingNewAccomStep4 = ({
           className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           placeholder='Check-out time'
         />
+        <input
+          type='text'
+          name='ageRule'
+          value={accom.houseRule.ageRule}
+          onChange={(e) =>
+            dispatch(
+              setHostFormData({
+                type: 'houseRule',
+                topic: 'ageRule',
+                data: e.target.value,
+              })
+            )
+          }
+          className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
+          placeholder='Age rule'
+        />
         <textarea
           name='petRules'
           value={accom.houseRule.petRules}

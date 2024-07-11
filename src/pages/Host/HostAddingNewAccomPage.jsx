@@ -56,7 +56,6 @@ const HostAddingNewAccomPage = () => {
           'accomPhotos',
           'roomPhotos',
         ]);
-        console.log(photoResult);
         if (result3.length < 1 && photoResult.length < 1) {
           setStep((prev) => prev + 1);
           scrollToTop();
@@ -91,7 +90,8 @@ const HostAddingNewAccomPage = () => {
       return;
     }
     e.preventDefault();
-
+    const accomCheck = checkHostForm(accom);
+    const roomCheck = checkHostForm(room);
     console.log('Form Data:', formData);
     // Submit data here
   };

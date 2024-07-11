@@ -183,7 +183,7 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
           Previous
         </button>
         <button
-          type='button'
+          type='submit'
           onClick={handleSubmit}
           className='px-6 py-2 bg-fg-primary-01 hover:bg-amber-600 text-white font-medium rounded-md shadow-lg'
         >

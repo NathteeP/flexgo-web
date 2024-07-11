@@ -142,7 +142,7 @@ const HostAddingNewAccomStep2 = ({
       <div>
         <MapWrapper />
       </div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between mt-6'>
         <button
           type='button'
           onClick={prevStep}
