@@ -85,9 +85,11 @@ const AccommodationSearchListPage = () => {
         </div>
 
         <div>
-          <div className='sticky top-4 p-8 bg-white shadow rounded'>
-            <h2 className='text-xl font-semibold mb-4'>Map</h2>
-            <MapWrapper mapWithMarker={true} />
+          <div className='sticky top-4 p-10 bg-white shadow rounded-[40px]'>
+            <h2 className='text-xl font-semibold mb-4'></h2>
+            <div className='rounded-[40px] overflow-hidden flex justify-center'>
+              <MapWrapper mapWithMarker={true} />
+            </div>
           </div>
         </div>
       </div>

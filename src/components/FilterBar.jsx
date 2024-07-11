@@ -58,7 +58,7 @@ const FilterBar = () => {
         onSubmit={handleOnSubmit}
       >
         <div className=' flex items-center justify-center w-full lg:flex-1'>
-          <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden'>
+          <div className='flex items-center w-full  border-fg-grey rounded-lg overflow-hidden'>
             <PlaceAutoComplete
               setPlace={(position) =>
                 dispatch(setUserDesiredLocation(position))
