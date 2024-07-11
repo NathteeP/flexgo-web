@@ -8,6 +8,7 @@ import {
   setRoomCapacity,
   setRoomFormData,
 } from '../../store/slices/hostForm-slice';
+import UploadRoomPhotos from '../HostAddingNewAccom/HostUploadRoomPics';
 
 const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
   const { room } = useSelector((state) => state.hostForm);
@@ -22,56 +23,6 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
     'Super king bed',
     'Sofa bed',
   ];
-
-  const handleAddRoomAndBedType = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: [
-        ...prevData.roomTypes,
-        { id: Date.now(), name: '', bedType: 'Single bed' },
-      ],
-    }));
-  };
-
-  const handleRoomTypeChange = (index, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index].name = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
-
-  const handleBedTypeChange = (index, value) => {
-    const newRoomTypes = [...formData.roomTypes];
-    newRoomTypes[index].bedType = value;
-    setFormData({ ...formData, roomTypes: newRoomTypes });
-  };
-
-  const handleRemoveRoom = (id) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      roomTypes: prevData.roomTypes.filter((room) => room.id !== id),
-    }));
-  };
-
-  const handleGuestChange = (increment) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      guests: Math.max(1, prevData.guests + increment),
-    }));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (
-      (name === 'houseTitle' && value.length <= 50) ||
-      (name !== 'houseTitle' && value.length <= 500) ||
-      (name === 'price' && /^[0-9]*$/.test(value))
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -89,16 +40,21 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
         </div>
 
         <div className='bg-fg-secondary-01 bg-opacity-75 w-full mb-8 rounded-xl text-center'>
-          <div key={index} className='flex flex-col items-center space-y-4 p-4'>
+          <div className='flex flex-col items-center space-y-4 p-4'>
             <div className='flex flex-wrap space-x-2 items-center'>
               <div className='flex flex-col'>
                 <label className='mb-2 text-center'>Room Number</label>
                 <input
                   type='text'
-                  value={room.roomnumber}
+                  value={room.name}
                   min='1'
                   onChange={(e) =>
-                    handleRoomChange(index, 'roomNumber', e.target.value)
+                    dispatch(
+                      setRoomFormData({
+                        type: 'name',
+                        data: e.target.value,
+                      })
+                    )
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '120px' }}
@@ -113,7 +69,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                   type='text'
                   value={room.roomType}
                   onChange={(e) =>
-                    dispatch(changeRoomType({ data: e.target.value, index }))
+                    dispatch(changeRoomType({ data: e.target.value }))
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '280px' }}
@@ -128,7 +84,6 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                       setRoomFormData({
                         type: 'bedTypes',
                         data: e.target.value,
-                        index,
                       })
                     )
                   }
@@ -149,7 +104,12 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                   value={room.beds.amount}
                   min='1'
                   onChange={(e) =>
-                    handleRoomChange(index, 'bedQuantity', e.target.value)
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedAmount',
+                        data: e.target.value,
+                      })
+                    )
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '120px' }}
@@ -164,7 +124,12 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                   value={room.bedroom}
                   min='1'
                   onChange={(e) =>
-                    handleRoomChange(index, 'bedroom', e.target.value)
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bedRoom',
+                        data: e.target.value,
+                      })
+                    )
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '120px' }}
@@ -177,7 +142,12 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                   value={room.bathroom}
                   min='1'
                   onChange={(e) =>
-                    handleRoomChange(index, 'bathroom', e.target.value)
+                    dispatch(
+                      setRoomFormData({
+                        type: 'bathRoom',
+                        data: e.target.value,
+                      })
+                    )
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '120px' }}
@@ -187,10 +157,12 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
                 <label className='mb-2 text-center'>Room Size (sqm.)</label>
                 <input
                   type='number'
-                  value={room.roomSize}
+                  value={room.size}
                   min='1'
                   onChange={(e) =>
-                    handleRoomChange(index, 'roomSize', e.target.value)
+                    dispatch(
+                      setRoomFormData({ type: 'size', value: e.target.value })
+                    )
                   }
                   className='p-2 border border-gray-300 rounded-lg focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
                   style={{ width: '150px' }}
@@ -237,7 +209,7 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
             You can add more photos after you publish your album.
           </p>
         </div>
-        <UploadPhotos formData={formData} setFormData={setFormData} />
+        <UploadRoomPhotos setFormData={setFormData} formData={formData} />
       </div>
 
       <div className='mt-12 text-center bg-white border border-gray-300 rounded-xl p-8'>
@@ -248,7 +220,11 @@ const HostAddingNewRoomStep1 = ({ formData, setFormData, nextStep }) => {
             type='number'
             name='price'
             value={room.price}
-            onChange={handleChange}
+            onChange={(e) =>
+              dispatch(
+                setRoomFormData({ type: 'price', value: e.target.value })
+              )
+            }
             className='text-3xl p-4 font-bold text-center w-[70%] rounded-lg border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
             placeholder='0 ฿'
           />

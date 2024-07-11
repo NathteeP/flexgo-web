@@ -1,7 +1,10 @@
 // HostAddingNewRoomPreview.js
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const HostAddingNewRoomPreview = ({ formData, prevStep, handleSubmit }) => {
+  const { room } = useSelector((state) => state.hostForm);
+
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
@@ -12,24 +15,22 @@ const HostAddingNewRoomPreview = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-6 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Rooms and Bed Types</h2>
-        {formData.roomTypes.map((room, index) => (
-          <div key={index}>
-            <p>
-              Room {index + 1}: {room.name} - {room.bedType}
-            </p>
-          </div>
-        ))}
+        <div>
+          <p>
+            Room : {room.name} - {room.bedType}
+          </p>
+        </div>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-6 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Number of Guests</h2>
-        <p>{formData.guests}</p>
+        <p>{room.capacity}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-6 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Photos</h2>
         <div className='flex justify-center flex-wrap '>
-          {formData.photos.map((photo, index) => (
+          {formData.roomPhotos.map((photo, index) => (
             <div key={index} className='m-2'>
               <img
                 src={URL.createObjectURL(photo)}
@@ -43,7 +44,7 @@ const HostAddingNewRoomPreview = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-6 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Price per night</h2>
-        <p>{formData.price} ฿</p>
+        <p>{room.price} ฿</p>
       </div>
 
       <div className='flex justify-between'>
@@ -55,7 +56,7 @@ const HostAddingNewRoomPreview = ({ formData, prevStep, handleSubmit }) => {
           Previous
         </button>
         <button
-          type='button'
+          type='submit'
           onClick={handleSubmit}
           className='px-6 py-2 bg-fg-primary-01 hover:bg-amber-600 text-white font-medium rounded-md shadow-lg'
         >

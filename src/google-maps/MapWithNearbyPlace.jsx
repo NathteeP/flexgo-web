@@ -30,7 +30,9 @@ export default function MapWithMarker() {
       >
         <Marker
           onClick={() => setShowDefaultMarkerInfo(true)}
-          position={{ lat: +accom.lat, lng: +accom.lng }}
+          position={
+            { lat: +accom.lat, lng: +accom.lng } || defaultAddress.coordinate
+          }
         >
           {defaultMarkerInfo && (
             <InfoWindow>
@@ -40,7 +42,7 @@ export default function MapWithMarker() {
         </Marker>
         {nearbyPlace?.length >= 1
           ? nearbyPlace.map((item, index) => (
-              <div className='text-red-500 bg-red-500'>
+              <div key={index} className='text-red-500 bg-red-500'>
                 <Marker
                   key={item.id}
                   icon={item.icon}

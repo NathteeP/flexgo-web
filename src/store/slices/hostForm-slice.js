@@ -26,18 +26,16 @@ const initialState = {
     roomType: 'Standard Room',
     beds: { type: 'Single bed', amount: 1 },
     capacity: 4,
-    price: 0,
+    price: '',
     amenities: [],
-    accomId: null,
-    bathRoom: 0,
-    bedRoom: 0,
-    size: 0,
+    accomId: '',
+    bathRoom: '',
+    bedRoom: '',
+    size: '',
     name: '',
   },
   isLoading: false,
   error: false,
-  createdAccomId: null,
-  createdRoomId: null,
   gMapAddress: defaultAddress.address,
 };
 
@@ -48,6 +46,22 @@ export const submitCreateAccomAndRoom = createAsyncThunk(
       const { data } = await accomApi.createAccomAndRoom(payload.body);
       await accomApi.uploadAccomPhoto(payload.photo.accom, data.accom.id);
       await roomApi.uploadRoomPhoto(payload.photo.room, data.roomResult.id);
+      return data;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const submitCreateRoomAndUploadPhoto = createAsyncThunk(
+  'create/RoomAndPhoto',
+  async (payload, thunkAPI) => {
+    try {
+      const { body, photo } = payload;
+      const formData = new FormData();
+      formData.append('room_image', photo);
+      formData.append('json', JSON.stringify(body));
+      const { data } = await roomApi.createRoomAndUploadPhoto(formData);
       return data;
     } catch (err) {
       thunkAPI.rejectWithValue(err.message);
@@ -139,9 +153,20 @@ const hostForm = createSlice({
         state.isLoading = false;
         state.accom = initialState.accom;
         state.room = initialState.room;
-        console.log(action.payload);
       })
       .addCase(submitCreateAccomAndRoom.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(submitCreateRoomAndUploadPhoto.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(submitCreateRoomAndUploadPhoto.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.room = initialState.room;
+      })
+      .addCase(submitCreateRoomAndUploadPhoto.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

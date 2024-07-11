@@ -6,7 +6,6 @@ export const fetchAmenities = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await amenitiesApi.getAmenities();
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
