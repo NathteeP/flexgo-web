@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CheckoutSpinner from '../../pages/CheckOut/CheckoutSpinner';
-import AccommodationSubmitFailed from '../HostAddingNewRoom/NewAccomFailed';
-import AccommodationSubmitSuccess from '../HostAddingNewRoom/NewAccomSubmitted';
+import RoomSubmitFailed from '../HostAddingNewRoom/NewRoomFailed';
+import RoomSubmitSuccess from '../HostAddingNewRoom/NewRoomSubmited';
 
 const AddingNewAccomResult = () => {
   const { isLoading, error } = useSelector((state) => state.hostForm);
@@ -14,10 +14,10 @@ const AddingNewAccomResult = () => {
       </div>
     );
   } else if (error) {
-    return <AccommodationSubmitFailed />;
+    return <RoomSubmitFailed />;
   }
 
-  return <AccommodationSubmitSuccess />;
+  return <RoomSubmitSuccess />;
 };
 
 export default AddingNewAccomResult;
