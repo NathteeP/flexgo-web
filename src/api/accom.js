@@ -28,4 +28,6 @@ accomApi.updateAccomStatus = (accomId, status) =>
 
 accomApi.getAllAccomByUserId = (user_id) => axios.get(`/accom/all/${user_id}`);
 
+accomApi.deleteAccom = (accomId) => axios.delete(`/accom/delete/${accomId}`);
+
 export default accomApi;

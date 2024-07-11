@@ -50,7 +50,20 @@ export const updateAccomStatus = createAsyncThunk(
   async ({ accomId, status }, thunkAPI) => {
     try {
       const { data } = await accomApi.updateAccomStatus(accomId, status);
+      console.log(data);
       return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const deleteAccom = createAsyncThunk(
+  'accoms/deleteAccom',
+  async (accomId, thunkAPI) => {
+    try {
+      const response = await accomApi.deleteAccom(accomId);
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -125,6 +138,21 @@ const accomsSlice = createSlice({
         state.error = false;
       })
       .addCase(updateAccomStatus.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteAccom.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteAccom.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.accomsList = state.accomsList.filter(
+          (accom) => accom.id !== action.meta.arg
+        );
+        state.error = false;
+      })
+      .addCase(deleteAccom.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

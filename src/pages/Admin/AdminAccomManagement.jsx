@@ -111,7 +111,8 @@ function AccommodationManagement() {
     { key: 'createdAt', label: 'Created At' },
     { key: 'status', label: 'Status' },
   ];
-
+  console.log('aclisttt', accomsList);
+  console.log('select acccc', selectedAccom);
   return (
     <>
       <div className='w-screen mx-36 mt-6'>

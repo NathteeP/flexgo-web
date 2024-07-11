@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   updateAccomStatus,
   fetchAllAccoms,
+  deleteAccom,
 } from '../../store/slices/accoms-slice';
 import { toast } from 'sonner';
 import Button from '../Button';
@@ -16,17 +17,16 @@ import cancelPolicy from '../../constant/cancelPolicy';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import { data } from 'autoprefixer';
+import { closeAccomManagement } from '../../store/slices/modal-slice';
 
 const AdminAccomManagementCard = ({ accom }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState(accom?.status === 'ACTIVE');
 
-  useEffect(() => {
-    if (accom) {
-      setIsActive(accom.status === 'ACTIVE');
-    }
-  }, [accom]);
+  const [isActive, setIsActive] = useState(true);
+  const [isStatus, setIsStatus] = useState(accom.status);
+  const state = accom;
 
   const handleStatusChange = async (newStatus) => {
     const promise = dispatch(
@@ -39,18 +39,21 @@ const AdminAccomManagementCard = ({ accom }) => {
     });
 
     try {
-      await promise;
-      setIsActive(newStatus === 'ACTIVE');
-      dispatch(fetchAllAccoms());
+      const result = await promise;
+
+      if (result) {
+        setIsStatus(newStatus);
+        dispatch(fetchAllAccoms());
+      }
     } catch (error) {
       console.error('Update failed', error);
     }
   };
 
   const handleRemoveAccom = async () => {
-    const promise = dispatch(
-      updateAccomStatus({ accomId: accom.id, status: 'REMOVED' })
-    ).unwrap();
+    console.log('first');
+    const promise = dispatch(deleteAccom(accom.id)).unwrap();
+
     toast.promise(promise, {
       loading: 'Removing accom...',
       success: 'Accom removed successfully!',
@@ -60,6 +63,7 @@ const AdminAccomManagementCard = ({ accom }) => {
     try {
       await promise;
       dispatch(fetchAllAccoms());
+      dispatch(closeAccomManagement());
     } catch (error) {
       console.error('Remove failed', error);
     }
@@ -72,7 +76,7 @@ const AdminAccomManagementCard = ({ accom }) => {
   return (
     <div className='w-full lg:w-[1400px] h-[80vh] overflow-y-auto p-8 text-fg-text-black relative'>
       <div className='flex justify-end gap-4'>
-        {accom.status === 'UNAPPROVED' && (
+        {isStatus === 'UNAPPROVED' && (
           <>
             <Button
               className='bg-white hover:bg-green-200 hover:text-white ring-[1px] ring-green-300 text-green-500 hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90'
@@ -88,7 +92,7 @@ const AdminAccomManagementCard = ({ accom }) => {
             </Button>
           </>
         )}
-        {accom.status === 'ACTIVE' && (
+        {isStatus === 'ACTIVE' && (
           <Button
             className='bg-white ring-[1px] ring-red-300 text-red-500 hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90'
             onClick={() => handleStatusChange('INACTIVE')}
@@ -96,7 +100,7 @@ const AdminAccomManagementCard = ({ accom }) => {
             Deactivate Accom
           </Button>
         )}
-        {accom.status === 'INACTIVE' && (
+        {isStatus === 'INACTIVE' && (
           <Button
             className='bg-white ring-[1px] ring-green-300 text-green-500 hover:scale-110 hover:ring-[3px] transition-all duration-300 active:scale-90'
             onClick={() => handleStatusChange('ACTIVE')}
