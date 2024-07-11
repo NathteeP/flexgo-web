@@ -30,7 +30,7 @@ export default function MapWithMarker() {
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   return (
-    <div className='w-[30rem] h-[50rem]'>
+    <div className='w-full h-[50rem] '>
       <GoogleMap
         zoom={14}
         center={coordinate}
