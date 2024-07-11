@@ -115,14 +115,6 @@ const Homepage = () => {
     };
   });
 
-  //===================REDIRECT IF ADMIN======================
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.role === 'ADMIN') {
-        navigate('/admin');
-      }
-    }
-  }, [authUser, navigate]);
 
   return (
     <>
