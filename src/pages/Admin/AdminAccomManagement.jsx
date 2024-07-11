@@ -68,6 +68,14 @@ function AccommodationManagement() {
     const term = e.target.value;
     dispatch(setSearchTerm(term));
     debouncedSetSearchTerm(term);
+    dispatch(
+      fetchAllAccoms({
+        page: 1, // reset to first page on search
+        sortKey,
+        sortOrder,
+        searchTerm: term,
+      })
+    );
   };
 
   const handleRowClick = (accom) => {
@@ -79,9 +87,21 @@ function AccommodationManagement() {
     let direction = 'asc';
     if (sortKey === key && sortOrder === 'asc') {
       direction = 'desc';
+    } else if (sortKey === key && sortOrder === 'desc') {
+      direction = 'asc';
+    } else {
+      direction = 'desc';
     }
+
     dispatch(setSortConfig({ key, direction }));
-    debouncedSetSearchTerm(searchTerm);
+    dispatch(
+      fetchAllAccoms({
+        page: 1, // reset to first page on sort
+        sortKey: key,
+        sortOrder: direction,
+        searchTerm: debouncedSearchTerm,
+      })
+    );
   };
 
   const handlePageChange = (page) => {
@@ -111,8 +131,7 @@ function AccommodationManagement() {
     { key: 'createdAt', label: 'Created At' },
     { key: 'status', label: 'Status' },
   ];
-  console.log('aclisttt', accomsList);
-  console.log('select acccc', selectedAccom);
+
   return (
     <>
       <div className='w-screen mx-36 mt-6'>
