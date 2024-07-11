@@ -390,15 +390,15 @@ const Amenities = ({ amenities }) => {
     <>
       <div className='flex flex-wrap w-full'>
         {amenities?.slice(0, 8).map((amenity, index) => (
-          <div key={index} className='flex w-[50%] items-center gap-4'>
+          <div key={index} className='flex w-[50%]  items-center gap-4'>
             {amenitiesRenderer(amenity.icon)}
-            <span className='text-base my-2 '>{amenity.name}</span>
+            <span className='text-lg my-2 '>{amenity.name}</span>
           </div>
         ))}
       </div>
       <div>
         <Button
-          className='text-[12px] w-[140px] h-[48px] hover:bg-fg-primary-02 my-4'
+          className='text-[12px] w-[200px] h-[48px] hover:bg-fg-primary-02 my-10'
           variant='contained'
           onClick={() => dispatch(openAmenities())}
         >

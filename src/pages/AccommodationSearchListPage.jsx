@@ -69,7 +69,7 @@ const AccommodationSearchListPage = () => {
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[850px] h-[250px]'>
+        <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[1000px] h-[500px] ml-20'>
           {cloneAccomsList.map((product, index) => (
             <ProductCard
               key={index}
@@ -85,9 +85,11 @@ const AccommodationSearchListPage = () => {
         </div>
 
         <div>
-          <div className='sticky top-4 p-8 bg-white shadow rounded'>
-            <h2 className='text-xl font-semibold mb-4'>Map</h2>
-            <MapWrapper mapWithMarker={true} />
+          <div className='sticky top-4 p-10 bg-white shadow rounded-[40px]'>
+            <h2 className='text-xl font-semibold mb-4'></h2>
+            <div className='rounded-[40px] overflow-hidden flex justify-center'>
+              <MapWrapper mapWithMarker={true} />
+            </div>
           </div>
         </div>
       </div>

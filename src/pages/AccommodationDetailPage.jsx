@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 import FilterBar from '../components/FilterBar';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -20,19 +23,10 @@ import MapNearByPlace from '../components/AccomDetailPage/MapNearByPlace';
 import RoomCard from '../components/AccomDetailPage/RoomCard';
 import Review from '../components/Review';
 import { fetchAccomDetail } from '../store/slices/accomDetail-slice';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import { fetchAvailRoomListByAccomId } from '../store/slices/rooms-slice';
-import { Link } from 'react-router-dom';
-import cancelPolicy from '../constant/cancelPolicy';
-import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
 import { resetReservationSlice } from '../store/slices/reservation-slice';
-import { useRef } from 'react';
-import { useState } from 'react';
 import wishListApi from '../api/wishlist';
+import cancelPolicy from '../constant/cancelPolicy';
 
 const images = [c01, c02, c03, c04, c05, c06, c07, c08, c09, c10];
 
@@ -51,6 +45,7 @@ const AccommodationDetailPage = () => {
   const fadeInDetail = useRef(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // เลื่อนหน้าไปยังด้านบนสุด
     dispatch(fetchAccomDetail(accom_id));
     const data = {
       checkInDate: dayjs(date.checkInDate)
@@ -120,9 +115,14 @@ const AccommodationDetailPage = () => {
 
   //toggle favorite
   const [isFavorite, setIsFavorite] = useState(false);
-  const allWishList = useSelector((state) => state.user.authUser?.wishList);
+  const allWishList = useSelector((state) => state.user.authUser?.wishList);;
 
   useEffect(() => {
+    const isOnUserWishList = allWishList?.find(
+      (el) => el.accomId === +accom_id
+    );
+    if (isOnUserWishList) setIsFavorite(true);
+  }, [allWishList, accom_id]);
     const isOnUserWishList = allWishList?.find(
       (el) => el.accomId === +accom_id
     );
@@ -159,7 +159,7 @@ const AccommodationDetailPage = () => {
           <img
             src={
               detail?.accomPhoto?.length >= 1
-                ? detail.accomPhoto[0].imagePath
+                ? detail.accomPhoto[Math.trunc(Math.random() * 10)]?.imagePath
                 : randomImage
             }
             alt='Cover'
@@ -252,7 +252,7 @@ const AccommodationDetailPage = () => {
           <div className='mr-10 font-light h-[300px]'>
             {detail?.accom?.description}
           </div>
-          <div className='text-2xl'>
+          <div className='text-2xl mt-10'>
             <h1>What this place offers</h1>
             <div className='w-full overflow-hidden mt-4'>
               <Amenities amenities={roomList?.amenities} />
@@ -261,11 +261,13 @@ const AccommodationDetailPage = () => {
         </div>
 
         {/* Right part */}
-        <div className='w-[35%] h-[720px] border-[2px] p-4 rounded-[40px]'>
-          <MapNearByPlace
+        <div className='w-[35%] h-full border-[2px] p-4 rounded-[40px]'>
+          <div className=''>
+            <MapNearByPlace
             accom={detail.accom}
             nearbyPlace={detail?.nearbyPlace}
           />
+          </div>
         </div>
       </div>
 

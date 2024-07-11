@@ -6,128 +6,34 @@ import {
   closeAccomManagement,
 } from '../../store/slices/modal-slice';
 import CustomModal from '../../components/Modal';
-// import CardModal from '../../components/HostNotification/CardModal';
 import Input from '../../components/Input';
 import AdminAccomManagementCard from '../../components/AdminAccomManagement/AdminAccomManagementCard';
 import GenericTable from '../../components/GenericTable';
-
 import {
-  fetchUsers,
+  fetchAllAccoms,
   setPage,
   setSortConfig,
   setSearchTerm,
-} from '../../store/slices/users-slice';
-
-const accommodationMockup = [
-  {
-    id: 1,
-    userId: 1,
-    name: 'Best Western Plus Wanda Grand Hotel',
-    province: 'Nonthaburi',
-    district: 'Pak Kret',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 2,
-    userId: 1,
-    name: 'Shambhala Hotel Pattaya',
-    province: 'Chonburi',
-    district: 'Pattaya',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 3,
-    userId: 1,
-    name: 'VIC 3 Bangkok Hotel',
-    province: 'Bangkok',
-    district: 'Phaya Thai',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 4,
-    userId: 2,
-    name: 'Emerald Dream Hotel',
-    province: 'Bangkok',
-    district: 'Khlong Toei',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 5,
-    userId: 3,
-    name: 'Lotus Palace Inn',
-    province: 'Bangkok',
-    district: 'Phra Nakhon',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 6,
-    userId: 2,
-    name: 'Grand Marina Hotel',
-    province: 'Chonburi',
-    district: 'Bang Lamung',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 7,
-    userId: 4,
-    name: 'Blue Lagoon Resort',
-    province: 'Phuket',
-    district: 'Kathu',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 8,
-    userId: 4,
-    name: 'Sunset Beach Hotel',
-    province: 'Krabi',
-    district: 'Ao Nang',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 9,
-    userId: 3,
-    name: 'Mountain View Resort',
-    province: 'Chiang Mai',
-    district: 'Mueang Chiang Mai',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-  {
-    id: 10,
-    userId: 5,
-    name: 'Riverfront Hotel',
-    province: 'Kanchanaburi',
-    district: 'Mueang Kanchanaburi',
-    created_at: '2024-07-02 07:40:45.496',
-    status: 'ACTIVE',
-  },
-];
+} from '../../store/slices/accoms-slice';
 
 function AccommodationManagement() {
   const dispatch = useDispatch();
 
   const {
-    users,
+    accomsList = [],
     isLoading,
     currentPage,
     totalPages,
     sortKey,
     sortOrder,
     searchTerm,
-  } = useSelector((state) => state.users);
-  // ใส่ไปก่อน
+  } = useSelector((state) => state.accoms);
+
   const { isAccomManagementOpen } = useSelector((state) => state.modal);
+
+  const [selectedAccom, setSelectedAccom] = useState(null);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
 
-  // Debounce function
   const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -140,7 +46,6 @@ function AccommodationManagement() {
     };
   };
 
-  // หน่วงเวลาตอน search และ sort
   const debouncedSetSearchTerm = useCallback(
     debounce((term) => {
       setDebouncedSearchTerm(term);
@@ -150,7 +55,7 @@ function AccommodationManagement() {
 
   useEffect(() => {
     dispatch(
-      fetchUsers({
+      fetchAllAccoms({
         page: currentPage,
         sortKey,
         sortOrder,
@@ -163,9 +68,18 @@ function AccommodationManagement() {
     const term = e.target.value;
     dispatch(setSearchTerm(term));
     debouncedSetSearchTerm(term);
+    dispatch(
+      fetchAllAccoms({
+        page: 1, // reset to first page on search
+        sortKey,
+        sortOrder,
+        searchTerm: term,
+      })
+    );
   };
 
-  const handleRowClick = (user) => {
+  const handleRowClick = (accom) => {
+    setSelectedAccom(accom);
     dispatch(openAccomManagement());
   };
 
@@ -173,15 +87,32 @@ function AccommodationManagement() {
     let direction = 'asc';
     if (sortKey === key && sortOrder === 'asc') {
       direction = 'desc';
+    } else if (sortKey === key && sortOrder === 'desc') {
+      direction = 'asc';
+    } else {
+      direction = 'desc';
     }
+
     dispatch(setSortConfig({ key, direction }));
-    debouncedSetSearchTerm(searchTerm); // เรียก debounce สำหรับการ sort ด้วย
+    dispatch(
+      fetchAllAccoms({
+        page: 1, // reset to first page on sort
+        sortKey: key,
+        sortOrder: direction,
+        searchTerm: debouncedSearchTerm,
+      })
+    );
   };
 
   const handlePageChange = (page) => {
     dispatch(setPage(page));
     dispatch(
-      fetchUsers({ page, sortKey, sortOrder, searchTerm: debouncedSearchTerm })
+      fetchAllAccoms({
+        page,
+        sortKey,
+        sortOrder,
+        searchTerm: debouncedSearchTerm,
+      })
     );
   };
 
@@ -192,11 +123,11 @@ function AccommodationManagement() {
   );
 
   const columns = [
-    { key: 'accomId', label: 'Accom ID' },
-    { key: 'id', label: 'User ID' },
-    { key: 'accomName', label: 'Accom Name' },
-    { key: 'accomProvince', label: 'Province' },
-    { key: 'accomDistrict', label: 'District' },
+    { key: 'id', label: 'Accom ID' },
+    { key: 'userId', label: 'User ID' },
+    { key: 'name', label: 'Accom Name' },
+    { key: 'province', label: 'Province' },
+    { key: 'district', label: 'District' },
     { key: 'createdAt', label: 'Created At' },
     { key: 'status', label: 'Status' },
   ];
@@ -217,7 +148,7 @@ function AccommodationManagement() {
         </div>
         <GenericTable
           columns={columns}
-          data={users}
+          data={accomsList}
           onRowClick={handleRowClick}
           onSort={handleSort}
           currentPage={currentPage}
@@ -227,11 +158,10 @@ function AccommodationManagement() {
           sortKey={sortKey}
           sortOrder={sortOrder}
         />
-
         {renderModal(
           isAccomManagementOpen,
           closeAccomManagement,
-          <AdminAccomManagementCard />
+          <AdminAccomManagementCard accom={selectedAccom} />
         )}
       </div>
     </>

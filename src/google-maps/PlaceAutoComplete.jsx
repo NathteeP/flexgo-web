@@ -34,24 +34,25 @@ const PlaceAutoComplete = ({
   if (!isLoaded) return null;
   return (
     <div
-      className={`w-full gap-2 ${boxClass ? boxClass : 'border border-fg-grey rounded-lg'} flex`}
+      className={`w-full gap-2 ${boxClass ? boxClass : 'border border-fg-grey rounded-lg'} border-black/20 border-[1px] flex rounded-xl hover:scale-105 transition-all duration-300 hover:translate-x-3 `}
     >
-      {showGlass && (
-        <div className='w-[50px] h-[48px] flex justify-center items-center bg-white'>
-          <HiMagnifyingGlass className='text-2xl text-fg-text-black' />
-        </div>
-      )}
-      <Autocomplete onPlaceChanged={onPlaceChanged}>
-        <input
-          ref={inputRef}
-          className={
-            inputClass ||
-            'w-full h-[48px] border-none focus:outline-none text-sm pl-2 pr-2'
-          }
-          type='text'
-          placeholder={placeholder}
-        />
-      </Autocomplete>
+      <div className='w-[50px] h-[48px] flex justify-center items-center bg-white rounded-xl'>
+        <HiMagnifyingGlass className='text-2xl text-fg-text-black rounded-xl' />
+      </div>
+
+      <div className='w-full'>
+        <Autocomplete onPlaceChanged={onPlaceChanged}>
+          <input
+            ref={inputRef}
+            className={
+              inputClass ||
+              'w-full h-[48px] border-none focus:outline-none text-sm pl-2 pr-2 rounded-xl'
+            }
+            type='text'
+            placeholder={placeholder}
+          />
+        </Autocomplete>
+      </div>
     </div>
   );
 };

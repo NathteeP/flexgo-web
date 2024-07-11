@@ -50,13 +50,15 @@ const SearchBar = () => {
         className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'
         onSubmit={handleOnSubmit}
       >
-        <div className='flex items-center w-full lg:flex-1 pointer-events-auto hover:scale-[103%] transition-all duration-500 '>
-          <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden '>
+        <div className='flex items-center w-full lg:flex-1 pointer-events-auto hover:scale-[103%] transition-all duration-500 rounded-xl'>
+          <div className='flex items-center w-full  rounded-xl  '>
             <PlaceAutoComplete
               setPlace={(position) =>
                 dispatch(setUserDesiredLocation(position))
               }
               setAddress={(position) => dispatch(setDesiredAddress(position))}
+              boxClass='w-full'
+              inputClass='w-full h-[48px] focus:outline-none text-sm pl-2 pr-2 rounded-xl  '
             />
           </div>
         </div>

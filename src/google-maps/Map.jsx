@@ -29,7 +29,7 @@ export default function Map({ autoComplete, mapWithMarker, marker }) {
   const onLoad = useCallback((map) => (mapRef.current = map), []);
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-5 '>
       {autoComplete && (
         <PlaceAutoComplete
           setAddress={(address) => dispatch(setGMapAddress(address))}
