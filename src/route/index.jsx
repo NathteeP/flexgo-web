@@ -55,18 +55,26 @@ const AppRouter = createBrowserRouter([
       { path: '/wishList', element: <WishListPage /> },
       { path: '/account', element: <AccountPage /> },
       { path: '/hostProfile/:user_id', element: <HostProfilePage /> },
-      { path: '/history', element: <BookingHistoryPage/> },
+      { path: '/history', element: <BookingHistoryPage /> },
       { path: '/history/:reservationId', element: <CheckOutSuccessPage /> },
-      { path: '/checkout', element: <CheckOutContainer />, children:[
-        { path: 'processing', element: <CheckOutProcessingPage />},
-        { path: '', element: <CheckOutPage />},
-        { path: 'success/:reservationId', element: <CheckOutSuccessPage />},
-      ] },
+      {
+        path: '/checkout',
+        element: <CheckOutContainer />,
+        children: [
+          { path: 'processing', element: <CheckOutProcessingPage /> },
+          { path: '', element: <CheckOutPage /> },
+          { path: 'success/:reservationId', element: <CheckOutSuccessPage /> },
+        ],
+      },
     ],
   },
   {
     path: '/host',
-    element:<HostProtectedRoute><HostContainer /></HostProtectedRoute>,
+    element: (
+      <HostProtectedRoute>
+        <HostContainer />
+      </HostProtectedRoute>
+    ),
     children: [
       { path: '/host', element: <HostHomepage /> },
       { path: '/host/Dashboard/accom', element: <HostDashboardAccom /> },
