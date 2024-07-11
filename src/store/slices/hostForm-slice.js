@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { defaultAddress } from '../../constant/google-map';
 import { act } from 'react';
+import accomApi from '../../api/accom';
+import roomApi from '../../api/room';
 
 const initialState = {
   accom: {
@@ -30,10 +32,28 @@ const initialState = {
     bathRoom: 0,
     bedRoom: 0,
     size: 0,
-    roomNumber: '',
+    name: '',
   },
+  isLoading: false,
+  error: false,
+  createdAccomId: null,
+  createdRoomId: null,
   gMapAddress: defaultAddress.address,
 };
+
+export const submitCreateAccomAndRoom = createAsyncThunk(
+  'create/AccomRoom',
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await accomApi.createAccomAndRoom(payload.body);
+      await accomApi.uploadAccomPhoto(payload.photo.accom, data.accom.id);
+      await roomApi.uploadRoomPhoto(payload.photo.room, data.roomResult.id);
+      return data;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
 
 const hostForm = createSlice({
   name: 'hostForm',
@@ -108,6 +128,23 @@ const hostForm = createSlice({
       state.room.roomType = data;
     },
     resetForm: (state, action) => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(submitCreateAccomAndRoom.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(submitCreateAccomAndRoom.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.accom = initialState.accom;
+        state.room = initialState.room;
+        console.log(action.payload);
+      })
+      .addCase(submitCreateAccomAndRoom.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 

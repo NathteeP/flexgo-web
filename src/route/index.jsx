@@ -40,6 +40,7 @@ import AdminContainer from '../layouts/AdminContainer';
 import UserManagement from '../pages/Admin/AdminUserManagement';
 import AccommodationManagement from '../pages/Admin/AdminAccomManagement';
 import CheckOutPurchaseHistory from '../pages/CheckOut/CheckOutPurchaseHistory';
+import AddingNewAccomResult from '../components/HostAddingNewAccom/AddingNewAccomResult';
 
 const AppRouter = createBrowserRouter([
   // guest&user path
@@ -90,7 +91,10 @@ const AppRouter = createBrowserRouter([
         path: '/host/AssetsManagement/NewRoomPage',
         element: <HostAddingNewRoom />,
       },
-
+      {
+        path: '/host/AssetsManagement/NewAccomPage/status',
+        element: <AddingNewAccomResult />,
+      },
       { path: '/host/EditProfile', element: <HostEditProfile /> },
     ],
   },

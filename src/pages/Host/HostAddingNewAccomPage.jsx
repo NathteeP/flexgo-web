@@ -6,6 +6,11 @@ import HostAddingAccommodationStep4 from '../../components/HostAddingNewAccom/Ad
 import AddingNewAccomStep5 from '../../components/HostAddingNewAccom/AddingNewAccomStep5';
 import { useSelector } from 'react-redux';
 import checkHostForm from '../../utils/checkHostForm';
+import { useDispatch } from 'react-redux';
+import { submitCreateAccomAndRoom } from '../../store/slices/hostForm-slice';
+import { useNavigate } from 'react-router-dom';
+import createFormData from '../../utils/createFormData';
+
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
   const { accom, room } = useSelector((state) => state.hostForm);
@@ -14,6 +19,8 @@ const HostAddingNewAccomPage = () => {
     roomPhotos: [],
   });
   const topOfPageRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const nextStep = () => {
     switch (step) {
@@ -92,7 +99,23 @@ const HostAddingNewAccomPage = () => {
     e.preventDefault();
     const accomCheck = checkHostForm(accom);
     const roomCheck = checkHostForm(room);
-    console.log('Form Data:', formData);
+    if (accomCheck.length >= 1 || roomCheck.length >= 1) {
+      return alert(
+        `${accomCheck.length >= 1 ? accomCheck.join(' ') : null}``${roomCheck.length >= 1 ? roomCheck.join(' ') : null} is missing. Please input the field.`
+      );
+    }
+    const body = { accom: { ...accom }, room: { ...room } };
+    body.accom.address += ' ' + body.accom.country.split('-')[0];
+    body.accom.type = body.accom.type.toUpperCase();
+    delete body.accom.country;
+    delete body.room.accomId;
+
+    const accomFormData = createFormData(formData.accomPhotos, 'accom_image');
+    const roomFormData = createFormData(formData.roomPhotos, 'room_image');
+    const photo = { accom: accomFormData, room: roomFormData };
+    console.log(photo);
+    dispatch(submitCreateAccomAndRoom({ body, photo }));
+    navigate('/host/AssetsManagement/NewAccomPage/status');
     // Submit data here
   };
 
