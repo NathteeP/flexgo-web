@@ -139,7 +139,9 @@ export default function CheckOutPurchaseHistory() {
         </div>
       </div>
 
-      {renderModal(isReviewOpen, closeReview, <UserReview />)}
+      {renderModal(isReviewOpen, closeReview, <UserReview
+        reservationId={reservationId}
+      />)}
     </div>
   );
 }
