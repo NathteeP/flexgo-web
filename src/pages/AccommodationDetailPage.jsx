@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 import FilterBar from '../components/FilterBar';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -20,19 +23,10 @@ import MapNearByPlace from '../components/AccomDetailPage/MapNearByPlace';
 import RoomCard from '../components/AccomDetailPage/RoomCard';
 import Review from '../components/Review';
 import { fetchAccomDetail } from '../store/slices/accomDetail-slice';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import { fetchAvailRoomListByAccomId } from '../store/slices/rooms-slice';
-import { Link } from 'react-router-dom';
-import cancelPolicy from '../constant/cancelPolicy';
-import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
 import { resetReservationSlice } from '../store/slices/reservation-slice';
-import { useRef } from 'react';
-import { useState } from 'react';
 import wishListApi from '../api/wishlist';
+import cancelPolicy from '../constant/cancelPolicy';
 
 const images = [c01, c02, c03, c04, c05, c06, c07, c08, c09, c10];
 
@@ -51,6 +45,7 @@ const AccommodationDetailPage = () => {
   const fadeInDetail = useRef(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // เลื่อนหน้าไปยังด้านบนสุด
     dispatch(fetchAccomDetail(accom_id));
     const data = {
       checkInDate: dayjs(date.checkInDate)
@@ -120,20 +115,21 @@ const AccommodationDetailPage = () => {
 
   //toggle favorite
   const [isFavorite, setIsFavorite] = useState(false);
-  const allWishList = useSelector((state) => state.user.authUser?.wishList)
+  const allWishList = useSelector((state) => state.user.authUser?.wishList);
 
   useEffect(() => {
-    const isOnUserWishList = allWishList?.find(el => el.accomId === +accom_id)
-    if (isOnUserWishList) setIsFavorite(true)
-  },[allWishList, accom_id])
-  
+    const isOnUserWishList = allWishList?.find(
+      (el) => el.accomId === +accom_id
+    );
+    if (isOnUserWishList) setIsFavorite(true);
+  }, [allWishList, accom_id]);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     if (isFavorite) {
-      wishListApi.removeFromWishList(accom_id)
+      wishListApi.removeFromWishList(accom_id);
     } else {
-      wishListApi.addToWishList(accom_id)
+      wishListApi.addToWishList(accom_id);
     }
   };
 
@@ -158,7 +154,7 @@ const AccommodationDetailPage = () => {
           <img
             src={
               detail?.accomPhoto?.length >= 1
-                ? detail.accomPhoto[0].imagePath
+                ? detail.accomPhoto[Math.trunc(Math.random() * 10)].imagePath
                 : randomImage
             }
             alt='Cover'
@@ -203,27 +199,27 @@ const AccommodationDetailPage = () => {
       {/* album ภาพ */}
       <div className='relative mt-8 mx-16 p-8 h-full rounded-[50px]'>
         <div className='relative'>
-        <div className='absolute top-10 right-10 mb-7 ml-0.5 z-50'>
-        <button
-          onClick={toggleFavorite}
-          className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg hover:bg-opacity-30'
-        >
-          <div></div>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill={isFavorite ? 'red' : 'white'}
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            className='w-12 h-12'
-          >
-            <path
-              d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'
-              stroke='none'
-              fill={isFavorite ? 'red' : 'white'}
-            />
-          </svg>
-        </button>
-      </div>
+          <div className='absolute top-10 right-10 mb-7 ml-0.5 z-50'>
+            <button
+              onClick={toggleFavorite}
+              className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg hover:bg-opacity-30'
+            >
+              <div></div>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill={isFavorite ? 'red' : 'white'}
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+                className='w-12 h-12'
+              >
+                <path
+                  d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'
+                  stroke='none'
+                  fill={isFavorite ? 'red' : 'white'}
+                />
+              </svg>
+            </button>
+          </div>
           <Album photos={detail?.accomPhoto} />
         </div>
       </div>
@@ -251,7 +247,7 @@ const AccommodationDetailPage = () => {
           <div className='mr-10 font-light h-[300px]'>
             {detail?.accom?.description}
           </div>
-          <div className='text-2xl'>
+          <div className='text-2xl mt-10'>
             <h1>What this place offers</h1>
             <div className='w-full overflow-hidden mt-4'>
               <Amenities amenities={roomList?.amenities} />
@@ -260,8 +256,10 @@ const AccommodationDetailPage = () => {
         </div>
 
         {/* Right part */}
-        <div className='w-[35%] h-[720px] border-[2px] p-4 rounded-[40px]'>
-          <MapNearByPlace nearbyPlace={detail?.nearbyPlace} />
+        <div className='w-[35%] h-full border-[2px] p-4 rounded-[40px]'>
+          <div className=''>
+            <MapNearByPlace nearbyPlace={detail?.nearbyPlace} />
+          </div>
         </div>
       </div>
 

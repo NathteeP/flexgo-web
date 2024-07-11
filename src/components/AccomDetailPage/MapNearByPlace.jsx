@@ -73,13 +73,13 @@ const MapNearByPlace = ({ nearbyPlace }) => {
       </div>
       {/* สถานที่ใกล้เคียง nearbyplace */}
       <div className='flex justify-between w-full border-b-[1px] text-fg-text-black'>
-        <div className=' w-full m-4'>
+        <div className=' w-full m-4 pt-20'>
           {nearbyPlace?.slice(0, 6).map((item, index) => (
-            <div key={index} className='flex justify-between mt-2'>
-              <div>
+            <div key={index} className='flex w-full justify-between mt-2'>
+              <div className='truncate max-w-[350px]'>
                 <li className=''>{item.name}</li>
               </div>
-              <div>
+              <div className='w-[80px] text-right'>
                 {item.distance} {item.distance > 1 ? ' km.' : ' m.'}
               </div>
             </div>
@@ -108,8 +108,9 @@ const MapNearByPlace = ({ nearbyPlace }) => {
                   key={index}
                   className='flex w-full items-center gap-4 py-2  border-b-[1px] justify-between'
                 >
-                  <li>{item.name}</li>
-
+                  <div className='truncate max-w-[300px]'>
+                    <li className=''>{item.name}</li>
+                  </div>
                   <div>{item.distance}</div>
                 </div>
               ))}
