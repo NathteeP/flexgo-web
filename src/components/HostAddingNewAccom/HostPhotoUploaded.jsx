@@ -1,21 +1,33 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const UploadPhotos = ({ formData, setFormData }) => {
-  const { accom } = useSelector((state) => state.hostForm);
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
+    // if (forAccom) {
     setFormData((prevData) => ({
       ...prevData,
-      photos: [...prevData.photos, ...files],
+      accomPhotos: [...prevData.accomPhotos, ...files],
     }));
+    // // } else {
+    //   setFormData((prevData) => ({
+    //     ...prevData,
+    //     roomPhotos: [...files],
+    //   }));
+    // }
   };
 
-  const removePhoto = (index) => {
+  const removePhoto = (index, type) => {
+    // if (type === 'accom') {
     setFormData((prevData) => {
-      const newPhotos = prevData.photos.filter((_, i) => i !== index);
-      return { ...prevData, photos: newPhotos };
+      const newPhotos = prevData.accomPhotos.filter((_, i) => i !== index);
+      return { ...prevData, accomPhotos: newPhotos };
     });
+    // } else {
+    // setFormData((prevData) => {
+    //   const newPhotos = prevData.roomPhotos.filter((_, i) => i !== index);
+    //   return { ...prevData, roomPhotos: newPhotos };
+    // });
+    // }
   };
   return (
     <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
@@ -24,12 +36,12 @@ const UploadPhotos = ({ formData, setFormData }) => {
       </h2>
       <input
         type='file'
-        multiple
         onChange={handleFileChange}
         className='mb-4'
+        multiple
       />
       <div className='flex flex-wrap'>
-        {formData.photos.map((photo, index) => (
+        {formData.accomPhotos.map((photo, index) => (
           <div key={index} className='relative m-2'>
             <div className='flex justify-center items-center'>
               <img
@@ -40,7 +52,7 @@ const UploadPhotos = ({ formData, setFormData }) => {
             </div>
             <button
               type='button'
-              onClick={() => removePhoto(index)}
+              onClick={() => removePhoto(index, 'accom')}
               className='absolute top-0 right-0 bg-red-500 text-white rounded-full p-1'
             >
               &times;

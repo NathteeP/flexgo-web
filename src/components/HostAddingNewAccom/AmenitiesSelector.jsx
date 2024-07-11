@@ -98,9 +98,17 @@ const AmenitiesSelector = () => {
           return (
             <button
               key={index}
-              onClick={() => dispatch(addRoomAmenities(amenity.id))}
+              onClick={() =>
+                dispatch(
+                  addRoomAmenities({
+                    id: amenity.id,
+                    name: amenity.name,
+                    icon: amenity.icon,
+                  })
+                )
+              }
               className={`flex items-center gap-4 p-2 border rounded-md ${
-                room.amenities.includes(amenity.id)
+                room.amenities.some((item) => item.id === amenity.id)
                   ? 'bg-fg-secondary-02 text-white'
                   : ''
               }`}

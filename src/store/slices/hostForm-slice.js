@@ -4,21 +4,33 @@ import { act } from 'react';
 
 const initialState = {
   accom: {
-    selectedType: '',
-    selectedPlace: '',
+    type: 'House',
     country: '',
     address: '',
     district: '',
     province: '',
-    photos: [],
     name: '',
     description: '',
-    houseRule: '',
+    houseRule: {
+      checkIn: '',
+      checkOut: '',
+      petsRule: '',
+      ageRule: '',
+      cancelPolicy: 'FLEXIBLE',
+    },
     coordinate: defaultAddress.coordinate,
   },
   room: {
-    roomTypes: [{ name: 'Standard Room', bedTypes: 'Single', capacity: 4 }],
+    roomType: 'Standard Room',
+    beds: { type: 'Single bed', amount: 1 },
+    capacity: 4,
+    price: 0,
     amenities: [],
+    accomId: null,
+    bathRoom: 0,
+    bedRoom: 0,
+    size: 0,
+    roomNumber: '',
   },
   gMapAddress: defaultAddress.address,
 };
@@ -31,50 +43,60 @@ const hostForm = createSlice({
       state.accom.coordinate = action.payload;
     },
     setHostFormData: (state, action) => {
+      if (action.payload.type === 'houseRule') {
+        const { topic, data } = action.payload;
+        state.accom.houseRule[topic] = data;
+        return state;
+      }
       state.accom[action.payload.type] = action.payload.data;
     },
     setGMapAddress: (state, action) => {
       state.gMapAddress = action.payload;
     },
     setRoomFormData: (state, action) => {
-      if (action.payload.type === 'roomTypes') {
-        state.room.roomTypes[action.payload.index].name = action.payload.data;
-      }
-
       if (action.payload.type === 'bedTypes') {
-        state.room.roomTypes[action.payload.index].bedTypes =
-          action.payload.data;
+        const { data } = action.payload;
+        state.room.beds.type = data;
+        return state;
       }
 
-      if (action.payload.type === 'roomBed') {
-        state.room.roomTypes.push({
-          name: 'Standard Room',
-          bedTypes: 'Single',
-          capacity: 1,
-        });
+      if (action.payload.type === 'capacity') {
+        const { data } = action.payload;
+        state.room.capacity = data;
+        return state;
       }
 
-      if (action.payload.type === 'remove') {
-        state.room.roomTypes.splice(action.payload.index, 1);
+      if (action.payload.type === 'bedAmount') {
+        const { data } = action.payload;
+        state.room.beds.amount = data;
+        return state;
       }
 
+      if (action.payload.type === 'price') {
+        const { value } = action.payload;
+        state.room.price = value;
+        return state;
+      }
+      if (action.payload.type === 'size') {
+        const { value } = action.payload;
+        state.room.size = value;
+        return state;
+      }
       state.room[action.payload.type] = action.payload.data;
     },
     setRoomCapacity: (state, action) => {
-      if (action.payload.value === -1) {
-        if (state.room.roomTypes[action.payload.index].capacity === 1)
-          return state;
-      } else if (action.payload.value === 1) {
-        if (state.room.roomTypes[action.payload.index].capacity === 20)
-          return state;
+      const { value } = action.payload;
+      if (value === -1) {
+        if (state.room.capacity === 1) return state;
+      } else if (value === 1) {
+        if (state.room.capacity === 1) return state;
       }
-      state.room.roomTypes[action.payload.index].capacity +=
-        action.payload.value;
+      state.room.capacity += value;
     },
     addRoomAmenities: (state, action) => {
-      if (state.room.amenities.includes(action.payload)) {
+      if (state.room.amenities.some((item) => item.id === action.payload.id)) {
         const index = state.room.amenities.findIndex(
-          (item) => item === action.payload
+          (item) => item.id === action.payload.id
         );
         state.room.amenities.splice(index, 1);
         return state;
@@ -82,11 +104,10 @@ const hostForm = createSlice({
       state.room.amenities.push(action.payload);
     },
     changeRoomType: (state, action) => {
-      const { data, index } = action.payload;
-      if (state.room.roomTypes[index]) {
-        state.room.roomTypes[index].name = data;
-      }
+      const { data } = action.payload;
+      state.room.roomType = data;
     },
+    resetForm: (state, action) => initialState,
   },
 });
 
@@ -100,4 +121,5 @@ export const {
   setRoomCapacity,
   addRoomAmenities,
   changeRoomType,
+  resetForm,
 } = hostForm.actions;

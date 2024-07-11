@@ -5,10 +5,14 @@ import { HiMagnifyingGlass } from 'react-icons/hi2';
 import DatePickerValue from './DatePicker';
 import GuestDropdown from './GuestDropdown';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserDesiredLocation } from '../store/slices/searchInfo-slice';
+import {
+  setDesiredAddress,
+  setUserDesiredLocation,
+} from '../store/slices/searchInfo-slice';
 import { fetchAvailAccom } from '../store/slices/accoms-slice';
 import dayjs from 'dayjs';
 import PlaceAutoComplete from '../google-maps/PlaceAutoComplete';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -17,6 +21,8 @@ const SearchBar = () => {
   const { userLocation, desiredLocation, rooms, capacity, date } = useSelector(
     (state) => state.info
   );
+
+  const navigate = useNavigate();
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +40,7 @@ const SearchBar = () => {
       capacity: capacity.adults + capacity.children,
     };
     dispatch(fetchAvailAccom(data));
+    navigate('/searchList');
   };
 
   return (
@@ -45,16 +52,11 @@ const SearchBar = () => {
       >
         <div className='flex items-center w-full lg:flex-1 pointer-events-auto hover:scale-[103%] transition-all duration-500 '>
           <div className='flex items-center w-full border border-fg-grey rounded-lg overflow-hidden '>
-            <div className='flex-shrink-0 w-[50px] h-[48px] flex justify-center items-center bg-white'>
-              <HiMagnifyingGlass className='text-2xl text-fg-text-black' />
-            </div>
-            <input
-              htmlFor='location'
-              id='location'
-              type='text'
-              name='location'
-              placeholder='Bangkok, Thailand | Within 1 Km.'
-              className='w-full h-[48px] border-none focus:outline-none text-fg-text-blue text-sm placeholder:text-fg-text-blue pl-2 pr-2' // เพิ่ม padding ขวา
+            <PlaceAutoComplete
+              setPlace={(position) =>
+                dispatch(setUserDesiredLocation(position))
+              }
+              setAddress={(position) => dispatch(setDesiredAddress(position))}
             />
           </div>
         </div>

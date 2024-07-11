@@ -16,6 +16,8 @@ import {
   openAdminRemoveRoom,
 } from '../../store/slices/modal-slice';
 import { useNavigate } from 'react-router-dom';
+import { setRoomFormData } from '../../store/slices/hostForm-slice';
+import { useState } from 'react';
 
 const roomData = [
   {
@@ -67,11 +69,14 @@ const HostAssetManagement = () => {
   );
   const dispatch = useDispatch();
   const { isAdminRemoveRoomOpen } = useSelector((state) => state.modal);
+
+  const [selectedAccom, setSelectedAccom] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchAllRoomByAccomId(accomsList[0]?.id));
-  }, [dispatch, accomsList]);
+  }, [dispatch]);
 
   const renderModal = (isOpen, closeAction, children) => (
     <CustomModal open={isOpen} onClose={() => dispatch(closeAction())}>
@@ -91,7 +96,14 @@ const HostAssetManagement = () => {
           <div className='bg-white rounded-lg p-4 mb-4'>
             <div className='flex justify-start gap-4 mb-4'>
               {accomsList.length >= 1 ? (
-                <AccomSelector accoms={accomsList} />
+                <AccomSelector
+                  setSelectedAccom={(id) => {
+                    setSelectedAccom(id);
+                    dispatch(fetchAllRoomByAccomId(accomsList[id].id));
+                  }}
+                  selectedAccom={selectedAccom}
+                  accoms={accomsList}
+                />
               ) : (
                 <p className='text-transparent'>spacer</p>
               )}
@@ -182,9 +194,16 @@ const HostAssetManagement = () => {
               : null}
             <button
               className='w-full border border-gray-200 animated-background bg-gradient-to-l from-fg-primary-03 to-fg-gradientBlue shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] focus:ring-0 focus:border-0 focus:outline-0 [&_.MuiOutlinedInput-notchedOutline]:border-0 hover:ring-2 transform transition-colors delay-1000 duration-1000 hover:ring-fg-primary-01/50 text-fg-text-black p-4 rounded-lg mt-4'
-              onClick={() =>
-                window.open('/host/AssetsManagement/NewRoomPage', '_blank')
-              }
+              onClick={() => {
+                navigate('/host/AssetsManagement/NewRoomPage');
+                dispatch(
+                  setRoomFormData({
+                    type: 'accomId',
+                    data: accomsList[selectedAccom].id,
+                  })
+                );
+                // window.open('/host/AssetsManagement/NewRoomPage', '_blank');
+              }}
             >
               Add your new room +
             </button>

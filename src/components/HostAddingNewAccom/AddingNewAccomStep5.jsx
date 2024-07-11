@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Icons from '../Icons/AllIcons'; // Ensure this path is correct or adjust accordingly
+import { useSelector } from 'react-redux';
 
 const iconMapping = {
   FaWifiIcon: Icons.FaWifiIcon,
@@ -66,6 +67,8 @@ const iconMapping = {
 };
 
 const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
+  const { accom, room } = useSelector((state) => state.hostForm);
+
   return (
     <div className='max-w-4xl mx-auto p-8'>
       <div className='bg-fg-primary-02 bg-opacity-75 w-full text-center items-center rounded-xl'>
@@ -74,45 +77,43 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Accommodation Type</h2>
-        <p>{formData.selectedType}</p>
+        <p>{accom.type}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Address</h2>
-        <p>{formData.address}</p>
+        <p>{accom.address}</p>
         <p>
-          {formData.district}, {formData.province}, {formData.country}
+          {accom.district}, {accom.province}, {accom.country}
         </p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Rooms and Bed Types</h2>
-        {formData.roomTypes.map((room, index) => (
-          <div key={index} className='mb-4'>
-            <p>
-              <strong>Room {index + 1}:</strong> {room.name}
-            </p>
-            <p>Bed Type: {room.bedType}</p>
-            <p>Bed Quantity: {room.bedQuantity}</p>
-            <p>Bedroom: {room.bedroom}</p>
-            <p>Bathroom: {room.bathroom}</p>
-            <p>Size: {room.size} sqm.</p>
-          </div>
-        ))}
+        <div>
+          <p>
+            <strong>Room :</strong> {room.type}
+          </p>
+          <p>Bed Type: {room.beds.type}</p>
+          <p>Bed Quantity: {room.beds.amount}</p>
+          <p>Bedroom: {room.bedRoom}</p>
+          <p>Bathroom: {room.bathRoom}</p>
+          <p>Size: {room.size} sqm.</p>
+        </div>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Amenities</h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-          {formData.amenities.map((amenity, index) => {
-            const IconComponent = iconMapping[amenity];
+          {room.amenities.map((amenity, index) => {
+            const IconComponent = iconMapping[amenity.icon];
             return (
               <div
                 key={index}
                 className='flex items-center gap-2 p-2 border rounded-md'
               >
                 {IconComponent && <IconComponent className='text-2xl' />}
-                <span className='text-base'>{amenity}</span>
+                <span className='text-base'>{amenity.name}</span>
               </div>
             );
           })}
@@ -120,9 +121,24 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
-        <h2 className='text-xl font-semibold mb-4'>Photos</h2>
+        <h2 className='text-xl font-semibold mb-4'>Accom Photos</h2>
         <div className='flex flex-wrap justify-center'>
-          {formData.photos.map((photo, index) => (
+          {formData.accomPhotos.map((photo, index) => (
+            <div key={index} className='m-2 '>
+              <img
+                src={URL.createObjectURL(photo)}
+                alt={`Uploaded ${index}`}
+                className='w-56 h-56 object-cover'
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
+        <h2 className='text-xl font-semibold mb-4'>Room Photos</h2>
+        <div className='flex flex-wrap justify-center'>
+          {formData.roomPhotos.map((photo, index) => (
             <div key={index} className='m-2 '>
               <img
                 src={URL.createObjectURL(photo)}
@@ -136,22 +152,26 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md '>
         <h2 className='text-xl font-semibold mb-4'>House Title</h2>
-        <p>{formData.name}</p>
+        <p>{accom.name}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Description</h2>
-        <p>{formData.description}</p>
+        <p>{accom.description}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>House Rules</h2>
-        <p>{formData.houseRule}</p>
+        <p>{accom.houseRule.checkIn}</p>
+        <p>{accom.houseRule.checkOut}</p>
+        <p>{accom.houseRule.petsRule}</p>
+        <p>{accom.houseRule.ageRule}</p>
+        <p>{accom.houseRule.cancelPolicy}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Price per Night</h2>
-        <p>{formData.price}</p>
+        <p>{room.price}</p>
       </div>
 
       <div className='flex justify-between'>
