@@ -148,7 +148,7 @@ const HostAssetManagement = () => {
                         </div>
                         <div className='flex justify-between items-center mt-4'>
                           <p className='text-base font-normal'>
-                            ${room.price} per night
+                            THB {room.price} per night
                           </p>
                           <div className='flex flex-col gap-2'>
                             <div className='flex justify-end mr-1'>

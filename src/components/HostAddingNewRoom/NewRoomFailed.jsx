@@ -3,7 +3,7 @@ const AccommodationSubmitFailed = () => (
     <div className='mb-8'>
       <h1 className='text-3xl font-medium'>
         {' '}
-        Accommodation Submission Status{' '}
+        Adding Brand New Room Submission Status{' '}
       </h1>
     </div>
     <div className='bg-white-border border-[2px] border-gray-200 shadow-lg rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
@@ -36,7 +36,7 @@ const AccommodationSubmitFailed = () => (
         </div>
         <h2 className='text-2xl font-bold mb-2'>Submission Failed</h2>
         <p className='text-black'>
-          Sorry, somthing went wrong. Please try to add new accommodation again.
+          Sorry, somthing went wrong. Please try to add new room again.
         </p>
       </div>
     </div>
