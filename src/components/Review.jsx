@@ -121,7 +121,7 @@ const Review = ({ direction = 'right', reviews = [] }) => {
 
     for (let i = 0; i < length; i += 2) {
         result.push(arr[i]);
-        if (i + 1 < length) {
+        if (i + 2 < length) {
             result.push(arr[i + 2]);
         }
         if (i + 1 < length) {
@@ -130,7 +130,7 @@ const Review = ({ direction = 'right', reviews = [] }) => {
     }
 
     return result;
-}
+  }
 
   return (
     <div className='py-4 relative'>
@@ -152,15 +152,15 @@ const Review = ({ direction = 'right', reviews = [] }) => {
             <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
               <div className='flex mb-6'>
                 <div>
-                  <img src={review.user ? review.user.imagePath : Avatar } alt='' 
-                    style={{ width: `60px`, height: `60px` }}
-                    className='rounded-full object-cover'
-                  />
+                    <Avatar 
+                    src={review.user?.imagePath}
+                    size={60} 
+                    />
                 </div>
                 <div>
                   <div>
                     <h3 className='ml-2 text-lg text-fg-text-black font-bold'>
-                      {review.user?.user.fullName}
+                    {review.user?.user.fullName || 'Anonymous'}
                     </h3>
                   </div>
                   <Stack spacing={1}>
