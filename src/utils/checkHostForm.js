@@ -1,5 +1,5 @@
 export default function checkHostForm(object, arg) {
-  if (arg.length >= 1) {
+  if (arg && arg.length >= 1) {
     const key = [...arg];
     const missingKey = [];
     for (let item of key) {
@@ -22,8 +22,10 @@ export default function checkHostForm(object, arg) {
     return missingKey;
   } else {
     const missingKey = [];
-    for (let key of object) {
-      if (!object[key]) {
+    for (let key in object) {
+      if (key === 'accomId') {
+        continue;
+      } else if (!object[key]) {
         missingKey.push(key);
       }
     }

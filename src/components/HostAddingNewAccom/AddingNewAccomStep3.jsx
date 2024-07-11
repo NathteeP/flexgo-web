@@ -27,7 +27,7 @@ const HostAddingNewAccomStep3 = ({
   ];
 
   const dispatch = useDispatch();
-  const { accom, room } = useSelector((state) => state.hostForm);
+  const { room } = useSelector((state) => state.hostForm);
 
   return (
     <div className='max-w-4xl mx-auto p-8'>
@@ -53,12 +53,12 @@ const HostAddingNewAccomStep3 = ({
                 <label className='mb-2 text-center'>Room Number</label>
                 <input
                   type='text'
-                  value={room.roomNumber}
+                  value={room.name}
                   min='1'
                   onChange={(e) =>
                     dispatch(
                       setRoomFormData({
-                        type: 'roomNumber',
+                        type: 'name',
                         data: e.target.value,
                       })
                     )
