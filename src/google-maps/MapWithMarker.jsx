@@ -32,7 +32,7 @@ export default function MapWithMarker() {
   return (
     <div className='w-[30rem] h-[50rem]'>
       <GoogleMap
-        zoom={11}
+        zoom={14}
         center={coordinate}
         mapContainerClassName='map-marker-container'
         onLoad={onLoad}
