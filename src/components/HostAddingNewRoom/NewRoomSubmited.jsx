@@ -5,7 +5,7 @@ const AccommodationSubmitSuccess = () => (
     <div className='text-center'>
       <div className='mb-8'>
         <h1 className='text-3xl font-medium'>
-          Accommodation Submission Status
+          Adding Brand New Room Submission Status
         </h1>
       </div>
       <div className='bg-white border-2 border-gray-200 shadow-lg rounded-xl w-[800px] h-[500px] flex flex-col justify-center items-center p-6'>
@@ -65,9 +65,9 @@ const AccommodationSubmitSuccess = () => (
           </div>
           <h2 className='text-2xl font-bold mb-2'>Submission Success</h2>
           <p className='mb-4'>
-            Your accommodation is waiting for approval. <br />
-            We will let you know when your accommodation is approved and ready
-            to activate.
+            Your brand new room is waiting for approval. <br />
+            We will let you know when your room is approved and ready to
+            activate.
           </p>
         </div>
       </div>
