@@ -40,9 +40,22 @@ const GenericTable = ({
 
   const sortedData = React.useMemo(() => {
     if (!sortKey) return data;
+  
     return [...data].sort((a, b) => {
-      if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
-      if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
+      let aValue = a[sortKey];
+      let bValue = b[sortKey];
+
+      const dateKeys = [
+        'checkInDate', 'checkOutDate', 'createdAt'
+      ]
+  
+      if (dateKeys.includes(sortKey)) {
+        aValue = new Date(aValue);
+        bValue = new Date(bValue);
+      }
+  
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
       return 0;
     });
   }, [data, sortKey, sortOrder]);
@@ -54,73 +67,74 @@ const GenericTable = ({
 
   return (
     <>
-      <div className='hover:w-[101.3%] h-[640px] overflow-y-hidden overflow-x-hidden relative transition-all duration-1000 hover:overflow-y-scroll'>
-        <div className='grid grid-cols-8 gap-2 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2 sticky top-0 z-30'>
+      <div className='w-full h-full relative transition-all duration-1000'>
+        <div className='flex flex-wrap bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-tl-[40px] rounded-tr-[40px] mb-2 sticky top-0 z-30 w-full'>
           {columns.map((col) => (
             <div
               key={col.key}
               onClick={() => handleSort(col.key)}
-              className='cursor-pointer hover:scale-[103%] transition-all active:scale-90 flex justify-center gap-2 h-full w-full items-end hover:font-semibold'
+              className='flex-1 cursor-pointer hover:scale-[103%] transition-all active:scale-90 flex justify-center gap-2 h-full items-end hover:font-semibold'
             >
-              <div className=''>{col.label}</div>{' '}
+              <div>{col.label}</div>
               <div>{renderArrow(col.key)}</div>
             </div>
           ))}
         </div>
-        {showSkeleton
-          ? Array.from(new Array(10)).map((_, index) => (
-              <div
-                key={index}
-                className='  text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-              >
-                <div className='flex justify-center opacity-70'>
-                  <Skeleton width='95%' height={60} />
-                </div>
-              </div>
-            ))
-          : sortedData.map((item, index) => (
-              <div
-                key={index}
-                className='grid grid-cols-8 gap-4 text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer'
-                onClick={() => onRowClick(item)}
-              >
-                {columns.map((col) => (
-                  <div
-                    key={col.key}
-                    className={`h-[60px] flex items-center justify-center ${
-                      col.key === 'email' ? 'break-all whitespace-normal' : ''
-                    }`}
-                  >
-                    {col.key === 'isActive' ? (
-                      <span
-                        className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
-                          item[col.key] ? 'bg-green-200' : 'bg-red-200'
-                        }`}
-                      >
-                        {item[col.key] ? 'Active' : 'Inactive'}
-                      </span>
-                    ) : col.key === 'role' ? (
-                      <span
-                        className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
-                          item[col.key] === 'ADMIN'
-                            ? 'bg-blue-200'
-                            : 'bg-fg-primary-03'
-                        }`}
-                      >
-                        {item[col.key] || 'N/A'}
-                      </span>
-                    ) : col.key === 'createdAt' ? (
-                      formatDate(item[col.key])
-                    ) : (
-                      item[col.key] || 'N/A'
-                    )}
+        <div className='h-[480px] overflow-y-auto overflow-x-hidden'>
+          {showSkeleton
+            ? Array.from(new Array(10)).map((_, index) => (
+                <div
+                  key={index}
+                  className='flex text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer w-full'
+                >
+                  <div className='flex justify-center opacity-70 flex-1'>
+                    <Skeleton width='95%' height={60} />
                   </div>
-                ))}
-              </div>
-            ))}
-
-        <div className='grid grid-cols-8 gap-4 bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] sticky bottom-0'>
-          <div className='flex justify-center items-center mt-4 col-span-8 -translate-y-3'>
+                </div>
+              ))
+            : sortedData.map((item, index) => (
+                <div
+                  key={index}
+                  className='flex text-center items-end pb-2 hover:bg-fg-primary-02/20 font-light text-sm transition duration-500 hover:scale-[105%] cursor-pointer w-full'
+                  onClick={() => onRowClick(item)}
+                >
+                  {columns.map((col) => (
+                    <div
+                      key={col.key}
+                      className={`h-[60px] flex items-center justify-center flex-1 ${
+                        col.key === 'email' ? 'break-all whitespace-normal' : ''
+                      }`}
+                    >
+                      {col.key === 'isActive' ? (
+                        <span
+                          className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
+                            item[col.key] ? 'bg-green-200' : 'bg-red-200'
+                          }`}
+                        >
+                          {item[col.key] ? 'Active' : 'Inactive'}
+                        </span>
+                      ) : col.key === 'role' ? (
+                        <span
+                          className={`px-2 py-1 rounded-lg text-[12px] w-[80px] ${
+                            item[col.key] === 'ADMIN'
+                              ? 'bg-blue-200'
+                              : 'bg-fg-primary-03'
+                          }`}
+                        >
+                          {item[col.key] || 'N/A'}
+                        </span>
+                      ) : col.key === 'createdAt' ? (
+                        formatDate(item[col.key])
+                      ) : (
+                        item[col.key] || 'N/A'
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+        </div>
+        <div className='flex bg-fg-primary-02 text-white text-center items-end pb-2 h-[48px] rounded-bl-[40px] rounded-br-[40px] sticky bottom-0 w-full'>
+          <div className='flex justify-center items-center mt-4 flex-1'>
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}

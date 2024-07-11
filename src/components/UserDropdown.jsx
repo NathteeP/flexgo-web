@@ -85,14 +85,14 @@ const UserDropdown = () => {
                 Account
               </Link>
             </div>
-            <div className=' border-b pb-2'>
+            {/* <div className=' border-b pb-2'>
               <Link
                 to='/property-message'
                 className='flex px-4 py-3 text-base text-fg-text-black hover:bg-fg-primary-01/50 rounded-xl'
               >
                 Property Message
               </Link>
-            </div>
+            </div> */}
             <div className=' border-b pb-2'>
               <Link
                 to='/wishList'
