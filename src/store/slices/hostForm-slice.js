@@ -109,7 +109,7 @@ const hostForm = createSlice({
       if (value === -1) {
         if (state.room.capacity === 1) return state;
       } else if (value === 1) {
-        if (state.room.capacity === 1) return state;
+        if (state.room.capacity === 20) return state;
       }
       state.room.capacity += value;
     },

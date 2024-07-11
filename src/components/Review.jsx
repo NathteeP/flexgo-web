@@ -105,7 +105,7 @@ const Review = ({ direction = 'right', reviews = [] }) => {
     }, delay);
   };
 
-  if (userReviews.length === 0) {
+  if (reviews.length === 0) {
     return (
       <div className='py-4'>
         <div className='w-full h-[300px] flex justify-center items-center bg-[#d1dadc] rounded-[32px]'>
@@ -114,6 +114,23 @@ const Review = ({ direction = 'right', reviews = [] }) => {
       </div>
     );
   }
+
+  function shuffleFn(arr) {
+    const result = [];
+    const length = arr.length;
+
+    for (let i = 0; i < length; i += 2) {
+        result.push(arr[i]);
+        if (i + 1 < length) {
+            result.push(arr[i + 2]);
+        }
+        if (i + 1 < length) {
+            result.push(arr[i + 1]);
+        }
+    }
+
+    return result;
+}
 
   return (
     <div className='py-4 relative'>
@@ -130,22 +147,25 @@ const Review = ({ direction = 'right', reviews = [] }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {userReviews.map((review, index) => (
+        {shuffleFn(reviews).map((review, index) => (
           <div key={index} className='flex'>
             <div className=' w-[500px] h-[300px] border-fg-text-blue/30 border-[2px] rounded-[32px] relative flex justify-center items-start cursor-pointer flex-col gap ml-5 pl-10'>
               <div className='flex mb-6'>
                 <div>
-                  <img src={review.avatar || Avatar} alt='' />
+                  <img src={review.user ? review.user.imagePath : Avatar } alt='' 
+                    style={{ width: `60px`, height: `60px` }}
+                    className='rounded-full object-cover'
+                  />
                 </div>
                 <div>
                   <div>
                     <h3 className='ml-2 text-lg text-fg-text-black font-bold'>
-                      {review.name}
+                      {review.user?.user.fullName}
                     </h3>
                   </div>
                   <Stack spacing={1}>
                     <Rating
-                      value={review.star}
+                      value={review.overAllReview}
                       name='half-rating-read'
                       precision={0.5}
                       readOnly
