@@ -204,7 +204,7 @@ const AdminAccomManagementCard = ({ accom }) => {
         {/* Right part */}
         <div className='w-[35%] h-[720px] border-[2px] p-4 rounded-[40px]'>
           {/* แผนที่ */}
-          <MapNearByPlace nearbyPlace={accom?.nearbyPlace} />
+          {/* <MapNearByPlace nearbyPlace={accom?.nearbyPlace} /> */}
         </div>
       </div>
 
