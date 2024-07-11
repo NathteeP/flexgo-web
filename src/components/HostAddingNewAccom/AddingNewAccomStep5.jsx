@@ -77,31 +77,29 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Accommodation Type</h2>
-        <p>{formData.selectedType}</p>
+        <p>{accom.type}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Address</h2>
-        <p>{formData.address}</p>
+        <p>{accom.address}</p>
         <p>
-          {formData.district}, {formData.province}, {formData.country}
+          {accom.district}, {accom.province}, {accom.country}
         </p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Rooms and Bed Types</h2>
-        {room.roomList.map((room, index) => (
-          <div key={index}>
-            <p>
-              <strong>Room {index + 1}:</strong> {room.roomType}
-            </p>
-            <p>Bed Type: {room.bedType}</p>
-            <p>Bed Quantity: {room.bedQuantity}</p>
-            <p>Bedroom: {room.bedroom}</p>
-            <p>Bathroom: {room.bathroom}</p>
-            <p>Size: {room.size} sqm.</p>
-          </div>
-        ))}
+        <div>
+          <p>
+            <strong>Room :</strong> {room.type}
+          </p>
+          <p>Bed Type: {room.beds.type}</p>
+          <p>Bed Quantity: {room.beds.amount}</p>
+          <p>Bedroom: {room.bedRoom}</p>
+          <p>Bathroom: {room.bathRoom}</p>
+          <p>Size: {room.size} sqm.</p>
+        </div>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
@@ -123,9 +121,24 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
-        <h2 className='text-xl font-semibold mb-4'>Photos</h2>
+        <h2 className='text-xl font-semibold mb-4'>Accom Photos</h2>
         <div className='flex flex-wrap justify-center'>
-          {formData.photos.map((photo, index) => (
+          {formData.accomPhotos.map((photo, index) => (
+            <div key={index} className='m-2 '>
+              <img
+                src={URL.createObjectURL(photo)}
+                alt={`Uploaded ${index}`}
+                className='w-56 h-56 object-cover'
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
+        <h2 className='text-xl font-semibold mb-4'>Room Photos</h2>
+        <div className='flex flex-wrap justify-center'>
+          {formData.roomPhotos.map((photo, index) => (
             <div key={index} className='m-2 '>
               <img
                 src={URL.createObjectURL(photo)}
@@ -139,22 +152,26 @@ const HostAddingNewAccomStep5 = ({ formData, prevStep, handleSubmit }) => {
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md '>
         <h2 className='text-xl font-semibold mb-4'>House Title</h2>
-        <p>{formData.name}</p>
+        <p>{accom.name}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Description</h2>
-        <p>{formData.description}</p>
+        <p>{accom.description}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>House Rules</h2>
-        <p>{formData.houseRule}</p>
+        <p>{accom.houseRule.checkIn}</p>
+        <p>{accom.houseRule.checkOut}</p>
+        <p>{accom.houseRule.petsRule}</p>
+        <p>{accom.houseRule.ageRule}</p>
+        <p>{accom.houseRule.cancelPolicy}</p>
       </div>
 
       <div className='mb-8 w-full bg-white border-[2px] border-gray-300 rounded-xl p-3 shadow-md'>
         <h2 className='text-xl font-semibold mb-4'>Price per Night</h2>
-        <p>{formData.price}</p>
+        <p>{room.price}</p>
       </div>
 
       <div className='flex justify-between'>

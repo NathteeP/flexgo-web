@@ -4,7 +4,7 @@ import { act } from 'react';
 
 const initialState = {
   accom: {
-    type: '',
+    type: 'House',
     country: '',
     address: '',
     district: '',
@@ -16,11 +16,10 @@ const initialState = {
       checkOut: '',
       petsRule: '',
       ageRule: '',
-      cancelPolicy: '',
+      cancelPolicy: 'FLEXIBLE',
     },
     coordinate: defaultAddress.coordinate,
   },
-  accomPhotos: [],
   room: {
     roomType: 'Standard Room',
     beds: { type: 'Single bed', amount: 1 },
@@ -28,10 +27,11 @@ const initialState = {
     price: 0,
     amenities: [],
     accomId: null,
-    bathRoom: 1,
-    bedRoom: 1,
+    bathRoom: 0,
+    bedRoom: 0,
+    size: 0,
+    roomNumber: '',
   },
-  roomPhotos: [],
   gMapAddress: defaultAddress.address,
 };
 
@@ -44,8 +44,8 @@ const hostForm = createSlice({
     },
     setHostFormData: (state, action) => {
       if (action.payload.type === 'houseRule') {
-        const { topic, value } = action.payload;
-        state.accom.houseRule[topic] = value;
+        const { topic, data } = action.payload;
+        state.accom.houseRule[topic] = data;
         return state;
       }
       state.accom[action.payload.type] = action.payload.data;
@@ -57,22 +57,32 @@ const hostForm = createSlice({
       if (action.payload.type === 'bedTypes') {
         const { data } = action.payload;
         state.room.beds.type = data;
+        return state;
       }
 
       if (action.payload.type === 'capacity') {
         const { data } = action.payload;
         state.room.capacity = data;
+        return state;
       }
 
       if (action.payload.type === 'bedAmount') {
         const { data } = action.payload;
         state.room.beds.amount = data;
+        return state;
       }
 
       if (action.payload.type === 'price') {
         const { value } = action.payload;
         state.room.price = value;
+        return state;
       }
+      if (action.payload.type === 'size') {
+        const { value } = action.payload;
+        state.room.size = value;
+        return state;
+      }
+      state.room[action.payload.type] = action.payload.data;
     },
     setRoomCapacity: (state, action) => {
       const { value } = action.payload;
@@ -97,6 +107,7 @@ const hostForm = createSlice({
       const { data } = action.payload;
       state.room.roomType = data;
     },
+    resetForm: (state, action) => initialState,
   },
 });
 
@@ -110,4 +121,5 @@ export const {
   setRoomCapacity,
   addRoomAmenities,
   changeRoomType,
+  resetForm,
 } = hostForm.actions;

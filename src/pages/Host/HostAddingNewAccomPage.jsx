@@ -4,18 +4,80 @@ import HostAddingAccommodationStep2 from '../../components/HostAddingNewAccom/Ad
 import HostAddingAccommodationStep3 from '../../components/HostAddingNewAccom/AddingNewAccomStep3';
 import HostAddingAccommodationStep4 from '../../components/HostAddingNewAccom/AddingNewAccomStep4';
 import AddingNewAccomStep5 from '../../components/HostAddingNewAccom/AddingNewAccomStep5';
+import { useSelector } from 'react-redux';
+import checkHostForm from '../../utils/checkHostForm';
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
+  const { accom, room } = useSelector((state) => state.hostForm);
   const [formData, setFormData] = useState({
     accomPhotos: [],
     roomPhotos: [],
   });
-
   const topOfPageRef = useRef(null);
 
   const nextStep = () => {
-    setStep((prev) => prev + 1);
-    scrollToTop();
+    switch (step) {
+      case 1:
+        const result1 = checkHostForm(accom, ['type', 'coordinate']);
+        if (result1.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        alert(`${result1.join(' ')} is missing`);
+        break;
+      case 2:
+        const result2 = checkHostForm(accom, [
+          'country',
+          'address',
+          'district',
+          'province',
+        ]);
+        if (result2.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        alert(`${result2.join(' ')} is missing`);
+        break;
+      case 3:
+        const result3 = checkHostForm(room, [
+          'roomType',
+          'beds',
+          'capacity',
+          'price',
+          'bathRoom',
+          'bedRoom',
+          'size',
+          'roomNumber',
+          'amenities',
+        ]);
+        const photoResult = checkHostForm(formData, [
+          'accomPhotos',
+          'roomPhotos',
+        ]);
+        console.log(photoResult);
+        if (result3.length < 1 && photoResult.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        alert(`${result3.join(' ')} ${photoResult.join(' ')}is missing`);
+        break;
+      case 4:
+        const result4 = checkHostForm(accom, [
+          'name',
+          'description',
+          'houseRule',
+        ]);
+        if (result4.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        alert(`${result4.join(' ')} is missing`);
+        break;
+    }
   };
 
   const prevStep = () => {
@@ -23,11 +85,13 @@ const HostAddingNewAccomPage = () => {
     scrollToTop();
   };
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
   const handleSubmit = (e) => {
+    if (e.target.type !== 'submit') {
+      e.preventDefault();
+      return;
+    }
     e.preventDefault();
+
     console.log('Form Data:', formData);
     // Submit data here
   };

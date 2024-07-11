@@ -108,9 +108,15 @@ const AddingNewAccomStep4 = ({
         <input
           type='text'
           name='checkIn'
-          value={accom.checkIn}
+          value={accom.houseRule.checkIn}
           onChange={(e) =>
-            dispatch(setHostFormData({ type: 'checkIn', data: e.target.value }))
+            dispatch(
+              setHostFormData({
+                type: 'houseRule',
+                topic: 'checkIn',
+                data: e.target.value,
+              })
+            )
           }
           className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           placeholder='Check-in time'
@@ -118,10 +124,14 @@ const AddingNewAccomStep4 = ({
         <input
           type='text'
           name='checkOut'
-          value={accom.checkOut}
+          value={accom.houseRule.checkOut}
           onChange={(e) =>
             dispatch(
-              setHostFormData({ type: 'checkOut', data: e.target.value })
+              setHostFormData({
+                type: 'houseRule',
+                topic: 'checkOut',
+                data: e.target.value,
+              })
             )
           }
           className='w-full p-4 border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
@@ -129,10 +139,14 @@ const AddingNewAccomStep4 = ({
         />
         <textarea
           name='petRules'
-          value={accom.petRules}
+          value={accom.houseRule.petRules}
           onChange={(e) =>
             dispatch(
-              setHostFormData({ type: 'petRules', data: e.target.value })
+              setHostFormData({
+                type: 'houseRule',
+                topic: 'petsRule',
+                data: e.target.value,
+              })
             )
           }
           className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
@@ -171,8 +185,16 @@ const AddingNewAccomStep4 = ({
           </div>
           <select
             name='cancelPolicy'
-            value={accom.cancelPolicyKey}
-            onChange={handleCancelPolicyChange}
+            value={accom.houseRule.cancelPolicy}
+            onChange={(e) => {
+              dispatch(
+                setHostFormData({
+                  type: 'houseRule',
+                  topic: 'cancelPolicy',
+                  data: e.target.value,
+                })
+              );
+            }}
             className='w-full p-4  border-gray-300 rounded-xl mb-2 border focus:ring-[2px] focus:ring-fg-secondary-02 focus:outline-none focus:border-none'
           >
             {Object.keys(cancelPolicy).map((key) => (
