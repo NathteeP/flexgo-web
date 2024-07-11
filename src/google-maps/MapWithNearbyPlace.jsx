@@ -9,9 +9,7 @@ import { useRef, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { defaultAddress } from '../constant/google-map';
 
-export default function MapWithMarker() {
-  const { nearbyPlace, accom } = useSelector((state) => state.accom.detail);
-
+export default function MapWithNearbyPlace({ nearbyPlace, accom }) {
   const mapRef = useRef();
   const [zoomLevel, setZoomLevel] = useState(13); // เปลี่ยนค่าจาก 11 เป็น 15
   const [defaultMarkerInfo, setShowDefaultMarkerInfo] = useState(false);

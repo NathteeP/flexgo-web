@@ -2,22 +2,67 @@
 import React, { useState, useRef } from 'react';
 import HostAddingNewRoomStep1 from '../../components/HostAddingNewRoom/AddingNewRoomStep1';
 import HostAddingNewRoomPreview from '../../components/HostAddingNewRoom/HostAddingNewRoomPreview';
+import checkHostForm from '../../utils/checkHostForm';
+import { useSelector } from 'react-redux';
+import createFormData from '../../utils/createFormData';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { submitCreateRoomAndUploadPhoto } from '../../store/slices/hostForm-slice';
 
 const HostAddingNewRoom = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    roomTypes: [{ id: Date.now(), name: '', bedType: 'Single bed' }],
-    bedTypes: ['Single'],
-    guests: 4,
-    photos: [],
-    price: '',
+    roomPhotos: [],
   });
 
+  const { room } = useSelector((state) => state.hostForm);
+  const navigate = useNavigate();
   const topOfPageRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   const nextStep = () => {
-    setStep((prev) => prev + 1);
-    scrollToTop();
+    switch (step) {
+      case 1:
+        const result1 = checkHostForm(room, [
+          'name',
+          'roomType',
+          'beds',
+          'bedroom',
+          'bathroom',
+          'size',
+          'capacity',
+          'price',
+          'accomId',
+        ]);
+        const photoResult = checkHostForm(formData, ['roomPhotos']);
+        if (result1.length < 1 && photoResult.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        if (result1.includes('accomId')) {
+          navigate('/host/AssetsManagement');
+          alert('Missing accommodation detail. Please try again');
+        } else {
+          alert(`${result1.join(' ')} ${photoResult.join(' ')} is missing`);
+        }
+        break;
+      case 2:
+        const result2 = checkHostForm(accom, [
+          'country',
+          'address',
+          'district',
+          'province',
+        ]);
+        if (result2.length < 1) {
+          setStep((prev) => prev + 1);
+          scrollToTop();
+          break;
+        }
+        alert(`${result2.join(' ')} is missing`);
+        break;
+    }
   };
 
   const prevStep = () => {
@@ -26,8 +71,22 @@ const HostAddingNewRoom = () => {
   };
 
   const handleSubmit = (e) => {
+    if (e.target.type !== 'submit') {
+      e.preventDefault();
+      return;
+    }
     e.preventDefault();
-    console.log('Form Data:', formData);
+    const roomCheck = checkHostForm(room);
+    if (roomCheck.length >= 1) {
+      return alert(
+        `${roomCheck.join(' ')} is missing. Please input the field.`
+      );
+    }
+    const body = { ...room };
+    dispatch(
+      submitCreateRoomAndUploadPhoto({ body, photo: formData.roomPhotos[0] })
+    );
+    navigate('/host/AssetsManagement/NewRoomPage/status');
     // Submit data here
   };
 

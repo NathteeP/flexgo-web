@@ -4,7 +4,7 @@ import CheckoutSpinner from '../../pages/CheckOut/CheckoutSpinner';
 import RoomSubmitFailed from '../HostAddingNewRoom/NewRoomFailed';
 import RoomSubmitSuccess from '../HostAddingNewRoom/NewRoomSubmited';
 
-const AddingNewAccomResult = () => {
+const AddingNewRoomResult = () => {
   const { isLoading, error } = useSelector((state) => state.hostForm);
 
   if (isLoading) {
@@ -20,4 +20,4 @@ const AddingNewAccomResult = () => {
   return <RoomSubmitSuccess />;
 };
 
-export default AddingNewAccomResult;
+export default AddingNewRoomResult;

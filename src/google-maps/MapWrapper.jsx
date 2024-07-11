@@ -8,6 +8,8 @@ const MapWrapper = ({
   mapWithMarker,
   marker,
   mapWithNearbyPlace,
+  nearbyPlace,
+  accom,
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -21,7 +23,7 @@ const MapWrapper = ({
   } else if (mapWithMarker) {
     return <MapWithMarker marker={marker} />;
   } else if (mapWithNearbyPlace) {
-    return <MapWithNearbyPlace />;
+    return <MapWithNearbyPlace accom={accom} nearbyPlace={nearbyPlace} />;
   }
   return <Map />;
 };

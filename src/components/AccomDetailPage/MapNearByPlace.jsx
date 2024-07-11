@@ -57,7 +57,7 @@ const nearbyPlaces = [
   { name: 'Tawaen Beach', distance: '40.0 km' },
 ];
 
-const MapNearByPlace = ({ nearbyPlace }) => {
+const MapNearByPlace = ({ nearbyPlace, accom }) => {
   const dispatch = useDispatch();
   const { isAmenitiesOpen, isNearbyOpen } = useSelector((state) => state.modal);
 
@@ -69,7 +69,13 @@ const MapNearByPlace = ({ nearbyPlace }) => {
   return (
     <div>
       <div className='h-[400px] w-full '>
-        <MapWrapper mapWithNearbyPlace={true} />
+        {accom ? (
+          <MapWrapper
+            nearbyPlace={nearbyPlace}
+            accom={accom}
+            mapWithNearbyPlace={true}
+          />
+        ) : null}
       </div>
       {/* สถานที่ใกล้เคียง nearbyplace */}
       <div className='flex justify-between w-full border-b-[1px] text-fg-text-black'>

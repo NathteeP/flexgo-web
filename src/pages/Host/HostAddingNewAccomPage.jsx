@@ -113,7 +113,6 @@ const HostAddingNewAccomPage = () => {
     const accomFormData = createFormData(formData.accomPhotos, 'accom_image');
     const roomFormData = createFormData(formData.roomPhotos, 'room_image');
     const photo = { accom: accomFormData, room: roomFormData };
-    console.log(photo);
     dispatch(submitCreateAccomAndRoom({ body, photo }));
     navigate('/host/AssetsManagement/NewAccomPage/status');
     // Submit data here

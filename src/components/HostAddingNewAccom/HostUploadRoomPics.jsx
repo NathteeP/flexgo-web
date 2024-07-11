@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 
-const UploadRoomPhotos = ({ roomIndex, setFormData, formData }) => {
+const UploadRoomPhotos = ({ setFormData, formData }) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
 
     setFormData({ ...formData, roomPhotos: files });
   };
-
-  // const removePhoto = (index) => {
-  //   setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-  //   setFormData((prevData) => {
-  //     const newRoomTypes = [...prevData.roomTypes];
-  //     newRoomTypes[roomIndex].photos = newRoomTypes[roomIndex].photos.filter(
-  //       (_, i) => i !== index
-  //     );
-  //     return { ...prevData, roomTypes: newRoomTypes };
-  //   });
-  // };
 
   return (
     <div className='p-12 bg-white border border-gray-300 rounded-2xl mb-8'>
@@ -37,13 +26,6 @@ const UploadRoomPhotos = ({ roomIndex, setFormData, formData }) => {
                 className='w-56 h-56 object-cover'
               />
             </div>
-            {/* <button
-              type='button'
-              onClick={() => removePhoto(index)}
-              className='absolute top-0 right-0 bg-red-500 text-white rounded-full p-1'
-            >
-              &times;
-            </button> */}
           </div>
         ))}
       </div>

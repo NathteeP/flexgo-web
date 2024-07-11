@@ -121,7 +121,9 @@ const AccommodationDetailPage = () => {
     const isOnUserWishList = allWishList?.find(
       (el) => el.accomId === +accom_id
     );
-    if (isOnUserWishList) setIsFavorite(true);
+    if (isOnUserWishList) {
+      setIsFavorite(true);
+    }
   }, [allWishList, accom_id]);
 
   const toggleFavorite = () => {
@@ -258,7 +260,10 @@ const AccommodationDetailPage = () => {
         {/* Right part */}
         <div className='w-[35%] h-full border-[2px] p-4 rounded-[40px]'>
           <div className=''>
-            <MapNearByPlace nearbyPlace={detail?.nearbyPlace} />
+            <MapNearByPlace
+              accom={detail.accom}
+              nearbyPlace={detail?.nearbyPlace}
+            />
           </div>
         </div>
       </div>

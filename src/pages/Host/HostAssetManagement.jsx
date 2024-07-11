@@ -16,7 +16,10 @@ import {
   openAdminRemoveRoom,
 } from '../../store/slices/modal-slice';
 import { useNavigate } from 'react-router-dom';
-import { setRoomFormData } from '../../store/slices/hostForm-slice';
+import {
+  getRoomDataBeforeEdit,
+  setRoomFormData,
+} from '../../store/slices/hostForm-slice';
 import { useState } from 'react';
 
 const roomData = [
@@ -154,12 +157,13 @@ const HostAssetManagement = () => {
                             <div className='flex justify-end mr-1'>
                               <button
                                 className='border border-gray-300 text-gray-500 text-sm w-12 h-auto p-2 rounded-xl hover:bg-slate-300 hover:text-white transform transition-transform duration-200 ease-in-out active:scale-90'
-                                onClick={() =>
-                                  window.open(
+                                onClick={() => {
+                                  dispatch(getRoomDataBeforeEdit(room));
+                                  navigate(
                                     '/host/AssetsManagement/NewRoomPage',
                                     '_blank'
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 Edit
                               </button>

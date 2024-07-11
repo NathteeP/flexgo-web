@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AccommodationSubmitSuccess = () => (
+const RoomSubmitSuccess = () => (
   <div className='w-screen mx-36 mt-20 bg-white flex flex-col items-center'>
     <div className='text-center'>
       <div className='mb-8'>
@@ -75,4 +75,4 @@ const AccommodationSubmitSuccess = () => (
   </div>
 );
 
-export default AccommodationSubmitSuccess;
+export default RoomSubmitSuccess;
