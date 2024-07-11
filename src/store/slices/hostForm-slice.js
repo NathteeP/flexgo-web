@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { defaultAddress } from '../../constant/google-map';
 import { act } from 'react';
 import accomApi from '../../api/accom';
+import roomApi from '../../api/room';
 
 const initialState = {
   accom: {
@@ -44,7 +45,9 @@ export const submitCreateAccomAndRoom = createAsyncThunk(
   'create/AccomRoom',
   async (payload, thunkAPI) => {
     try {
-      const { data } = await accomApi.createAccomAndRoom(payload);
+      const { data } = await accomApi.createAccomAndRoom(payload.body);
+      await accomApi.uploadAccomPhoto(payload.photo.accom, data.accom.id);
+      await roomApi.uploadRoomPhoto(payload.photo.room, data.roomResult.id);
       return data;
     } catch (err) {
       thunkAPI.rejectWithValue(err.message);
@@ -137,9 +140,6 @@ const hostForm = createSlice({
         state.accom = initialState.accom;
         state.room = initialState.room;
         console.log(action.payload);
-        const { accom, roomResult } = action.payload;
-        state.createdAccomId = accom.id;
-        state.createdRoomId = roomResult.id;
       })
       .addCase(submitCreateAccomAndRoom.rejected, (state, action) => {
         state.isLoading = false;

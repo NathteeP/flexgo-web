@@ -16,4 +16,7 @@ accomApi.getAllAccomByUserId = (user_id) => axios.get(`/accom/all/${user_id}`);
 accomApi.createAccomAndRoom = (data) =>
   axios.post('/accom/create/accom-room', data);
 
+accomApi.uploadAccomPhoto = (formData, accom_id) =>
+  axios.post(`/accomPhoto/create/${accom_id}`, formData);
+
 export default accomApi;

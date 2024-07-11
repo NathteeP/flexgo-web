@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import checkHostForm from '../../utils/checkHostForm';
 import { useDispatch } from 'react-redux';
 import { submitCreateAccomAndRoom } from '../../store/slices/hostForm-slice';
+import { useNavigate } from 'react-router-dom';
+import createFormData from '../../utils/createFormData';
 
 const HostAddingNewAccomPage = () => {
   const [step, setStep] = useState(1);
@@ -18,6 +20,7 @@ const HostAddingNewAccomPage = () => {
   });
   const topOfPageRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const nextStep = () => {
     switch (step) {
@@ -102,12 +105,17 @@ const HostAddingNewAccomPage = () => {
       );
     }
     const body = { accom: { ...accom }, room: { ...room } };
-    console.log(body);
-    body.accom.address += body.accom.country;
+    body.accom.address += ' ' + body.accom.country.split('-')[0];
     body.accom.type = body.accom.type.toUpperCase();
     delete body.accom.country;
     delete body.room.accomId;
-    dispatch(submitCreateAccomAndRoom(body));
+
+    const accomFormData = createFormData(formData.accomPhotos, 'accom_image');
+    const roomFormData = createFormData(formData.roomPhotos, 'room_image');
+    const photo = { accom: accomFormData, room: roomFormData };
+    console.log(photo);
+    dispatch(submitCreateAccomAndRoom({ body, photo }));
+    navigate('/host/AssetsManagement/NewAccomPage/status');
     // Submit data here
   };
 
