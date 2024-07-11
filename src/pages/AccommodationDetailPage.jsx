@@ -154,7 +154,7 @@ const AccommodationDetailPage = () => {
           <img
             src={
               detail?.accomPhoto?.length >= 1
-                ? detail.accomPhoto[Math.trunc(Math.random() * 10)].imagePath
+                ? detail.accomPhoto[Math.trunc(Math.random() * 10)]?.imagePath
                 : randomImage
             }
             alt='Cover'
