@@ -1,4 +1,4 @@
-const AccommodationSubmitFailed = () => (
+const RoomSubmitFailed = () => (
   <div className='w-screen mx-36 mt-20 bg-white flex flex-col items-center'>
     <div className='mb-8'>
       <h1 className='text-3xl font-medium'>
@@ -43,4 +43,4 @@ const AccommodationSubmitFailed = () => (
   </div>
 );
 
-export default AccommodationSubmitFailed;
+export default RoomSubmitFailed;

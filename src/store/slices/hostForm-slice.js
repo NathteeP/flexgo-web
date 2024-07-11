@@ -33,6 +33,7 @@ const initialState = {
     bedRoom: '',
     size: '',
     name: '',
+    roomId: '',
   },
   isLoading: false,
   error: false,
@@ -123,7 +124,7 @@ const hostForm = createSlice({
       if (value === -1) {
         if (state.room.capacity === 1) return state;
       } else if (value === 1) {
-        if (state.room.capacity === 1) return state;
+        if (state.room.capacity === 20) return state;
       }
       state.room.capacity += value;
     },
@@ -142,6 +143,9 @@ const hostForm = createSlice({
       state.room.roomType = data;
     },
     resetForm: (state, action) => initialState,
+    getRoomDataBeforeEdit: (state, action) => {
+      state.room = { ...state.room, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -184,4 +188,5 @@ export const {
   addRoomAmenities,
   changeRoomType,
   resetForm,
+  getRoomDataBeforeEdit,
 } = hostForm.actions;

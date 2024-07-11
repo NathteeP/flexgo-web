@@ -86,6 +86,7 @@ const HostAddingNewRoom = () => {
     dispatch(
       submitCreateRoomAndUploadPhoto({ body, photo: formData.roomPhotos[0] })
     );
+    navigate('/host/AssetsManagement/NewRoomPage/status');
     // Submit data here
   };
 

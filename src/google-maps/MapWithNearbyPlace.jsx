@@ -10,11 +10,8 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { defaultAddress } from '../constant/google-map';
 
-export default function MapWithMarker() {
-  const { nearbyPlace, accom } = useSelector((state) => state.accom.detail);
-
+export default function MapWithNearbyPlace({ nearbyPlace, accom }) {
   const mapRef = useRef();
-
   const [defaultMarkerInfo, setShowDefaultMarkerInfo] = useState(false);
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
@@ -30,9 +27,7 @@ export default function MapWithMarker() {
       >
         <Marker
           onClick={() => setShowDefaultMarkerInfo(true)}
-          position={
-            { lat: +accom.lat, lng: +accom.lng } || defaultAddress.coordinate
-          }
+          position={{ lat: +accom.lat, lng: +accom.lng }}
         >
           {defaultMarkerInfo && (
             <InfoWindow>
