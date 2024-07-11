@@ -20,6 +20,7 @@ const initialState = {
   isHostNotiByAdminOpen: false,
   isAdminRemoveRoomOpen: false,
   isHostConfirmAddNewAccom: false,
+  isReviewOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -123,6 +124,12 @@ const modalSlice = createSlice({
     closeHostConfirmAddNewAccom: (state) => {
       state.isHostConfirmAddNewAccom = false;
     },
+    openReview: (state) => {
+      state.isReviewOpen = true;
+    },
+    closeReview: (state) => {
+      state.isReviewOpen = false;
+    },
   },
 });
 
@@ -155,5 +162,7 @@ export const {
   closeAdminRemoveRoom,
   openHostConfirmAddNewAccom,
   closeHostConfirmAddNewAccom,
+  openReview,
+  closeReview,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
