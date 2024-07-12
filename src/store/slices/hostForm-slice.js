@@ -49,7 +49,7 @@ export const submitCreateAccomAndRoom = createAsyncThunk(
       await roomApi.uploadRoomPhoto(payload.photo.room, data.roomResult.id);
       return data;
     } catch (err) {
-      thunkAPI.rejectWithValue(err.message);
+      thunkAPI.rejectWithValue(err);
     }
   }
 );
