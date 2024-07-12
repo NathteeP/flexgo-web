@@ -3,9 +3,19 @@ import { useSelector } from 'react-redux';
 import CheckoutSpinner from '../../pages/CheckOut/CheckoutSpinner';
 import RoomSubmitFailed from '../HostAddingNewRoom/NewRoomFailed';
 import RoomSubmitSuccess from '../HostAddingNewRoom/NewRoomSubmited';
+import { useDispatch } from 'react-redux';
+import { fetchAllRoomByAccomId } from '../../store/slices/user-slice';
+import checkObjectValue from '../../utils/checkObjectValue';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { INIT_ROOM } from '../../constant/initialState-schema';
 
 const AddingNewRoomResult = () => {
+  const dispatch = useDispatch();
+
   const { isLoading, error } = useSelector((state) => state.hostForm);
+  const { roomsList } = useSelector((state) => state.user);
+  const { room } = useSelector((state) => state.hostForm);
 
   if (isLoading) {
     return (
@@ -15,9 +25,11 @@ const AddingNewRoomResult = () => {
     );
   } else if (error) {
     return <RoomSubmitFailed />;
+  } else if (!isLoading && !error) {
+    return <RoomSubmitSuccess />;
+  } else if (checkObjectValue(room, INIT_ROOM) || roomsList.length < 1) {
+    return <Navigate to='/host/AssetsManagement' />;
   }
-
-  return <RoomSubmitSuccess />;
 };
 
 export default AddingNewRoomResult;

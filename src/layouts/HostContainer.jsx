@@ -8,24 +8,22 @@ import { fetchAmenities } from '../store/slices/amenities-slice';
 import { fetchAllUserAccom, fetchAuthUser } from '../store/slices/user-slice';
 import { useSelector } from 'react-redux';
 
-
 const HostContainer = () => {
   const dispatch = useDispatch();
 
-  const {authUser} = useSelector(state => state.user)
-
+  const { authUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!authUser) {
-     dispatch(fetchAuthUser());
+      dispatch(fetchAuthUser());
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (!authUser) return;
-    dispatch(fetchAllUserAccom(authUser?.id))
+    dispatch(fetchAllUserAccom(authUser?.id));
     dispatch(fetchAmenities());
-  },[dispatch,authUser])
+  }, [dispatch, authUser]);
 
   return (
     <>

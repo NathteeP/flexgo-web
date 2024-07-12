@@ -97,6 +97,7 @@ const HostAddingNewAccomPage = () => {
       return;
     }
     e.preventDefault();
+
     const accomCheck = checkHostForm(accom);
     const roomCheck = checkHostForm(room);
     if (
