@@ -77,12 +77,13 @@ const HostAddingNewRoom = () => {
     }
     e.preventDefault();
     const roomCheck = checkHostForm(room);
-    if (roomCheck.length >= 1) {
+    if (roomCheck.length >= 1 && !roomCheck.includes('roomId')) {
       return alert(
         `${roomCheck.join(' ')} is missing. Please input the field.`
       );
     }
     const body = { ...room };
+    delete body.roomId;
     dispatch(
       submitCreateRoomAndUploadPhoto({ body, photo: formData.roomPhotos[0] })
     );

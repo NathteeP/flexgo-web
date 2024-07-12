@@ -70,6 +70,18 @@ export const submitCreateRoomAndUploadPhoto = createAsyncThunk(
   }
 );
 
+export const submitDeleteRoom = createAsyncThunk(
+  'change/RoomToInactive',
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await roomApi.deleteRoom(payload);
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const hostForm = createSlice({
   name: 'hostForm',
   initialState,
@@ -172,6 +184,19 @@ const hostForm = createSlice({
       })
       .addCase(submitCreateRoomAndUploadPhoto.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(submitDeleteRoom.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(submitDeleteRoom.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.room = initialState.room;
+      })
+      .addCase(submitDeleteRoom.rejected, (state, action) => {
+        state.isLoading = false;
+        state.room = initialState.room;
         state.error = action.payload;
       });
   },

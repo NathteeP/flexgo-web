@@ -13,7 +13,6 @@ function App() {
     <Suspense
       fallback={
         <h1>
-          {' '}
           <CheckoutSpinner />{' '}
         </h1>
       }

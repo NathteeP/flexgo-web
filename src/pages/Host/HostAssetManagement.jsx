@@ -183,6 +183,12 @@ const HostAssetManagement = () => {
                                   className='bg-red-400 text-white hover:bg-red-500 text-sm p-2 rounded-xl'
                                   onClick={() => {
                                     dispatch(openAdminRemoveRoom());
+                                    dispatch(
+                                      setRoomFormData({
+                                        type: 'roomId',
+                                        data: room.id,
+                                      })
+                                    );
                                   }}
                                 >
                                   Remove
