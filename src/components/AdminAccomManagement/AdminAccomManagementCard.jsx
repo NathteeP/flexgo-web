@@ -29,7 +29,7 @@ const AdminAccomManagementCard = ({ accom }) => {
   const navigate = useNavigate();
 
   const [isActive, setIsActive] = useState(true);
-  const [isStatus, setIsStatus] = useState(accom.status);
+  const [isStatus, setIsStatus] = useState(accom?.status);
   const state = accom;
 
   const handleStatusChange = async (newStatus) => {
@@ -202,7 +202,7 @@ const AdminAccomManagementCard = ({ accom }) => {
       <div className='mx-16 py-8 px-20 flex'>
         <div className='w-[65%]'>
           <div className='flex items-center gap-4'>
-            <div className='text-3xl font-semibold'>{accomDetail?.name}</div>
+            <div className='text-3xl font-semibold'>{accomDetail?.accom?.name}</div>
             <div>
               <Stack spacing={1}>
                 <Rating
@@ -216,10 +216,10 @@ const AdminAccomManagementCard = ({ accom }) => {
               </Stack>
             </div>
           </div>
-          <div className='text-sm font-semibold'>{accomDetail?.address}</div>
+          <div className='text-sm font-semibold'>{accomDetail?.accom?.address}</div>
           <div className='h-[2px] bg-fg-grey/60 mx-14 my-8'></div>
 
-          <div className='mr-10 font-light h-[300px]'>{accomDetail?.description}</div>
+          <div className='mr-10 font-light h-[300px]'>{accomDetail?.accom?.description}</div>
 
           {/* amenities */}
           <div className='text-2xl'>
@@ -231,7 +231,7 @@ const AdminAccomManagementCard = ({ accom }) => {
         </div>
 
         {/* Right part */}
-        <div className='w-[35%] h-[720px] border-[2px] p-4 rounded-[40px]'>
+        <div className='w-[60%] h-[720px] border-[2px] p-4 rounded-[40px]'>
           {/* แผนที่ */}
           <MapNearByPlace nearbyPlace={accomDetail?.nearbyPlace} 
           accom={accomDetail.accom}/>
@@ -242,7 +242,7 @@ const AdminAccomManagementCard = ({ accom }) => {
       <div className='p-8 mx-36'>
         <div className='border-t-[2px] my-16 mx-28'></div>
         <div>
-          <RoomCard room={accomDetail?.roomList} />
+          <RoomCard room={roomList?.room} />
         </div>
       </div>
 
