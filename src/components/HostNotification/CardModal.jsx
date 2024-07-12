@@ -4,22 +4,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import reservationApi from '../../api/reservation';
 
-const bookingDetails = {
-  userId: 11042000,
-  userName: 'Katarina Bluu',
-  reservationId: '17180820245689',
-  accommodations: 'Novotel Bangkok IMPACT',
-  guests: '2 adults',
-  roomDetails: 'x1 Standard Twin Room',
-  nights: 1,
-  registrationDate: '30/10/2020',
-  arrival: '28/09/2024',
-  departure: '29/09/2024',
-  status: 'Approved',
-  img: 'path',
-};
-
-export const ReservationStatus = {
+export const RESERVATIONSTATUS = {
   PENDING: "PENDING",
   CONFIRMED : "CONFIRMED",
   CANCELED : "CANCELED",
@@ -79,24 +64,34 @@ const CardModal = ({reservation}) => {
   }
 
   const handleClickHostStatusButton = async (reservId, statusToUpdate) => {
-    const updateBody = {status:statusToUpdate}
-    await reservationApi.editReservation(reservId, updateBody)
-    setReservStatus(statusToUpdate)
-  }
+    try {
+      const updateBody = { status: statusToUpdate };
+      const response = await reservationApi.editReservation(reservId, updateBody);
+  
+      if (response.status === 200) {
+        setReservStatus(statusToUpdate);
+      } else {
+        console.error('Failed to update reservation status:', response);
+      }
+    } catch (error) {
+      console.error('Error updating reservation status:', error);
+    }
+  };
 
-  const handleHostModalAction = (reservStatus, onClick, id) => {
+  const handleHostModalAction = (reservStatus, onClick, reservationId) => {
 
     switch (reservStatus) {
       
       case "PENDING":
         return (
           <>
-            <GreenButton onClick={()=>onClick(id,reservStatus.CONFIRMED)}>Approve</GreenButton>
-            <RedButton onClick={()=>onClick(id,reservStatus.CANCELED)}>Reject</RedButton>
+          <GreenButton onClick={() => onClick(reservationId, RESERVATIONSTATUS.CONFIRMED)}>Approve</GreenButton>
+          <RedButton onClick={() => onClick(reservationId, RESERVATIONSTATUS.CANCELED)}>Reject</RedButton>
+
           </>
         );
       case "CONFIRMED":
-        return <GreenButton onClick={()=>onClick(id,reservStatus.CHECKIN)}>Check-in</GreenButton>;
+        return <GreenButton onClick={()=>onClick(reservationId, RESERVATIONSTATUS.CHECKIN)}>Check-in</GreenButton>;
       case "CHECKIN":
         return <DisabledButton>Checked-in</DisabledButton>;
       case "CANCELED":
