@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import wishListApi from '../../api/wishlist';
 
 const CardHomePage = ({
-  photo,
+  photo = [],
   name,
   province,
   district,
@@ -46,7 +46,7 @@ const CardHomePage = ({
         <div className='col-span-2 bg-red-300 rounded-tl-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
-            src={photo[0].imagePath}
+            src={photo[0]?.imagePath}
           />
         </div>
         <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px] overflow-hidden relative'>
@@ -75,43 +75,43 @@ const CardHomePage = ({
 
           <img
             className='object-cover w-full h-full'
-            src={photo[1].imagePath}
+            src={photo[1]?.imagePath}
           />
         </div>
         <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
-            src={photo[2].imagePath}
+            src={photo[2]?.imagePath}
           />
         </div>
         <div className='row-span-1 bg-red-300 rounded-bl-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
-            src={photo[3].imagePath}
+            src={photo[3]?.imagePath}
           />
         </div>
         <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
-            src={photo[4].imagePath}
+            src={photo[4]?.imagePath}
           />
         </div>
         <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
-            src={photo[5].imagePath}
+            src={photo[5]?.imagePath}
           />
         </div>
         <div className='row-span-1 col-span-2 bg-red-300'>
           <img
             className='object-cover w-full h-full'
-            src={photo[6].imagePath}
+            src={photo[6]?.imagePath}
           />
         </div>
         <div className='row-span-1 col-span-1 bg-red-300 rounded-br-[40px] overflow-hidden'>
           <img
             className='object-cover w-full h-full'
-            src={photo[7].imagePath}
+            src={photo[7]?.imagePath}
           />
         </div>
       </div>
