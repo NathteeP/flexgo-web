@@ -5,21 +5,29 @@ import { useNavigate } from 'react-router-dom';
 import wishListApi from '../api/wishlist';
 import { useEffect } from 'react';
 
-const ProductCard = ({ id, title, price, distance, rating, imageUrl, isOnUserWishList }) => {
+const ProductCard = ({
+  id,
+  title,
+  price,
+  distance,
+  rating,
+  imageUrl,
+  isOnUserWishList,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   useEffect(() => {
-    setIsFavorite(isOnUserWishList)
-  },[isOnUserWishList])
+    setIsFavorite(isOnUserWishList);
+  }, [isOnUserWishList]);
 
   const navigate = useNavigate();
 
   const toggleFavorite = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     setIsFavorite(!isFavorite);
     if (isFavorite) {
-      wishListApi.removeFromWishList(id)
+      wishListApi.removeFromWishList(id);
     } else {
-      wishListApi.addToWishList(id)
+      wishListApi.addToWishList(id);
     }
   };
 
@@ -29,7 +37,7 @@ const ProductCard = ({ id, title, price, distance, rating, imageUrl, isOnUserWis
     <div
       id={id}
       role='button'
-      className='relative max-w-sm rounded-xl overflow-hidden shadow-lg my-2 transition-transform transform hover:scale-105'
+      className='relative max-w-sm h-[235px] rounded-xl overflow-hidden shadow-lg my-2 transition-transform transform hover:scale-105'
       onClick={() => onClickNavigate(`/accommodationDetail/${id}`)}
     >
       <img className='w-full h-48  object-cover' src={imageUrl} alt={title} />

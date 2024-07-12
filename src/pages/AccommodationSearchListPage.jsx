@@ -68,8 +68,8 @@ const AccommodationSearchListPage = () => {
         <SearchBar />
       </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        <div className='lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[1000px] h-[500px] ml-20'>
+      <div className='relative h-full grid grid-cols-1 lg:grid-cols-3 gap-8'>
+        <div className='relative h-full lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[1000px] h-[500px] ml-20'>
           {cloneAccomsList.map((product, index) => (
             <ProductCard
               key={index}

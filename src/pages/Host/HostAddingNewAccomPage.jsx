@@ -99,16 +99,21 @@ const HostAddingNewAccomPage = () => {
     e.preventDefault();
     const accomCheck = checkHostForm(accom);
     const roomCheck = checkHostForm(room);
-    if (accomCheck.length >= 1 || roomCheck.length >= 1) {
+    if (
+      accomCheck.length >= 1 ||
+      (roomCheck.length >= 1 && !roomCheck.includes('roomId'))
+    ) {
       return alert(
-        `${accomCheck.length >= 1 ? accomCheck.join(' ') : null}``${roomCheck.length >= 1 ? roomCheck.join(' ') : null} is missing. Please input the field.`
+        `${accomCheck.length >= 1 ? accomCheck.join(' ') : null} ${roomCheck.length >= 1 ? roomCheck.join(' ') : null} is missing. Please input the field.`
       );
     }
     const body = { accom: { ...accom }, room: { ...room } };
     body.accom.address += ' ' + body.accom.country.split('-')[0];
     body.accom.type = body.accom.type.toUpperCase();
+
     delete body.accom.country;
     delete body.room.accomId;
+    delete body.room.roomId;
 
     const accomFormData = createFormData(formData.accomPhotos, 'accom_image');
     const roomFormData = createFormData(formData.roomPhotos, 'room_image');
