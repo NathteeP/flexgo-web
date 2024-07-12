@@ -19,6 +19,10 @@ import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 import { closeAccomManagement } from '../../store/slices/modal-slice';
+import { fetchAccomDetail } from '../../store/slices/accomDetail-slice';
+import { useSelector } from 'react-redux';
+import { fetchAvailRoomListByAccomId } from '../../store/slices/rooms-slice';
+import dayjs from 'dayjs';
 
 const AdminAccomManagementCard = ({ accom }) => {
   const dispatch = useDispatch();
@@ -73,6 +77,31 @@ const AdminAccomManagementCard = ({ accom }) => {
     return <div>Loading...</div>;
   }
 
+  useEffect(() => {
+    dispatch(fetchAccomDetail(accom?.id))
+
+    const data = {
+      checkInDate: dayjs()
+        .startOf('day')
+        .toDate(),
+      checkOutDate: dayjs()
+        .add(1, 'day')
+        .startOf('day')
+        .toDate(),
+      capacity: 1,
+      accom_id: accom.id
+    };
+    dispatch(fetchAvailRoomListByAccomId(data));
+
+    dispatch(fetchAvailRoomListByAccomId({
+      accom_id: accom?.id
+    }))
+  },[accom])
+
+  const accomDetail = useSelector((state) => state.accom.detail)
+  const { roomList } = useSelector((state) => state.rooms);
+  
+
   return (
     <div className='w-full lg:w-[1400px] h-[80vh] overflow-y-auto p-8 text-fg-text-black relative'>
       <div className='flex justify-end gap-4'>
@@ -117,8 +146,8 @@ const AdminAccomManagementCard = ({ accom }) => {
         <div className='relative flex items-center overflow-hidden'>
           <img
             src={
-              accom?.accomPhoto?.length >= 1
-                ? accom.accomPhoto[0].imagePath
+              accomDetail?.accomPhoto?.length >= 1
+                ? accomDetail.accomPhoto[0].imagePath
                 : ''
             }
             alt='Cover'
@@ -126,32 +155,32 @@ const AdminAccomManagementCard = ({ accom }) => {
           />
           {/* div profile host */}
           <div
-            onClick={() => navigate(`/hostProfile/${accom?.userId}`)}
+            onClick={() => navigate(`/hostProfile/${accomDetail?.userId}`)}
             className='z-10 w-[650px] h-[100%] relative p-10 flex object-cover'
           >
             <div className='bg-white/50 backdrop-blur w-[600px] h-[400px] rounded-[40px] flex py-10 px-4 cursor-pointer'>
               <div className='w-[70%] h-[100%] border-r-[2px] border-fg-text-black/20 flex flex-col items-center justify-center'>
-                <Avatar src={accom?.user?.photo} size='220' />
+                <Avatar src={accomDetail?.user?.photo} size='220' />
                 <div className='text-3xl font-semibold mt-6'>
-                  {accom?.user?.name}
+                  {accomDetail?.user?.name}
                 </div>
               </div>
               <div className='w-[30%] h-[100%] mx-5 flex flex-col items-center'>
                 <div className='h-[33%] w-[100%] border-b-[2px] border-fg-text-black/20 flex flex-col justify-center items-center'>
                   <div className='text-3xl font-semibold'>
-                    {accom?.reviews?.count}
+                    {accomDetail?.reviews?.count}
                   </div>
                   <small>Reviews</small>
                 </div>
                 <div className='h-[33%] w-[100%] border-b-[2px] border-fg-text-black/20 flex flex-col justify-center items-center'>
                   <div className='text-3xl font-semibold'>
-                    {accom?.reviews?.overAllReview}
+                    {accomDetail?.reviews?.overAllReview}
                   </div>
                   <small>Reviews</small>
                 </div>
                 <div className='h-[33%] w-[100%] flex flex-col justify-center items-center'>
                   <div className='text-3xl font-semibold'>
-                    {accom?.hostDuration}
+                    {accomDetail?.hostDuration}
                   </div>
                   <small>Year Hosting</small>
                 </div>
@@ -164,7 +193,7 @@ const AdminAccomManagementCard = ({ accom }) => {
       {/* album ภาพ */}
       <div className='relative mt-8 mx-16 p-8 h-full rounded-[50px]'>
         <div className='relative'>
-          <Album photos={accom?.accomPhoto} />
+          <Album photos={accomDetail?.accomPhoto} />
         </div>
       </div>
 
@@ -173,13 +202,13 @@ const AdminAccomManagementCard = ({ accom }) => {
       <div className='mx-16 py-8 px-20 flex'>
         <div className='w-[65%]'>
           <div className='flex items-center gap-4'>
-            <div className='text-3xl font-semibold'>{accom?.name}</div>
+            <div className='text-3xl font-semibold'>{accomDetail?.name}</div>
             <div>
               <Stack spacing={1}>
                 <Rating
                   name='half-rating-read'
                   defaultValue={0}
-                  value={accom?.reviews?.overAllReview || 0}
+                  value={accomDetail?.reviews?.overAllReview || 0}
                   precision={0.5}
                   readOnly
                   className='flex translate-x-1 -translate-y-[1px]'
@@ -187,16 +216,16 @@ const AdminAccomManagementCard = ({ accom }) => {
               </Stack>
             </div>
           </div>
-          <div className='text-sm font-semibold'>{accom?.address}</div>
+          <div className='text-sm font-semibold'>{accomDetail?.address}</div>
           <div className='h-[2px] bg-fg-grey/60 mx-14 my-8'></div>
 
-          <div className='mr-10 font-light h-[300px]'>{accom?.description}</div>
+          <div className='mr-10 font-light h-[300px]'>{accomDetail?.description}</div>
 
           {/* amenities */}
           <div className='text-2xl'>
             <h1>What this place offers</h1>
             <div className='w-full overflow-hidden mt-4'>
-              <Amenities amenities={accom?.amenities} />
+              <Amenities amenities={roomList?.amenities} />
             </div>
           </div>
         </div>
@@ -204,7 +233,8 @@ const AdminAccomManagementCard = ({ accom }) => {
         {/* Right part */}
         <div className='w-[35%] h-[720px] border-[2px] p-4 rounded-[40px]'>
           {/* แผนที่ */}
-          {/* <MapNearByPlace nearbyPlace={accom?.nearbyPlace} /> */}
+          <MapNearByPlace nearbyPlace={accomDetail?.nearbyPlace} 
+          accom={accomDetail.accom}/>
         </div>
       </div>
 
@@ -212,7 +242,7 @@ const AdminAccomManagementCard = ({ accom }) => {
       <div className='p-8 mx-36'>
         <div className='border-t-[2px] my-16 mx-28'></div>
         <div>
-          <RoomCard room={accom?.roomList} />
+          <RoomCard room={accomDetail?.roomList} />
         </div>
       </div>
 
@@ -222,7 +252,7 @@ const AdminAccomManagementCard = ({ accom }) => {
         <div className='relative'>
           <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
           <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
-          <Review reviews={accom?.featureReviews} />
+          <Review reviews={accomDetail?.featureReviews} />
         </div>
       </div>
 
@@ -234,23 +264,23 @@ const AdminAccomManagementCard = ({ accom }) => {
         <div className='grid grid-cols-7 grid-rows-5 gap-4 justify-between border-[2px] rounded-[40px] px-24 py-8 font-semibold shadow-[0_3px_10px_rgb(0,0,0,0.2)]'>
           <div className='col-span-2'>Check-In</div>
           <div className='col-span-5 col-start-3 font-light'>
-            {accom?.houseRule?.checkIn}
+            {accomDetail?.houseRule?.checkIn}
           </div>
           <div className='col-span-2 row-start-2'>Check-Out</div>
           <div className='col-span-5 col-start-3 row-start-2 font-light'>
-            {accom?.houseRule?.checkOut}
+            {accomDetail?.houseRule?.checkOut}
           </div>
           <div className='col-span-2 row-start-3'>Cancellation</div>
           <div className='col-span-5 col-start-3 row-start-3 font-light'>
-            {cancelPolicy[accom?.houseRule?.cancelPolicy]}
+            {cancelPolicy[accomDetail?.houseRule?.cancelPolicy]}
           </div>
           <div className='col-span-2 row-start-4'>Pets</div>
           <div className='col-span-5 col-start-3 row-start-4 font-light'>
-            {accom?.houseRule?.petsRule}
+            {accomDetail?.houseRule?.petsRule}
           </div>
           <div className='col-span-2 row-start-5'>Age restriction</div>
           <div className='col-span-5 col-start-3 row-start-5 font-light'>
-            {accom?.houseRule?.ageRule}
+            {accomDetail?.houseRule?.ageRule}
           </div>
         </div>
       </div>

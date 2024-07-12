@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import accomApi from '../../api/accom';
 
 const initialState = {
-  detail: [],
+  detail: {},
   isLoading: false,
   error: false,
 };
