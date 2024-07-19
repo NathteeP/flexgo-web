@@ -4,9 +4,6 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import userApi from '../api/users';
-import { storeAccessToken } from '../utils/localStorage';
-// import { setHoursService } from '../utils/time/setHourService';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { useDispatch } from 'react-redux';
@@ -21,12 +18,11 @@ dayjs.extend(timezone);
 
 export default function DatePickerValue() {
   const { date } = useSelector((state) => state.info);
-
   const dispatch = useDispatch();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker', 'DatePicker']}>
+      <div className='w-full flex flex-col md:flex md:flex-row md:items-start gap-2 translate-y-1'>
         <DatePicker
           minDate={dayjs().tz('Asia/Bangkok')}
           label='From'
@@ -34,20 +30,20 @@ export default function DatePickerValue() {
           onChange={(newValue) =>
             dispatch(setUserCheckInDay(newValue.toString()))
           }
-          sx={{
-            '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
-            '& .MuiOutlinedInput-root': {
-              height: 48,
-              overflow: 'hidden',
-              borderRadius: '8px',
+          slotProps={{
+            textField: {
+              className: 'w-full h-full rounded-md text-teal-600 text-sm',
+              InputProps: {
+                className: 'w-full h-full rounded-md',
+              },
+              inputProps: {
+                className:
+                  'w-full h-full text-teal-600 text-sm placeholder:text-teal-600',
+              },
             },
-            '& .MuiInputBase-input': {
-              height: '100%',
-              color: '#6EAAA6',
-              fontSize: '14px',
+            adornment: {
+              className: 'h-full',
             },
-            '& .MuiInputBase-input::placeholder': { color: '#6EAAA6' },
-            '& .MuiInputAdornment-root': { height: '100%' },
           }}
         />
         <DatePicker
@@ -57,23 +53,23 @@ export default function DatePickerValue() {
           onChange={(newValue) =>
             dispatch(setUserCheckOutDay(newValue.toString()))
           }
-          sx={{
-            '& .MuiInputBase-root': { height: 48, borderRadius: '8px' },
-            '& .MuiOutlinedInput-root': {
-              height: 48,
-              overflow: 'hidden',
-              borderRadius: '8px',
+          slotProps={{
+            textField: {
+              className: 'w-full h-full rounded-md text-teal-600 text-sm',
+              InputProps: {
+                className: 'w-full h-full rounded-md',
+              },
+              inputProps: {
+                className:
+                  'w-full h-full text-teal-600 text-sm placeholder:text-teal-600',
+              },
             },
-            '& .MuiInputBase-input': {
-              height: '100%',
-              color: '#6EAAA6',
-              fontSize: '14px',
+            adornment: {
+              className: 'h-full',
             },
-            '& .MuiInputBase-input::placeholder': { color: '#6EAAA6' },
-            '& .MuiInputAdornment-root': { height: '100%' },
           }}
         />
-      </DemoContainer>
+      </div>
     </LocalizationProvider>
   );
 }

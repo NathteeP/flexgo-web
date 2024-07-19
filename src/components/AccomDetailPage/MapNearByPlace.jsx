@@ -79,9 +79,12 @@ const MapNearByPlace = ({ nearbyPlace, accom }) => {
       </div>
       {/* สถานที่ใกล้เคียง nearbyplace */}
       <div className='flex justify-between w-full border-b-[1px] text-fg-text-black'>
-        <div className=' w-full m-4 pt-20'>
+        <div className=' w-full m-4 pt-20 overflow-hidden'>
           {nearbyPlace?.slice(0, 6).map((item, index) => (
-            <div key={index} className='flex w-full justify-between mt-2'>
+            <div
+              key={index}
+              className='flex w-full justify-between mt-2 text-sm md:text-base'
+            >
               <div className='truncate max-w-[350px]'>
                 <li className=''>{item.name}</li>
               </div>
@@ -104,7 +107,7 @@ const MapNearByPlace = ({ nearbyPlace, accom }) => {
         {renderModal(
           isNearbyOpen,
           closeNearby,
-          <div className='h-[600px] w-[600px] px-6 pt-12'>
+          <div className='h-[600px] w-[80vw] md:w-[600px] px-6 pt-12'>
             <div className=' mb-4'>
               <h1>All nearby place </h1>
             </div>

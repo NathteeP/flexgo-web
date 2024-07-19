@@ -23,7 +23,7 @@ export default function BookingSummary() {
   }, []);
 
   return (
-    <div className='lg:sticky lg:top-8 p-8 bg-white shadow rounded'>
+    <div className='lg:sticky lg:top-8 lg:p-8 p-2 bg-white shadow rounded'>
       {loading ? (
         <>
           <Skeleton variant='text' width={200} height={30} />
@@ -86,17 +86,20 @@ export default function BookingSummary() {
           <h2 className='text-xl text-fg-text-black font-semibold mb-4'>
             Booking Summary
           </h2>
-          <div className='flex mb-4'>
-            <img src={accom?.accomPhoto} className='w-56 h-auto rounded-xl' />
+          <div className='flex mb-4 transition-all duration-500'>
+            <img
+              src={accom?.accomPhoto}
+              className='w-[24vw] lg:w-56 h-full rounded-xl'
+            />
             <div className='flex flex-col ml-4'>
-              <h3 className='text-lg text-fg-text-black font-semibold'>
+              <h3 className='text:sm lg:text-lg text-fg-text-black font-semibold'>
                 {accom?.name}
               </h3>
-              <p className='text-fg-text-black'>
+              <p className='text-fg-text-black lg:text-base text-[10px]'>
                 {accom?.address} {accom?.district} {accom?.province}
               </p>
-              <div className='flex'>
-                <div>
+              <div className='flex -translate-x-2 lg:translate-x-0'>
+                <div className='lg:scale-100 scale-50'>
                   <svg
                     viewBox='0 0 24 24'
                     width='30'
@@ -117,7 +120,7 @@ export default function BookingSummary() {
                     </g>
                   </svg>
                 </div>
-                <div className='mt-2'>
+                <div className='mt-2 text-[12px] lg:text-base'>
                   <p>
                     {accom?.review.overAllReview} ({accom?.review.count}{' '}
                     reviews)
@@ -126,22 +129,26 @@ export default function BookingSummary() {
               </div>
             </div>
           </div>
-          <div className='flex mb-4'>
+          <div className='flex mb-4 items-center'>
             <img
               src={roomAccom?.roomPhoto}
-              className='w-56 h-auto rounded-xl'
+              className='w-[24vw] lg:w-56 h-full rounded-xl'
             />
-            <div className='flex flex-col ml-4 text-fg-text-black'>
-              <h4 className='text-lg font-semibold'>{roomAccom.roomType}</h4>
-              {roomAccom.name}
-              {roomAccom.roomBed &&
-                roomAccom.roomBed.map((el) => (
-                  <p key={el.bedType.name}>
-                    {el.amount} {el.bedType.name}
-                  </p>
-                ))}
-              <p>{roomAccom.size} sq.m.</p>
-              <p>THB {numberToString(roomAccom.price)} / Per night</p>
+            <div className='flex flex-col ml-4 text-fg-text-black '>
+              <h4 className='text:sm lg:text-lg text-fg-text-black font-semibold'>
+                {roomAccom.roomType}
+              </h4>
+              <div className='md:text-base text-[12px]'>
+                {roomAccom.name}
+                {roomAccom.roomBed &&
+                  roomAccom.roomBed.map((el) => (
+                    <p key={el.bedType.name}>
+                      {el.amount} {el.bedType.name}
+                    </p>
+                  ))}
+                <p>{roomAccom.size} sq.m.</p>
+                <p>THB {numberToString(roomAccom.price)} / Per night</p>
+              </div>
             </div>
           </div>
           <hr />

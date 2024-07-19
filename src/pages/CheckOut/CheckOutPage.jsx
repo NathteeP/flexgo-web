@@ -109,87 +109,94 @@ const CheckOutPage = () => {
   };
 
   return (
-    <div className='p-8 min-h-screen mx-16'>
+    <div className='p-8 min-h-screen md:mx-16 transition-all duration-500'>
       <BreadcrumbNavigation />
-      <div className='grid grid-cols-2 gap-8 mt-8'>
-        {loading ? (
-          <div className='p-8 border-gray-900 shadow rounded'>
-            <Skeleton variant='text' width={250} height={30} className='mb-4' />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={40}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={200}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={40}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={60}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={150}
-              className='mb-4'
-            />
-            <Skeleton
-              variant='rectangular'
-              width='100%'
-              height={40}
-              className='mb-4'
-            />
-          </div>
-        ) : (
-          clientSecret && (
-            <Elements stripe={stripePromise} options={options}>
-              <CheckOutForm clientSecret={clientSecret} />
-            </Elements>
-          )
-        )}
-        <div>
+      <div className='flex flex-col lg:flex-row gap-8 mt-8'>
+        <div className='lg:w-1/2 order-2 lg:order-1'>
+          {loading ? (
+            <div className='p-8 border-gray-900 shadow rounded'>
+              <Skeleton
+                variant='text'
+                width={250}
+                height={30}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={40}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={200}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={40}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={60}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={150}
+                className='mb-4'
+              />
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                height={40}
+                className='mb-4'
+              />
+            </div>
+          ) : (
+            clientSecret && (
+              <Elements stripe={stripePromise} options={options}>
+                <CheckOutForm clientSecret={clientSecret} />
+              </Elements>
+            )
+          )}
+        </div>
+        <div className='lg:w-1/2 order-1 lg:order-2'>
           <BookingSummary />
         </div>
       </div>

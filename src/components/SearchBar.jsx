@@ -44,10 +44,10 @@ const SearchBar = () => {
   };
 
   return (
-    <div className='px-4 bg-white w-full max-w-[90%] h-full md:h-full lg:h-[85px] mx-10 rounded-[20px] shadow-sm pointer-events-none flex justify-center'>
+    <div className='px-4 py-2  bg-white w-full max-w-[90%] h-full  md:h-full lg:h-[85px] mx-10 rounded-[20px] shadow-sm pointer-events-none flex justify-center'>
       <form
         action=''
-        className='flex flex-col lg:flex-row gap-2 w-full justify-between items-center'
+        className='flex flex-col md:flex-row gap-2 w-full justify-between items-center'
         onSubmit={handleOnSubmit}
       >
         <div className='flex items-center w-full lg:flex-1 pointer-events-auto hover:scale-[103%] transition-all duration-500 rounded-xl'>
@@ -69,7 +69,7 @@ const SearchBar = () => {
           <button
             type='button'
             onClick={() => setShowDropdown(!showDropdown)}
-            className='w-full h-[48px] bg-white border border-fg-grey rounded-lg focus:outline-none  text-fg-text-blue text-sm text-start pl-4 hover:scale-[103%] transition-all duration-500'
+            className='w-full h-[48px] bg-white border border-fg-grey rounded-lg focus:outline-none  text-fg-text-blue overflow-hidden text-sm text-start pl-4 hover:scale-[103%] transition-all duration-500'
           >
             {`${capacity.adults} adults, ${capacity.children} children`}
           </button>

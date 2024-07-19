@@ -67,9 +67,9 @@ const LoginForm = () => {
   };
 
   return (
-    <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
-      <div className=' w-[500px] h-[650px] flex items-center justify-center'>
-        <div className='flex flex-col items-center'>
+    <div className='w-[70vw] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
+      <div className=' md:w-[500px] h-[650px] flex items-center justify-center'>
+        <div className='flex flex-col items-center '>
           <img src={logo} alt='' className='w-[125px] invert pb-6' />
           <form
             onSubmit={handleSubmit(handleLogin)}
@@ -83,6 +83,7 @@ const LoginForm = () => {
               inputName='Username'
               {...register('username')}
               error={errors.username?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <Input
               htmlFor='password'
@@ -92,6 +93,7 @@ const LoginForm = () => {
               inputName='Password'
               {...register('password')}
               error={errors.password?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <div className='flex flex-col mt-5 w-full gap-4'>
               <Button

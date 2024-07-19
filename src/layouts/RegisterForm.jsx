@@ -50,8 +50,8 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className='w-[500px] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
-      <div className=' w-[500px] h-[650px] flex items-center justify-center'>
+    <div className='w-[70vw] md:w-[500px] lg:w-[1000px] flex flex-col lg:flex-row justify-between'>
+      <div className=' w-[70vw] md:w-[500px] h-[650px] flex items-center justify-center'>
         <div className='flex flex-col items-center'>
           <img src={logo} alt='' className='w-[125px] invert pb-6' />
 
@@ -67,6 +67,7 @@ const RegisterForm = () => {
               inputName='Username'
               {...register('username')}
               error={errors.username?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <Input
               htmlFor='email'
@@ -76,6 +77,7 @@ const RegisterForm = () => {
               inputName='Email'
               {...register('email')}
               error={errors.email?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <Input
               htmlFor='password'
@@ -85,6 +87,7 @@ const RegisterForm = () => {
               inputName='Password'
               {...register('password')}
               error={errors.password?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <Input
               htmlFor='confirmPassword'
@@ -94,6 +97,7 @@ const RegisterForm = () => {
               inputName='Confirm Password'
               {...register('confirmPassword')}
               error={errors.confirmPassword?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <div className='flex mt-2'>
               <div className='flex flex-col'>
@@ -104,7 +108,7 @@ const RegisterForm = () => {
                   type='text'
                   name='firstName'
                   inputName='First Name'
-                  className='mb-4 bg-[#F3F4F6] rounded-lg w-[170px] h-[32px] px-2 text-gray-500'
+                  className='mb-4 bg-[#F3F4F6] rounded-lg md:w-[170px] w-[24vw] h-[32px] px-2 text-gray-500'
                   {...register('firstName')}
                   error={errors.firstName?.message}
                 />
@@ -116,7 +120,7 @@ const RegisterForm = () => {
                 type='text'
                 name='lastName'
                 inputName='Last Name'
-                className='mb-4 bg-[#F3F4F6] rounded-lg w-[170px] h-[32px] px-2 text-gray-500'
+                className='mb-4 bg-[#F3F4F6] rounded-lg  md:w-[170px] w-[24vw] h-[32px] px-2 text-gray-500'
                 {...register('lastName')}
                 error={errors.lastName?.message}
               />
@@ -129,11 +133,12 @@ const RegisterForm = () => {
               inputName='Phone Number'
               {...register('phoneNumber')}
               error={errors.phoneNumber?.message}
+              className='block bg-[#F3F4F6] rounded-lg w-[50vw] md:w-[350px] h-[32px] px-2 text-gray-500 text-[13px]'
             />
             <div className='flex flex-col'></div>
-            <div className='flex mt-5 w-full'>
+            <div className='flex mt-5 w-full justify-center'>
               <Button
-                className='w-full h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
+                className='w-[50vw] md:w-[350px] h-[34px] focus:bg-fg-primary-02 hover:bg-fg-primary-02 text-sm'
                 variant='contained'
                 type='submit'
               >

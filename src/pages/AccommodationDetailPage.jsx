@@ -135,7 +135,7 @@ const AccommodationDetailPage = () => {
 
   return (
     <>
-      <div className='p-8 mx-16 text-fg-text-black relative'>
+      <div className='p-8 mx-0 md:mx-16 text-fg-text-black relative '>
         <div className='flex gap-2'>
           <Link className='hover:underline' to='/'>
             Home
@@ -143,7 +143,7 @@ const AccommodationDetailPage = () => {
           <p>/</p>
           <Link className='hover:underline'>{detail?.accom?.name}</Link>
         </div>
-        <div className='my-6'>
+        <div className='mt-4 md:my-6'>
           <FilterBar />
         </div>
       </div>
@@ -164,7 +164,7 @@ const AccommodationDetailPage = () => {
             onClick={() => navigate(`/hostProfile/${detail?.accom.userId}`)}
             className='z-10 w-[650px] h-[100%] relative p-10 flex object-cover animate-fade'
           >
-            <div className='bg-white/50 backdrop-blur w-[600px] h-[400px] rounded-[40px] flex py-10 px-4 cursor-pointer hover:scale-105 transition-all duration-500'>
+            <div className='bg-white/50 backdrop-blur w-[80vw] md:w-[600px] h-[400px] rounded-[40px] flex py-10 px-4 cursor-pointer md:justify-normal justify-center hover:scale-105 transition-all duration-500'>
               <div className='w-[70%] h-[100%] border-r-[2px] border-fg-text-black/20 flex flex-col items-center justify-center'>
                 <Avatar src={detail?.user?.photo} size='220' />
                 <div className='text-3xl font-semibold mt-6'>
@@ -197,12 +197,12 @@ const AccommodationDetailPage = () => {
       </div>
 
       {/* album ภาพ */}
-      <div className='relative mt-8 mx-16 p-8 h-full rounded-[50px]'>
+      <div className='relative mt-8 mx-0 md:mx-16 p-4 md:p-8 h-full rounded-[50px]'>
         <div className='relative'>
-          <div className='absolute top-10 right-10 mb-7 ml-0.5 z-50'>
+          <div className='absolute top-0 right-0 md:top-10 md:right-10 mb-7 ml-0.5 z-50'>
             <button
               onClick={toggleFavorite}
-              className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg hover:bg-opacity-30'
+              className='bg-black bg-opacity-20  scale-50 md:scale-100 rounded-full p-1 shadow-lg hover:bg-opacity-30 hover:scale-75 active:scale-50 transition-all duration-300'
             >
               <div></div>
               <svg
@@ -225,9 +225,12 @@ const AccommodationDetailPage = () => {
       </div>
 
       {/* detail accom */}
-      <div className='mx-16 py-8 px-20 flex' ref={fadeInDetail}>
-        <div className='w-[65%]'>
-          <div className='flex items-center gap-4'>
+      <div
+        className='md:mx-16 py-8 px-4 md:px-20 flex lg:flex-row lg:justify-between flex-col transition-all duration-500'
+        ref={fadeInDetail}
+      >
+        <div className='w-full lg:w-[65%]'>
+          <div className='flex flex-col lg:items-center items-start lg:flex-row  gap-4'>
             <div className='text-3xl font-semibold'>{detail?.accom?.name}</div>
             <div>
               <Stack spacing={1}>
@@ -256,19 +259,19 @@ const AccommodationDetailPage = () => {
         </div>
 
         {/* Right part */}
-        <div className='w-[35%] h-full border-[2px] p-4 rounded-[40px]'>
+        <div className='w-full lg:w-[450px] h-full border-[2px] p-4 rounded-[40px]'>
           <div className=''>
-            <MapNearByPlace 
-            nearbyPlace={detail?.nearbyPlace}
-            accom={detail.accom} 
+            <MapNearByPlace
+              nearbyPlace={detail?.nearbyPlace}
+              accom={detail.accom}
             />
           </div>
         </div>
       </div>
 
       {/* Room part */}
-      <div className='p-8 mx-36'>
-        <div className='border-t-[2px] my-16 mx-28'></div>
+      <div className='lg:p-8 lg:mx-36'>
+        <div className='border-t-[2px] my-16 mx-28 h-full'></div>
         <FilterBar />
         <div ref={fadeInRoomRef}>
           <RoomCard room={roomList?.room} />
@@ -277,23 +280,26 @@ const AccommodationDetailPage = () => {
 
       {/* Review part */}
       <div
-        className='p-8 mx-36 border-b-[2px] pb-14 mb-6'
+        className='w-full p-2 md:p-8 md:mx-36 border-b-[2px] pb-14 mb-6'
         ref={fadeInReviewRef}
       >
         <h1 className='text-3xl'>Reviews</h1>
         <div className='relative'>
-          <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
-          <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
+          {/* <div className='absolute z-20 left-0 w-[0px] md:w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-20 right-0 w-[0px] md:w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div> */}
           <Review reviews={detail?.featureReviews} />
         </div>
       </div>
 
       {/* House Rules */}
-      <div className='p-8 mx-36 pb-14 mb-6' ref={fadeInHouseRulesRef}>
+      <div
+        className='lg:p-8 mx-2 lg:mx-36 pb-14 mb-6'
+        ref={fadeInHouseRulesRef}
+      >
         <div className='text-3xl mt-2 mb-10'>
           <h1>House rules</h1>
         </div>
-        <div className='grid grid-cols-7 grid-rows-5 gap-4 justify-between border-[2px] rounded-[40px] px-24 py-8 font-semibold shadow-[0_3px_10px_rgb(0,0,0,0.2)]'>
+        <div className='grid grid-cols-7 grid-rows-5 gap-4 justify-between border-[2px] rounded-[40px] px-6 lg:px-24 py-8 font-semibold shadow-[0_3px_10px_rgb(0,0,0,0.2)]'>
           <div className='col-span-2'>Check-In</div>
           <div className='col-span-5 col-start-3 font-light'>
             {detail?.houseRule?.checkIn}

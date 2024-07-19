@@ -63,27 +63,26 @@ const roomSeeding = [
 ];
 
 const RoomCard = ({ room }) => {
+  const dispatch = useDispatch();
+  const { date, capacity } = useSelector((state) => state.info);
+  const navigate = useNavigate();
 
-const dispatch = useDispatch()
-const {date, capacity} = useSelector((state) => state.info)
-const navigate = useNavigate()
+  const handleBooking = (roomId, roomCapacity) => {
+    const reservationData = {
+      ...date,
+      ...capacity,
+      customerAmount: capacity.adults + capacity.children,
+      roomId,
+    };
 
-const handleBooking = (roomId, roomCapacity) => {
-  const reservationData = {
-    ...date,
-    ...capacity,
-    customerAmount: capacity.adults + capacity.children,
-    roomId
-  }
+    if (reservationData.customerAmount > roomCapacity) {
+      toast.error('Customer amount exceeded the room capacity');
+      return;
+    }
 
-  if (reservationData.customerAmount > roomCapacity) {
-    toast.error('Customer amount exceeded the room capacity')
-    return
-  }
-
-  dispatch(setReservationData(reservationData))
-  navigate('/checkout')
-}
+    dispatch(setReservationData(reservationData));
+    navigate('/checkout');
+  };
 
   return (
     <div className='p-4 '>
@@ -98,9 +97,9 @@ const handleBooking = (roomId, roomCapacity) => {
       {room?.map((item, index) => (
         <div
           key={index}
-          className='grid grid-cols-9 grid-rows-4 gap-4 px-16 mt-6 py-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-[20px] text-fg-text-black'
+          className='grid grid-cols-9 grid-rows-4 gap-4 px-2 md:px-16 mt-6 py-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-[20px] text-fg-text-black'
         >
-          <div className='col-span-5 row-span-4 flex gap-6 border-r-[2px] mr-4 '>
+          <div className='col-span-5 row-span-4  flex  gap-6 border-r-[2px] pr-2 md:mr-4 '>
             <div>
               <img
                 src={item.photo[0]}
@@ -109,13 +108,17 @@ const handleBooking = (roomId, roomCapacity) => {
               />
             </div>
             <div className='flex flex-col '>
-              <div className='text-2xl font-semibold '>{item.roomType}</div>
+              <div className='text-base md:text-2xl font-semibold '>
+                {item.roomType}
+              </div>
               <small className='font-light mt-2'>{item.bedRoom} Bedroom</small>
               <small className='font-light'>{item.size} Sqm.</small>
-              <h2 className='text-xl mt-6'>THB {item.price} Per night</h2>
+              <h2 className='text-base md:text-xl mt-6'>
+                THB {item.price} Per night
+              </h2>
             </div>
           </div>
-          <div className='col-span-2 row-span-4 col-start-6 border-r-[2px] mr-4'>
+          <div className='col-span-2 row-span-4 col-start-6 border-r-[2px] pr-1 md:pr-0 md:mr-4'>
             <div className='flex flex-wrap gap-1'>
               {Array.from({ length: item.capacity }, (_, i) => (
                 <img key={i} src={guestLogo} alt='' className='w-6 h-6' />
