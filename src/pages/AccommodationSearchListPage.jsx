@@ -49,7 +49,7 @@ const AccommodationSearchListPage = () => {
   }, [dispatch, accomsList]);
 
   return (
-    <div className='p-8 bg-white min-h-screen mx-12'>
+    <div className='p-2 md:p-8 bg-white min-h-screen md:mx-12 w-full'>
       <Breadcrumbs aria-label='breadcrumb'>
         <Link
           onClick={() => onClickNavigate('/')}
@@ -68,8 +68,8 @@ const AccommodationSearchListPage = () => {
         <SearchBar />
       </div>
 
-      <div className='relative h-full grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        <div className='relative h-full lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[1000px] h-[500px] ml-20'>
+      <div className='relative h-full grid grid-cols-1 lg:grid-cols-3 gap-8 w-full '>
+        <div className='relative  lg:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:w-[1000px] h-full md:ml-20 w-full items-center justify-center'>
           {cloneAccomsList.map((product, index) => (
             <ProductCard
               key={index}
@@ -85,7 +85,7 @@ const AccommodationSearchListPage = () => {
         </div>
 
         <div>
-          <div className='sticky top-4 p-10 bg-white shadow rounded-[40px]'>
+          <div className='relative lg:sticky top-4 p-10 bg-white shadow rounded-[40px]'>
             <h2 className='text-xl font-semibold mb-4'></h2>
             <div className='rounded-[40px] overflow-hidden flex justify-center'>
               <MapWrapper mapWithMarker={true} />

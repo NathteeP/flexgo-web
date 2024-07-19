@@ -388,17 +388,19 @@ const Amenities = ({ amenities }) => {
   const amenitiesToShow = amenityTypeSeeding.slice(0, 10);
   return (
     <>
-      <div className='flex flex-wrap w-full'>
+      <div className='flex flex-wrap w-full '>
         {amenities?.slice(0, 8).map((amenity, index) => (
-          <div key={index} className='flex w-[50%]  items-center gap-4'>
+          <div key={index} className='flex w-[50%]  items-center gap-6'>
             {amenitiesRenderer(amenity.icon)}
-            <span className='text-lg my-2 '>{amenity.name}</span>
+            <span className='text-sm md:text-sm lg:text-lg my-2 '>
+              {amenity.name}
+            </span>
           </div>
         ))}
       </div>
       <div>
         <Button
-          className='text-[12px] w-[200px] h-[48px] hover:bg-fg-primary-02 my-10'
+          className='text-[12px] w-full md:w-[200px] h-[48px] hover:bg-fg-primary-02 my-10'
           variant='contained'
           onClick={() => dispatch(openAmenities())}
         >
@@ -411,7 +413,7 @@ const Amenities = ({ amenities }) => {
             <div className=' mb-4'>
               <h1>What this place offers</h1>
             </div>
-            <div className='flex flex-col overflow-y-auto max-h-[500px]'>
+            <div className='flex flex-col  overflow-y-auto max-h-[500px]'>
               {amenities?.map((item, index) => (
                 <div
                   key={index}

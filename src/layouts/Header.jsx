@@ -25,7 +25,6 @@ import UserDropdown from '../components/UserDropdown';
 import ToggleSwitch from '../components/ToggleSwitch';
 import { useNavigate } from 'react-router-dom';
 
-
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -33,7 +32,7 @@ const Header = () => {
   const { authUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     isRegisterOpen,
@@ -53,27 +52,30 @@ const Header = () => {
       <div
         className={`${
           isHomePage ? 'bg-gradient-to-b from-fg-black/50' : 'bg-fg-primary-01'
-        } h-20 w-screen px-14 flex items-center justify-between`}
+        } h-20 px-2 md:px-14 flex items-center justify-between`}
       >
-
-        <div className='flex items-center pointer-events-auto'>
-          <div role='button' onClick={() => navigate("/")}>
-            <img src={logo} alt='Logo' />
+        <div className='flex items-center pointer-events-auto '>
+          <div role='button' onClick={() => navigate('/')} className=''>
+            <img
+              src={logo}
+              alt='Logo'
+              className='h-auto w-auto max-h-[24px] max-w-[120px]'
+            />
           </div>
-          <div className='flex items-center pointer-events-auto'>
+          <div className='flex items-center pointer-events-auto ml-1 md:ml-0 hover:scale-105 active:scale-95 transition-all duration-500'>
             <Input
-              className='rounded-l-full w-[200px] h-[44px] ml-10 border-white/75 border-l-[1px] border-y-[1px] bg-fg-white/[0.2] pl-5 placeholder:text-fg-text-white placeholder:text-base focus:outline-none text-fg-white'
+              className='rounded-l-full w-full md:w-[200px] h-[44px] ml-0 md:ml-12 border-white/75 border-l-[1px] border-y-[1px] bg-fg-white/[0.2] pl-5 placeholder:text-fg-text-white placeholder:text-base focus:outline-none text-fg-white'
               placeholder='Searching Pin'
             />
-            <div className='rounded-r-full h-[44px] border-white/75 border-r-[1px] border-y-[1px] bg-fg-white/[0.2] flex items-center p-4'>
+            <div className='rounded-r-full h-[44px] border-white/75 border-r-[1px] border-y-[1px] bg-fg-white/[0.2] flex items-center p-4 cursor-pointer'>
               <RxMagnifyingGlass className='text-[24px] text-fg-text-white' />
             </div>
           </div>
         </div>
 
-        <div className='flex gap-3 items-center pointer-events-auto'>
+        <div className='flex ml-1 gap-1 md:gap-3 items-center pointer-events-auto'>
           {authUser && authUser?.role !== 'ADMIN' ? (
-            <div className='cursor-pointer w-[40px]  h-[40px] flex items-center justify-center rounded-full mr-8'>
+            <div className='cursor-pointer w-[40px]  h-[40px] flex items-center justify-center rounded-full mx-4 md:mr-8'>
               <ToggleSwitch />
             </div>
           ) : (
@@ -88,7 +90,7 @@ const Header = () => {
             <>
               <Button
                 variant='outlined'
-                className='bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
+                className='w-[80px] md:w-[120px] bg-opacity-10 hover:border-fg-primary-02 hover:bg-fg-primary-02 text-white h-[40px]'
                 onClick={() => dispatch(openSignIn())}
               >
                 Sign In
@@ -96,7 +98,7 @@ const Header = () => {
 
               <Button
                 variant='contained'
-                className='h-[40px] hover:bg-fg-primary-02'
+                className='w-[85px] md:w-[120px]  h-[40px] hover:bg-fg-primary-02'
                 onClick={() => dispatch(openRegister())}
               >
                 Sign Up

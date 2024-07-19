@@ -56,8 +56,8 @@ const Album = ({ photos }) => {
   );
 
   return (
-    <div className='p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[600px] relative'>
+    <div className=' md:p-4 transition-all duration-500'>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[250px] md:h-[600px] relative'>
         {photos?.slice(0, 5).map((src, index) => (
           <div
             key={index}
@@ -98,7 +98,7 @@ const Album = ({ photos }) => {
       )}
 
       <Button
-        className='bg-black/10 ring-[2px] ring-fg-secondary-02 absolute bottom-10 right-14 text-white backdrop-blur-[2px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-fg-secondary-02'
+        className='bg-black/10 ring-[2px] ring-fg-secondary-02 md:absolute w-full md:w-[140px] right-0 -bottom-4 md:bottom-10 md:right-14 text-white backdrop-blur-[2px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-fg-secondary-02'
         onClick={() => dispatch(openAlbum())}
       >
         Show all photos
@@ -107,7 +107,7 @@ const Album = ({ photos }) => {
       {renderModal(
         isAlbumOpen,
         closeAlbum,
-        <Box className='lg:w-[1000px] md:w-[700px] w-[700px] overflow-y-scroll h-[700px]'>
+        <Box className='lg:w-[1000px] w-[80vw] overflow-y-scroll h-[700px] transition-all duration-500'>
           <ImageList variant='masonry' cols={3} gap={8}>
             {photos?.map((src, index) => (
               <ImageListItem key={index}>

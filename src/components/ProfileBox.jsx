@@ -7,7 +7,7 @@ const ProfileBox = ({ src, children, size }) => {
   const defaultSrc = authUser?.profileImage?.imagePath;
 
   return (
-    <div className='h-[800px] w-[430px] border-[2px] border-fg-grey/50 rounded-[40px] flex flex-col items-center p-6 gap-6'>
+    <div className='h-full lg:h-[800px] w-[100%] lg:w-[430px] border-[2px] border-fg-grey/50 rounded-[40px] flex flex-col items-center p-6 gap-6 transition-all duration-500'>
       <div className='mt-8'>
         <Avatar src={src} size='300' />
       </div>

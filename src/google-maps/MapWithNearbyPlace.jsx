@@ -35,7 +35,7 @@ export default function MapWithNearbyPlace({ nearbyPlace, accom }) {
   };
 
   return (
-    <div className='w-[30rem] h-[30rem] rounded-[40px] overflow-hidden m-auto'>
+    <div className='w-[80vw] md:w-full h-[30rem] rounded-[40px] overflow-hidden m-auto'>
       <GoogleMap
         zoom={zoomLevel} // ใช้ zoomLevel ที่เริ่มต้นเป็น 15
         center={

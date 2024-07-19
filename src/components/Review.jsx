@@ -134,8 +134,8 @@ const Review = ({ direction = 'right', reviews = [] }) => {
 
   return (
     <div className='py-4 relative'>
-      <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
-      <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
+      <div className='absolute z-20 left-0 w-[10px] md:w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
+      <div className='absolute z-20 right-0 w-[10px] md:w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
       <div
         className='flex mt-10'
         ref={reviewContainerRef}

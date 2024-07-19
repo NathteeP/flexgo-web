@@ -103,7 +103,7 @@ const Homepage = () => {
   const onClickNavigate = (to) => navigate(to);
 
   //===================WISHLIST LOGIC=======================
-  
+
   const allWishList = useSelector((state) => state.user.authUser?.wishList);
 
   const cloneAccomsList = accomsList.map((el) => {
@@ -114,7 +114,6 @@ const Homepage = () => {
       ),
     };
   });
-
 
   return (
     <>
@@ -127,112 +126,114 @@ const Homepage = () => {
         className='w-[1000px] md:w-[1000px] lg:w-screen h-[1700px] -translate-y-[540px] absolute z-0'
       ></iframe>
 
-      <div className='relative z-30 w-[700px] md:w-[700px] lg:w-[90%] h-[830px] mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none animate-fade delay-[4000ms]'>
-        <div className='flex flex-col'>
-          <div className='mx-24 mt-32 flex flex-col'>
-            <div className='mb-8 overflow-hidden w-[600px] md:w-[600px] lg:w-[600px]'>
-              <div className='text-[64px] font-bold mb-4 text-fg-text-black w-[600px] md:w-[600px] lg:w-[600px]'>
-                FIND YOUR OWN HAPPINESS WITH US
+      <div className=''>
+        <div className='relative z-30 w-[95%] md:w-[90%] h-full mx-auto my-2 border-white border-[2px] rounded-[40px] pointer-events-none animate-fade delay-[4000ms]'>
+          <div className='flex flex-col'>
+            <div className='mx-10 md:mx-24 mt-32 flex flex-col'>
+              <div className='mb-8 overflow-hidden md:w-[600px] lg:w-[600px]'>
+                <div className='text-[6vw] text-center md:text-left md:text-[4vw] font-bold mb-4 text-fg-text-black w-full '>
+                  FIND YOUR OWN HAPPINESS WITH US
+                </div>
+                <div className='text-[12px] md:text-sm font-thin text-center md:text-left'>
+                  Discover the ultimate solution for finding nearby
+                  accommodations with FlexGo. Combining the best features of
+                  Airbnb, Grab, Agoda, and Booking.com, we offer a seamless
+                  experience for booking and enjoying your stay. Whether you're
+                  looking for a cozy apartment or a luxury hotel, FlexGo makes
+                  travel planning effortless and efficient.
+                </div>
               </div>
-              <div className='text-sm font-thin'>
-                Discover the ultimate solution for finding nearby accommodations
-                with FlexGo. Combining the best features of Airbnb, Grab, Agoda,
-                and Booking.com, we offer a seamless experience for booking and
-                enjoying your stay. Whether you're looking for a cozy apartment
-                or a luxury hotel, FlexGo makes travel planning effortless and
-                efficient.
+              <div className=' my-6 py-10 border-white border-[2px] h-full rounded-[40px] bg-white/40 flex justify-center items-center pointer-events-none'>
+                <SearchBar />
               </div>
-            </div>
-            <div className='mt-6 border-white border-[2px] h-[190px] rounded-[40px] bg-white/40 flex justify-center items-center pointer-events-none'>
-              <SearchBar />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Accom Recommendation Part */}
-      <div className='relative z-50 mt-32' ref={fadeInCarouselRef}>
-        <Carousel accoms={accomsList} />
-      </div>
-      <div className='relative'>
-        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-10 bottom-[300px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-      </div>
-      <div className='flex justify-center flex-col items-center text-fg-text-black mt-12'>
-        <h1 className='text-[38px] font-bold'>THIS IS OUR</h1>
-        <h1 className='text-[38px] font-bold'>RECOMMENDATION</h1>
-        <h1 className='text-[16px] font-light w-[50%] text-center mt-5 mb-24'>
-          Relaxation is an art, and we believe in crafting the perfect
-          experience for you. Our carefully selected accommodations provide a
-          harmonious blend of comfort and style, each situated in prime
-          locations. Whether you seek the serenity of a scenic view or the
-          convenience of a central spot, we have the perfect place to match your
-          lifestyle and desires. Let your stay be a memorable escape where every
-          moment is designed to refresh and rejuvenate you.
-        </h1>
-      </div>
-
-      {/* Main Content */}
-      <div className='w-screen flex flex-col items-center relative'>
-        <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
-          <FilterBar />
+        {/* Accom Recommendation Part */}
+        <div className='relative z-50 mt-32' ref={fadeInCarouselRef}>
+          <Carousel accoms={accomsList} />
         </div>
-        {cloneAccomsList?.length >= 1
-          ? cloneAccomsList?.map((item, index) => (
-              <div
-                key={item.id}
-                className='w-[768px] transition transform hover:scale-[103%] md:w-[768px] lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer '
-                ref={(el) => (fadeInCardRefs.current[index] = el)}
-              >
-                <CardHomePage
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  province={item.province}
-                  district={item.district}
-                  description={item.description}
-                  price={item.price}
-                  distance={item.distance}
-                  reviews={item.reviews}
-                  photo={item.accomPhoto}
-                  isOnUserWishList={item.isOnUserWishList}
-                />
-              </div>
-            ))
-          : null}
-        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
-        <Button
-          onClick={() => onClickNavigate('/searchList')}
-          className='absolute z-30 bottom-0 w-[25%] h-[58px] text-white hover:bg-fg-primary-02 text-xl'
-          variant='contained'
-        >
-          See all Accommodation
-        </Button>
-      </div>
-
-      {/* Review Part */}
-      <div className='relative flex flex-col my-44'>
-        <div>
-          <h1 className='text-[50px] font-bold text-fg-primary-01 flex justify-center'>
-            OUR REVIEW
+        <div className='relative'>
+          <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-10 bottom-[400px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-10 bottom-[300px] w-full h-[420px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+        </div>
+        <div className='flex justify-center flex-col items-center text-fg-text-black mt-12'>
+          <h1 className='text-[38px] font-bold'>THIS IS OUR</h1>
+          <h1 className='text-[38px] font-bold'>RECOMMENDATION</h1>
+          <h1 className='text-[16px] font-light w-[50%] text-center mt-5 mb-24'>
+            Relaxation is an art, and we believe in crafting the perfect
+            experience for you. Our carefully selected accommodations provide a
+            harmonious blend of comfort and style, each situated in prime
+            locations. Whether you seek the serenity of a scenic view or the
+            convenience of a central spot, we have the perfect place to match
+            your lifestyle and desires. Let your stay be a memorable escape
+            where every moment is designed to refresh and rejuvenate you.
           </h1>
         </div>
-        <div>
-          <MockupReview direction='right' />
+
+        {/* Main Content */}
+        <div className='w-screen flex flex-col items-center relative'>
+          <div className='w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-10 cursor-pointer'>
+            <FilterBar />
+          </div>
+          {cloneAccomsList?.length >= 1
+            ? cloneAccomsList?.map((item, index) => (
+                <div
+                  key={item.id}
+                  className=' w-[80%]   transition transform hover:scale-[103%]  lg:w-[80%] shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-[20px] mb-5 cursor-pointer '
+                  ref={(el) => (fadeInCardRefs.current[index] = el)}
+                >
+                  <CardHomePage
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    province={item.province}
+                    district={item.district}
+                    description={item.description}
+                    price={item.price}
+                    distance={item.distance}
+                    reviews={item.reviews}
+                    photo={item.accomPhoto}
+                    isOnUserWishList={item.isOnUserWishList}
+                  />
+                </div>
+              ))
+            : null}
+          <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-20 bottom-0 w-full h-[300px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <div className='absolute z-20 bottom-0 w-full h-[500px] bg-gradient-to-t from-fg-white/100 pointer-events-none'></div>
+          <Button
+            onClick={() => onClickNavigate('/searchList')}
+            className='absolute z-30 bottom-0 w-[300px] md:w-[25%] h-[58px] text-white hover:bg-fg-primary-02 text-xl'
+            variant='contained'
+          >
+            See all Accommodation
+          </Button>
         </div>
-        <div className=''>
-          <MockupReview direction='left' />
+
+        {/* Review Part */}
+        <div className='relative flex flex-col my-44'>
+          <div>
+            <h1 className='text-[50px] font-bold text-fg-primary-01 flex justify-center'>
+              OUR REVIEW
+            </h1>
+          </div>
+          <div>
+            <MockupReview direction='right' />
+          </div>
+          <div className=''>
+            <MockupReview direction='left' />
+          </div>
+          <Button
+            className='relative z-30 bottom-0 w-[300px] md:w-[25%] h-[58px] mt-44 text-white hover:bg-fg-primary-02 text-xl m-auto my-20'
+            variant='contained'
+          >
+            Become our Family
+          </Button>
         </div>
-        <Button
-          className='relative z-30 bottom-0 w-[25%] h-[58px] mt-44 text-white hover:bg-fg-primary-02 text-xl m-auto my-20'
-          variant='contained'
-        >
-          Become our Family
-        </Button>
       </div>
     </>
   );

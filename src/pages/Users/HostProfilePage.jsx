@@ -48,8 +48,8 @@ const HostProfilePage = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <div className='p-8  min-h-screen mx-16 text-fg-text-black'>
+    <div className='transition-all duration-500'>
+      <div className='p-2 md:p-8  min-h-screen md:mx-16 text-fg-text-black'>
         <div className='flex gap-2'>
           <Link
             className='hover:border-black border-b-2 border-transparent'
@@ -67,7 +67,7 @@ const HostProfilePage = () => {
         </div>
 
         {/* Left Part */}
-        <div className='h-[900px] border-[2px] border-fg-grey/50 rounded-[40px] mt-10 pt-14 pb-2 px-10 flex gap-8'>
+        <div className='h-full lg:h-[900px] border-[2px] border-fg-grey/50 rounded-[40px] mt-10 pt-14 pb-2 px-10 flex flex-col lg:flex-row gap-8 '>
           <div>
             <ProfileBox src={user.photo}>
               <div className='px-10 py-4'>
@@ -102,9 +102,9 @@ const HostProfilePage = () => {
           </div>
 
           {/* Right Part */}
-          <div className='h-[800px] w-[100%] border-[2px] border-fg-grey/50 rounded-[40px]'>
+          <div className='h-full lg:h-[800px] w-[100%] border-[2px] border-fg-grey/50 rounded-[40px] transition-all duration-500 '>
             <div className='p-10'>
-              <div className=' w-[100%] h-[160px] rounded-[20px] bg-fg-primary-03 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]'>
+              <div className=' w-[100%] lg:h-[160px] rounded-[20px] bg-fg-primary-03 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] '>
                 <div className='pt-6 px-4 flex flex-col'>
                   <div className='text-3xl pl-16 font-semibold'>
                     About {user.fullName}
@@ -134,8 +134,8 @@ const HostProfilePage = () => {
         <div>
           <TitlePage>{user.name} Reviews</TitlePage>
           <div className='relative'>
-            <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
-            <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div>
+            {/* <div className='absolute z-20 left-0 w-[300px] h-[400px] bg-gradient-to-r from-fg-white/100 pointer-events-none'></div>
+            <div className='absolute z-20 right-0 w-[300px] h-[400px] bg-gradient-to-l from-fg-white/100 pointer-events-none'></div> */}
 
             <Review reviews={featureReview} />
           </div>

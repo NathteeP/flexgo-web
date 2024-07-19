@@ -4,29 +4,37 @@ import Stack from '@mui/material/Stack';
 import wishListApi from '../api/wishlist';
 import { useNavigate } from 'react-router-dom';
 
-const WishListCard = ({ name, starterPrice, distance, overAllReview, imagePath, id }) => {
+const WishListCard = ({
+  name,
+  starterPrice,
+  distance,
+  overAllReview,
+  imagePath,
+  id,
+}) => {
   const [isFavorite, setIsFavorite] = useState(true);
-  const title = name
-  const price = starterPrice
-  const imageUrl = imagePath
-  const rating = overAllReview
+  const title = name;
+  const price = starterPrice;
+  const imageUrl = imagePath;
+  const rating = overAllReview;
 
   const toggleFavorite = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     setIsFavorite(!isFavorite);
     if (isFavorite) {
-      wishListApi.removeFromWishList(id)
+      wishListApi.removeFromWishList(id);
     } else {
-      wishListApi.addToWishList(id)
+      wishListApi.addToWishList(id);
     }
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2'
-    role='button'
-    onClick={()=> navigate(`/accommodationDetail/${id}`)}
+    <div
+      className='relative max-w-xs rounded-xl overflow-hidden shadow-lg my-2 m-auto w-full md:m-0'
+      role='button'
+      onClick={() => navigate(`/accommodationDetail/${id}`)}
     >
       <img className='w-full h-48' src={imageUrl} alt={title} />
       <div className='absolute top-0 left-0 bg-black bg-opacity-30 mt-2 ml-2 px-1 py-1 rounded-lg'>

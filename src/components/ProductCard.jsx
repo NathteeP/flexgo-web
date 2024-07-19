@@ -37,7 +37,7 @@ const ProductCard = ({
     <div
       id={id}
       role='button'
-      className='relative max-w-sm h-[235px] rounded-xl overflow-hidden shadow-lg my-2 transition-transform transform hover:scale-105'
+      className='relative max-w-sm h-[235px] rounded-xl overflow-hidden shadow-lg my-2 transition-transform transform hover:scale-105 m-auto md:m-0 w-full '
       onClick={() => onClickNavigate(`/accommodationDetail/${id}`)}
     >
       <img className='w-full h-48  object-cover' src={imageUrl} alt={title} />

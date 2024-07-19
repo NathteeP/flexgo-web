@@ -30,7 +30,7 @@ const WishListPage = () => {
   }, [allWishList]);
 
   return (
-    <div className='p-8 bg-white min-h-screen mx-6'>
+    <div className='p-2 md:p-8 bg-white min-h-screen md:mx-6 w-full'>
       <Breadcrumbs aria-label='breadcrumb'>
         <Link underline='hover' color='inherit' href='/'>
           Home
@@ -39,15 +39,16 @@ const WishListPage = () => {
           My Wishlist
         </Link>
       </Breadcrumbs>
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 mx-16 my-8'>
-        <h1 className='font-semibold text-fg-text-black text-2xl'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 md:mx-16 w-full  my-8'>
+        <h1 className='font-semibold text-fg-text-black text-2xl flex justify-center md:justify-normal'>
           My Wishlist{' '}
         </h1>
         <div className='lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
-
-          {displayingWishList?.length > 0 ?
-          displayingWishList?.map((product) => (
-            <WishListCard key={product.id} {...product?.accom} />)) : (
+          {displayingWishList?.length > 0 ? (
+            displayingWishList?.map((product) => (
+              <WishListCard key={product.id} {...product?.accom} />
+            ))
+          ) : (
             <h2>There is no accom on your wishlist yet..</h2>
           )}
         </div>

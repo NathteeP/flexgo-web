@@ -9,10 +9,10 @@ const Footer = () => {
   return (
     // ส่วนซ้าย logo
     <div className='bg-fg-primary-01 '>
-      <div className=' mx-40 pt-20 h-[383px] flex justify-between items-start text-white font-normal'>
+      <div className=' md:px-0 px-2 md:mx-40 pt-20 h-[383px] flex justify-between items-start text-white font-normal'>
         <div>
           <img src={logo} alt='' />
-          <div className='w-80 mt-6'>
+          <div className='w-[24vw] md:w-80 mt-6'>
             <small className='font-thin'>
               {' '}
               Our vision is to revolutionize travel by blending comfort and
@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
 
         {/* part text ตรงกลาง */}
-        <div className=' flex gap-20'>
+        <div className=' flex gap-2 md:gap-20'>
           <div className=' flex flex-col '>
             <p className='mb-6'>History</p>
 

@@ -40,7 +40,7 @@ const CardHomePage = ({
     <div
       onClick={onClickNavigate}
       id={id}
-      className='flex h-[450px] px-10 py-4 gap-8 relative cursor-pointer'
+      className='flex h-[150px]  md:h-[450px] px-4 md:px-10 py-4 gap-2 md:gap-8 relative cursor-pointer'
     >
       <div className='w-[50%] grid grid-rows-3 grid-cols-8 gap-2'>
         <div className='col-span-2 bg-red-300 rounded-tl-[40px] overflow-hidden'>
@@ -50,7 +50,7 @@ const CardHomePage = ({
           />
         </div>
         <div className='col-span-6 row-span-2 bg-red-300 rounded-tr-[40px] overflow-hidden relative'>
-          <div className='absolute top-6 right-6 mb-7 ml-0.5 z-50 scale-90 rounded-full hover:scale-100 active:scale-75 transition-all duration-300 opacity-60 hover:opacity-100'>
+          <div className='absolute right-0 md:top-6 md:right-6 mb-7 ml-0.5 z-50 scale-50 md:scale-90 rounded-full hover:scale-100 active:scale-75 transition-all duration-300 opacity-60 hover:opacity-100'>
             <button
               onClick={toggleFavorite}
               className='bg-black bg-opacity-20  rounded-full p-1 shadow-lg hover:bg-opacity-30 '
@@ -119,19 +119,19 @@ const CardHomePage = ({
       {/* right detail part */}
       <div className='w-[50%] relative'>
         <div>
-          <h1 className='text-xl md:text-xl lg:text-4xl text-fg-text-black font-medium w-[80%] mt-4'>
+          <h1 className='text-sm  md:text-xl lg:text-4xl text-fg-text-black font-medium w-[80%] md:mt-4'>
             {name}
           </h1>
-          <h2 className='text-sm md:text-sm text-xl text-fg-text-black mb-4'>
+          <h2 className='text-[12px] md:text-sm  text-fg-text-black md:mb-4'>
             {district}, {province}
           </h2>
-          <h3 className='w-[90%] font-light md:h-[120px] md:overflow-hidden md: text-sm'>
+          <h3 className='text-[0px] md:text-sm w-[90%] font-light md:h-[120px] md:overflow-hidden '>
             {description}
           </h3>
         </div>
-        <div className='flex justify-between items-end w-[90%]'>
+        <div className='flex md:flex-row flex-col  md:justify-between md:items-end w-[100%] lg:w-[90%]'>
           <div className=''>
-            <h3 className='flex items-center mt-10'>
+            <h3 className='flex items-center md:mt-10 text-[8px] md:text-base'>
               Rating: {reviews?.overAllReview}
               <Stack spacing={1}>
                 <Rating
@@ -139,19 +139,23 @@ const CardHomePage = ({
                   value={reviews?.overAllReview || 0}
                   precision={0.5}
                   readOnly
-                  className='flex translate-x-1 -translate-y-[1px]'
+                  className='flex translate-x-1 -translate-y-[1px] text-sm md:text-base'
                 />
               </Stack>
             </h3>
-            <h3>Distance: {distance} km.</h3>
+            <h3 className='text-[10px] md:text-base'>
+              Distance: {distance} km.
+            </h3>
           </div>
           <div>
-            <h1 className='text-4xl font-thin'>THB {price}</h1>
+            <h1 className=' text-sm font-normal md:text-4xl md:font-thin text-end md:text-start'>
+              THB {price}
+            </h1>
           </div>
         </div>
-        <div className='flex justify-end w-[90%] mt-10 absolute bottom-8'>
+        <div className='flex justify-end md:w-[100%] lg:w-[90%] md:mt-0 lg:mt-10 '>
           <Button
-            className='h-[48px] hover:bg-fg-primary-02 w-[140px]'
+            className='invisible md:visible h-[48px] hover:bg-fg-primary-02 w-[140px]'
             variant='contained'
           >
             Booking
