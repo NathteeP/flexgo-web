@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
-import viteLogo from './assets/vite.svg';
+import AppRouter from './route';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Provider } from 'react-redux';
+import { Toaster } from 'sonner';
+import store, { persistor } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Suspense } from 'react';
+import CheckoutSpinner from './pages/CheckOut/CheckoutSpinner';
 
 function App() {
-  const [count, setCount] = useState(0);
-  console.log('api', import.meta.env);
   return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank' rel='noreferrer'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button
-          type='button'
-          onClick={() => setCount((prevCount) => prevCount + 1)}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Suspense
+      fallback={
+        <h1>
+          <CheckoutSpinner />{' '}
+        </h1>
+      }
+    >
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <AppRouter />
+            <Toaster richColors />
+          </LocalizationProvider>
+        </PersistGate>
+      </Provider>
+    </Suspense>
   );
 }
 
